@@ -41,6 +41,15 @@
     src: url('/fonts/atkinson-hyperlegible/atkinson-hyperlegible-bold-italic.woff2') format('woff2');
 }
 
+@font-face {
+    font-family: 'Lain Braille';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/braille/adwaita-mono-braille.woff2') format('woff2');
+    unicode-range: U+2800-28FF;
+}
+
 :root {
     --sf: 'Atkinson Hyperlegible', 'Inter', system-ui, sans-serif;
     --rm: 'Atkinson Hyperlegible', 'Crimson', Georgia, serif;
@@ -48,6 +57,10 @@
     /* Native system monospace: no extra webfont download. */
     --tt: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Monaco,
         Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
+
+    /* Braille-capable fallback stack for the portrait. */
+    --braille-font: 'Lain Braille', 'Adwaita Mono', 'Apple Braille',
+        'Segoe UI Symbol', 'Noto Sans Symbols 2', monospace;
 
     --hl: #d2738a66;
     --g18: #c1b49238;
@@ -157,6 +170,8 @@ ul.taxonomy,
 
 #home .hero__content > p {
     max-width: 46rem;
+    margin-right: auto;
+    margin-left: auto;
     font-size: var(--normalsize);
     line-height: 1.6;
 }
@@ -171,8 +186,7 @@ ul.taxonomy,
     color: var(--mid);
 }
 
-.ascii-hero {
-    display: block;
+.lain-art {
     width: max-content;
     max-width: 100%;
     margin: 1.25rem auto 1.5rem;
@@ -183,19 +197,54 @@ ul.taxonomy,
     background:
         repeating-linear-gradient(0deg, transparent 0 3px, var(--scan) 3px 4px),
         var(--bg);
-    color: var(--ac);
-    font-family: var(--tt);
-    font-size: clamp(0.55rem, 1.55vw, 1.15rem);
+}
+
+.lain-art__stack {
+    position: relative;
+    width: max-content;
+}
+
+.lain-art pre {
+    margin: 0;
+    color: var(--fg);
+    font-family: var(--braille-font);
+    font-size: clamp(0.5rem, 1.3vw, 1.5rem);
     font-variant-ligatures: none;
-    line-height: 1.3;
-    letter-spacing: 0.04em;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0;
     text-align: left;
-    text-shadow: none;
     white-space: pre;
 }
 
+.lain-art pre.lain-art__invert {
+    color: var(--ac);
+}
+
+.lain-art__invert {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 100% 0 0);
+    animation: lain-invert 12s ease-in-out infinite;
+    pointer-events: none;
+    will-change: clip-path;
+}
+
+@keyframes lain-invert {
+    0%, 10% {
+        clip-path: inset(0 100% 0 0);
+    }
+    35%, 55% {
+        clip-path: inset(0 0 0 0);
+    }
+    80%, 100% {
+        clip-path: inset(0 0 0 100%);
+    }
+}
+
 .terminal-line {
-    margin: 0 0 1rem;
+    max-width: 46rem;
+    margin: 0 auto 1rem;
     font-family: var(--tt);
     font-size: var(--small);
     color: var(--mid);
@@ -438,14 +487,44 @@ ul.rounded.invert a:focus {
    -------------------------------------------------------------------------- */
 
 @media (max-width: 640px) {
-    .ascii-hero {
+    #home .hero__content {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+
+    #home .hero__content > p,
+    .terminal-line {
+        max-width: none;
+    }
+
+    .lain-art {
         padding: 0.9rem 0.75rem;
-        font-size: clamp(0.58rem, 1.55vw, 1.15rem);
+    }
+
+    .lain-art pre {
+        font-size: clamp(0.45rem, 1.6vw, 1.25rem);
+    }
+}
+
+@media (min-width: 1200px) {
+    :root {
+        --max-width: 72rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    :root {
+        --max-width: 80rem;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .cursor {
+        animation: none;
+    }
+
+    .lain-art__invert {
+        display: none;
         animation: none;
     }
 }

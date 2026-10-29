@@ -3,6 +3,6 @@ title = 'srl.exp.net'
 translationKey = 'home'
 +++
 
-{{< ascii-hero >}}
+{{< lain-hero >}}
 
 Experimentos seriais em software, sistemas e redes.
