@@ -208,7 +208,7 @@ ul.taxonomy,
     width: max-content;
     color: var(--fg);
     transform-origin: center bottom;
-    animation: lain-dance 3s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+    animation: lain-dance 2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
     will-change: transform, color;
 }
 
