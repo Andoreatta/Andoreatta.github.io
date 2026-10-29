@@ -9,3 +9,17 @@
     identifier = 'about'
     pageRef = '/about'
     weight = 2
+
+[[footer]]
+    name = 'LinkedIn'
+    identifier = 'linkedin'
+    url = 'https://www.linkedin.com/in/lucas-andreatta1/'
+    pre = 'linkedin'
+    weight = 1
+
+[[footer]]
+    name = 'GitHub'
+    identifier = 'github'
+    url = 'https://github.com/andoreatta'
+    pre = 'github'
+    weight = 2

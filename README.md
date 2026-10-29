@@ -43,6 +43,16 @@ hugo new content pt-br/posts/meu-post.md
 Use the same `translationKey` in both files so the language switcher and the
 Portuguese-browser redirect can find the translated version.
 
+## About pages
+
+The bilingual About pages live in `content/en/about.md` and
+`content/pt-br/about.md`. They contain the public professional profile:
+role, focus areas, certifications, compact experience, education, languages,
+toolbox, LinkedIn, and GitHub.
+
+No phone number, email address, or copy of the source resume PDF is published.
+Public contact is limited to LinkedIn and GitHub.
+
 ## Language routing
 
 `layouts/partials/analytics.html` contains a small, self-contained script that:

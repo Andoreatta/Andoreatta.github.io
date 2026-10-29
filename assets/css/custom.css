@@ -529,6 +529,187 @@ ul.rounded.invert a:focus {
 }
 
 /* --------------------------------------------------------------------------
+   Profile page
+   -------------------------------------------------------------------------- */
+
+#content .profile-kicker {
+    margin: 0 0 0.75rem;
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ac);
+}
+
+#content .profile-name {
+    margin: 0;
+    font-size: var(--LARGE);
+    line-height: 1.1;
+}
+
+#content .profile-role {
+    margin: 0.35rem 0 0;
+    font-family: var(--tt);
+    font-size: var(--small);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ac);
+}
+
+#content .profile-location {
+    margin: 0.2rem 0 1.25rem;
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+    color: var(--mid);
+}
+
+#content .profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 0 0 1.75rem;
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+}
+
+#content .profile-links a {
+    border-bottom: 1pt solid var(--g18);
+    padding-bottom: 0.1rem;
+    color: var(--ac);
+    text-decoration: none;
+}
+
+#content .profile-links a:hover,
+#content .profile-links a:focus {
+    border-color: var(--ac);
+    color: var(--fg);
+}
+
+#content .profile-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.5rem 1.5rem;
+    margin: 0 0 2rem;
+    border-top: 1pt solid var(--g18);
+    border-bottom: 1pt solid var(--g18);
+    padding: 1rem 0;
+}
+
+#content .profile-facts dt {
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+}
+
+#content .profile-facts dd {
+    margin: 0;
+    color: var(--fg);
+}
+
+#content .profile-timeline {
+    margin: 0 0 2rem;
+    padding: 0;
+    list-style: none;
+}
+
+#content .profile-timeline li {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1rem;
+    border-bottom: 1pt solid var(--g18s);
+    padding: 0.55rem 0;
+}
+
+#content .profile-timeline .when,
+#content .profile-education .when {
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+    color: var(--ac);
+    white-space: nowrap;
+}
+
+#content .profile-timeline .what,
+#content .profile-education .what {
+    color: var(--fg);
+}
+
+#content .profile-education {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1rem;
+    width: auto;
+    margin: 0;
+    border-bottom: 1pt solid var(--g18s);
+    padding: 0.55rem 0;
+}
+
+#content .profile-certs {
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+#content .profile-certs li {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1rem;
+    border-bottom: 1pt solid var(--g18s);
+    padding: 0.45rem 0;
+}
+
+#content .profile-certs .cert {
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+    color: var(--ac);
+}
+
+#content .profile-certs .note {
+    color: var(--mid);
+}
+
+#content .profile-additional {
+    width: auto;
+    margin: 0 0 2rem;
+    color: var(--mid);
+    font-size: var(--scriptsize);
+}
+
+#content .profile-toolbox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: auto;
+    margin: 0 0 0.75rem;
+    padding: 0;
+}
+
+#content .profile-toolbox span {
+    border: 1pt solid var(--g18);
+    padding: 0.15rem 0.5rem;
+    color: var(--fg);
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+}
+
+.profile-more {
+    display: inline-block;
+    margin-top: 0.75rem;
+    border-bottom: 1pt solid var(--g18);
+    padding-bottom: 0.15rem;
+    color: var(--ac);
+    font-family: var(--tt);
+    font-size: var(--small);
+}
+
+.profile-more:hover,
+.profile-more:focus {
+    border-color: var(--ac);
+    color: var(--fg);
+}
+
+/* --------------------------------------------------------------------------
    Motion preferences
    -------------------------------------------------------------------------- */
 
@@ -552,6 +733,31 @@ ul.rounded.invert a:focus {
 
     .lain-art pre {
         font-size: clamp(0.45rem, 1.6vw, 1.25rem);
+    }
+
+    #content .profile-facts,
+    #content .profile-timeline li,
+    #content .profile-education,
+    #content .profile-certs li {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+    }
+
+    #content .profile-facts {
+        gap: 0.25rem;
+    }
+
+    #content .profile-facts dt {
+        margin-top: 0.75rem;
+    }
+
+    #content .profile-facts dt:first-child {
+        margin-top: 0;
+    }
+
+    #content .profile-timeline .when,
+    #content .profile-education .when {
+        white-space: normal;
     }
 }
 
