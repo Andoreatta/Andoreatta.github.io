@@ -226,69 +226,59 @@ ul.taxonomy,
 }
 
 @keyframes lain-dance {
-    0% {
+    0%, 5% {
         transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
         color: var(--fg);
     }
-    8% {
+    8%, 10% {
         transform: translate3d(0, calc(var(--jump) / 4), 0) rotate(-1deg) scaleX(1);
         color: var(--fg);
     }
-    14% {
-        color: var(--fg);
-    }
-    18% {
+    14%, 16% {
         transform: translate3d(calc(var(--sway) * -1), calc(var(--jump) * -1), 0) rotate(-2deg) scaleX(1);
         color: var(--ac);
     }
-    22% {
-        color: var(--fg);
-    }
-    28% {
+    20%, 28% {
         transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
         color: var(--fg);
     }
-    30% {
+    29% {
+        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
+        color: var(--fg);
+    }
+    30%, 36% {
         transform: translate3d(0, 0, 0) rotate(0) scaleX(-1);
         color: var(--fg);
     }
-    40% {
+    40%, 42% {
         transform: translate3d(0, calc(var(--jump) / 4), 0) rotate(1deg) scaleX(-1);
         color: var(--fg);
     }
-    46% {
-        color: var(--fg);
-    }
-    50% {
+    46%, 48% {
         transform: translate3d(var(--sway), calc(var(--jump) * -1), 0) rotate(2deg) scaleX(-1);
         color: var(--ac);
     }
-    54% {
-        color: var(--fg);
-    }
-    60% {
+    52%, 60% {
         transform: translate3d(0, 0, 0) rotate(0) scaleX(-1);
         color: var(--fg);
     }
-    62% {
+    61% {
+        transform: translate3d(0, 0, 0) rotate(0) scaleX(-1);
+        color: var(--fg);
+    }
+    62%, 68% {
         transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
         color: var(--fg);
     }
-    70% {
+    70%, 72% {
         transform: translate3d(0, calc(var(--jump) / 4), 0) rotate(-1deg) scaleX(1);
         color: var(--fg);
     }
-    76% {
-        color: var(--fg);
-    }
-    80% {
+    76%, 78% {
         transform: translate3d(calc(var(--sway) * -1), calc(var(--jump) * -1), 0) rotate(-2deg) scaleX(1);
         color: var(--ac);
     }
-    84% {
-        color: var(--fg);
-    }
-    90% {
+    82%, 90% {
         transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
         color: var(--fg);
     }
