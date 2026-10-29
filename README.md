@@ -88,6 +88,8 @@ When DNS is ready:
    baseURL = 'https://serial.experiments.network/'
    ```
 
+   Also update `params.socialCard.images` to the same domain.
+
 3. Create a DNS record:
 
    ```text
