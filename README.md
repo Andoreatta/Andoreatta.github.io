@@ -80,8 +80,10 @@ self-hosted at `static/fonts/braille/`. It is licensed under the SIL Open Font
 License 1.1; see `static/fonts/braille/OFL.txt`. The rest of the site uses the
 native mono stack.
 
-The portrait has a CSS-only left-to-right tan ↔ pink inversion wipe. It runs
-once every twelve seconds and is disabled under `prefers-reduced-motion`.
+The portrait has a CSS-only three-second dance loop: three small hops, two
+quick horizontal mirror flips, and a brief pink pulse at each jump peak. The
+panel itself stays static. The animation is disabled under
+`prefers-reduced-motion`.
 On screens 1200px and wider the layout shell widens to 72rem, and to 80rem at
 1600px. Article paragraphs keep the theme's narrower golden-ratio measure for
 readability.
