@@ -1,0 +1,11 @@
+[[main]]
+    name = 'Posts'
+    identifier = 'posts'
+    pageRef = '/posts'
+    weight = 1
+
+[[main]]
+    name = 'About'
+    identifier = 'about'
+    pageRef = '/about'
+    weight = 2

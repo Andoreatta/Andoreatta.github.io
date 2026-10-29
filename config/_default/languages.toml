@@ -1,0 +1,23 @@
+[en]
+    contentDir = 'content/en'
+    disabled = false
+    locale = 'en-US'
+    direction = 'ltr'
+    label = 'English'
+    [en.pagination]
+        disableAliases = false
+        pagerSize = 8
+        path = 'page'
+
+[pt-br]
+    contentDir = 'content/pt-br'
+    disabled = false
+    locale = 'pt-BR'
+    direction = 'ltr'
+    label = 'Português (Brasil)'
+    [pt-br.pagination]
+        disableAliases = false
+        pagerSize = 8
+        path = 'page'
+    [pt-br.params]
+        description = 'Experimentos seriais em software, sistemas e redes.'

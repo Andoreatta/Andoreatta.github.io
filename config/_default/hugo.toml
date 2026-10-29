@@ -1,0 +1,136 @@
+## Base URL for the site
+## Switch to 'https://serial.experiments.network/' when the custom domain is attached.
+baseURL = 'https://andoreatta.github.io/'
+## Site title
+title = 'srl.exp.net'
+## Use hugo-brewm theme
+theme = 'hugo-brewm'
+## Enable Git information for pages, (e.g. lastMod date information)
+enableGitInfo = true
+## Convert all URLs to absolute URLs
+canonifyURLs = true
+## Default language for content
+defaultContentLanguage = 'en'
+## Keep the default language at the site root; Portuguese lives under /pt-br/
+defaultContentLanguageInSubdir = false
+## Do not render placeholders for incomplete translations
+enableMissingTranslationPlaceholders = false
+## Files to ignore when building site
+ignoreFiles = [ '\.redacted', '\.old','\.bak', '\.tmp', '\.swp', '\.DS_Store']
+## Generate a robots.txt
+enableRobotsTXT = true
+
+## Front matter field configurations
+[frontmatter]
+    date = [':default']
+    expiryDate = ['expiryDate', 'unpublishdate', ':default']
+    lastmod = ['lastmod', ':default']
+
+## Markup configuration
+[markup]
+
+    [markup.tableOfContents]
+        startLevel = 2
+        endLevel = 3
+        ordered = false
+
+    [markup.highlight]
+        codeFences = true
+        lineNoStart = 1
+        lineNos = false
+        lineNumbersInTable = true
+        noClasses = false
+        tabWidth = 4
+
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            unsafe = true
+        [markup.goldmark.extensions]
+            [markup.goldmark.extensions.passthrough]
+                enable = true
+                [markup.goldmark.extensions.passthrough.delimiters]
+                    block = [['\[', '\]'], ['$$', '$$'], ['\begin{equation}', '\end{equation}'], ['\begin{align}', '\end{align}']]
+                    inline = [['\(', '\)'], ['$', '$'] ]
+
+[outputs]
+    home = ['html', 'rss', 'json']
+
+[sitemap]
+    changeFreq = 'monthly'
+
+[services.rss]
+    limit = -1
+
+## Taxonomy configuration
+[taxonomies]
+    category = 'categories'
+    tag = 'tags'
+
+## Site parameters
+[params]
+    title = 'srl.exp.net'
+    description = 'Serial experiments on software, systems, and networks.'
+    copyright = '&copy; 2026 srl.exp.net'
+    extMeta = true
+    coffeeStat = false
+    AllowAIRobots = false
+    ZenMode = false
+    DisableFootBar = false
+    unifiedFooter = true
+
+    [params.author]
+        name = 'srl'
+
+    [params.comments]
+        disabled = true
+
+    [params.logo]
+        logoType = true
+
+    [params.favicon]
+        svg = '/favicon.svg'
+
+    [params.feed]
+        flowlines = true
+        flowlinesLimit = 21
+
+    [params.home]
+        disableSlide = false
+        disableListing = false
+        featuredListing = ['categories']
+
+    [params.posts]
+        justifying = false
+        noIndent = false
+        ## Use the sans/book face for articles; custom.css maps it to Atkinson Hyperlegible.
+        sfdefault = true
+        colophon = true
+        disableHistory = false
+        related = true
+        share = true
+        secnum = false
+
+    [params.RSS]
+        limit = 20
+        content = 20
+
+    [params.search]
+        enable = true
+        pagefind = true
+
+    [params.socialCard]
+        enable = true
+        images = '/images/social-card.png'
+
+    [params.typeface]
+        webSafe = false
+        ## The actual families are overridden in assets/css/custom.css.
+        ## These values only select the theme fallback stylesheets.
+        roman = 'crimson'
+        sans = 'inter'
+        localHost = false
+
+    [params.analytics]
+        ## Load layouts/partials/analytics.html in <head>; used here for the
+        ## language redirect and font preload, not for analytics.
+        append = 'head'

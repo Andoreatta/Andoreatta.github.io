@@ -1,0 +1,92 @@
+<link rel="preload"
+    href="{{ "fonts/atkinson-hyperlegible/atkinson-hyperlegible-regular.woff2" | relURL }}"
+    as="font" type="font/woff2" crossorigin>
+
+{{- /*
+  Language routing for srl.exp.net.
+
+  English is served from `/` and Portuguese from `/pt-br/`.
+
+  On a first visit to an English page, redirect to the matching Portuguese
+  translation when the browser advertises a Portuguese language. The theme
+  emits `<link rel="alternate" hreflang="...">` tags for translated pages,
+  so the redirect preserves the current article instead of always going to
+  the Portuguese home page.
+
+  A manual language choice is remembered in localStorage. If JavaScript is
+  disabled, this partial does nothing and the theme's language switcher
+  remains usable.
+*/ -}}
+<script>
+(function () {
+    'use strict';
+
+    var STORAGE_KEY = 'srl-exp-lang';
+    var currentLanguage = (document.documentElement.lang || '').toLowerCase();
+
+    // Never redirect away from a Portuguese page.
+    if (currentLanguage.indexOf('pt') === 0) {
+        return;
+    }
+
+    var preference = null;
+    try {
+        preference = window.localStorage.getItem(STORAGE_KEY);
+    } catch (error) {
+        // localStorage can be unavailable in strict privacy modes.
+    }
+
+    if (preference === 'en') {
+        return;
+    }
+
+    var wantsPortuguese = preference === 'pt-br';
+    if (!preference) {
+        var languages = navigator.languages && navigator.languages.length
+            ? navigator.languages
+            : [navigator.language || ''];
+
+        wantsPortuguese = languages.some(function (language) {
+            return String(language).toLowerCase().indexOf('pt') === 0;
+        });
+    }
+
+    if (!wantsPortuguese) {
+        return;
+    }
+
+    var alternate = null;
+    var links = document.querySelectorAll('link[rel="alternate"][hreflang]');
+    for (var i = 0; i < links.length; i++) {
+        if ((links[i].getAttribute('hreflang') || '').toLowerCase().indexOf('pt') === 0) {
+            alternate = links[i];
+            break;
+        }
+    }
+
+    // If the current page has no Portuguese translation, keep the reader here.
+    if (alternate) {
+        window.location.replace(alternate.href + window.location.search + window.location.hash);
+    }
+})();
+
+// Remember deliberate language switches made through the theme's switcher.
+document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (!target || typeof target.closest !== 'function') {
+        return;
+    }
+
+    var link = target.closest('a[href]');
+    if (!link || !link.closest('#bi18n, #i18n-menu, #has-l10n')) {
+        return;
+    }
+
+    var language = /^\/pt-br(\/|$)/.test(link.pathname) ? 'pt-br' : 'en';
+    try {
+        window.localStorage.setItem('srl-exp-lang', language);
+    } catch (error) {
+        // Ignore unavailable storage.
+    }
+}, false);
+</script>
