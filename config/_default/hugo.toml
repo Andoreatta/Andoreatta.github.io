@@ -120,7 +120,8 @@ enableRobotsTXT = true
 
     [params.socialCard]
         enable = true
-        images = '/images/social-card.png'
+        ## Update this to https://serial.experiments.network/... with the custom domain.
+        images = 'https://andoreatta.github.io/images/social-card.png'
 
     [params.typeface]
         webSafe = false

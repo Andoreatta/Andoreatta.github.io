@@ -1,0 +1,29 @@
+# Brazilian Portuguese additions for theme keys not present in
+# hugo-brewm's i18n/pt_br.toml. Site-level files override/add keys.
+[pagination]
+    other = "Paginação"
+[posts]
+    one = "Publicação"
+    other = "Publicações"
+[postsBy]
+    other = "Publicado por"
+[postsOn]
+    other = "Publicações em"
+[poweredBy]
+    other = "Feito com"
+[prev]
+    other = "Anterior"
+[print]
+    other = "Imprimir"
+[protanopia]
+    other = "Protanopia"
+[published]
+    other = "Publicado"
+[readingTime]
+    other = "Min de leitura"
+[recent]
+    other = "Publicações recentes"
+[redactionHistory]
+    other = "Histórico de edições"
+[redactionNotes]
+    other = "Algumas informações podem mudar com o tempo; mantemos as edições atualizadas."
