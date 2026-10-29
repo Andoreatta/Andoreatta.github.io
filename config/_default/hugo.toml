@@ -91,12 +91,13 @@ enableRobotsTXT = true
         svg = '/favicon.svg'
 
     [params.feed]
-        flowlines = true
+        ## The terminal/ASCII look is intentionally image-free.
+        flowlines = false
         flowlinesLimit = 21
 
     [params.home]
-        disableSlide = false
-        disableListing = false
+        disableSlide = true
+        disableListing = true
         featuredListing = ['categories']
 
     [params.posts]
@@ -107,7 +108,8 @@ enableRobotsTXT = true
         colophon = true
         disableHistory = false
         related = true
-        share = true
+        ## Keep post pages clean; re-enable for the full share row.
+        share = false
         secnum = false
 
     [params.RSS]
@@ -130,6 +132,40 @@ enableRobotsTXT = true
         roman = 'crimson'
         sans = 'inter'
         localHost = false
+
+    ## Dark-only palette. Both light and dark variants intentionally point at
+    ## the same near-black/tan/pink colors so system preference cannot produce
+    ## a light page.
+    [params.style.light]
+        ac = '#d2738a'
+        bg = '#0a0a0a'
+        fg = '#c1b492'
+        mid = '#8c7c66'
+        [params.style.light.less]
+            ac = '#e08ba0'
+            bg = '#1a1418'
+            fg = '#d8cbb0'
+            mid = '#a5947c'
+        [params.style.light.more]
+            ac = '#f08ca3'
+            bg = '#000000'
+            fg = '#e0d4b8'
+            mid = '#a5947c'
+    [params.style.dark]
+        ac = '#d2738a'
+        bg = '#0a0a0a'
+        fg = '#c1b492'
+        mid = '#8c7c66'
+        [params.style.dark.less]
+            ac = '#e08ba0'
+            bg = '#1a1418'
+            fg = '#d8cbb0'
+            mid = '#a5947c'
+        [params.style.dark.more]
+            ac = '#f08ca3'
+            bg = '#000000'
+            fg = '#e0d4b8'
+            mid = '#a5947c'
 
     [params.analytics]
         ## Load layouts/partials/analytics.html in <head>; used here for the

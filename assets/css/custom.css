@@ -1,11 +1,12 @@
 /*
- * Atkinson Hyperlegible (Braille Institute of America)
- * Self-hosted latin subset, SIL Open Font License 1.1.
- * License: /fonts/atkinson-hyperlegible/OFL.txt
+ * srl.exp.net — terminal editorial theme layer.
  *
- * The theme uses --sf for body/UI text and --rm for serif article text.
- * Both are pointed at Atkinson Hyperlegible so the whole site benefits from
- * its high letterform distinction.
+ * Palette derived from fauux.neocities.org:
+ *   pink  #d2738a
+ *   tan   #c1b492
+ *
+ * Dark-only: the site intentionally ignores prefers-color-scheme and uses
+ * near-black panels so the pink/tan palette stays consistent.
  */
 
 @font-face {
@@ -43,4 +44,408 @@
 :root {
     --sf: 'Atkinson Hyperlegible', 'Inter', system-ui, sans-serif;
     --rm: 'Atkinson Hyperlegible', 'Crimson', Georgia, serif;
+
+    /* Native system monospace: no extra webfont download. */
+    --tt: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Monaco,
+        Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
+
+    --hl: #d2738a66;
+    --g18: #c1b49238;
+    --g18s: #c1b49216;
+    --term-panel: #111111;
+    --scan: #c1b4920c;
+}
+
+html,
+body {
+    color-scheme: dark;
+}
+
+::selection {
+    color: var(--bg);
+    background: var(--ac);
+}
+
+/* The night clock and its grain layer fight the terminal palette. */
+#dwclock,
+.grain {
+    display: none !important;
+}
+
+/* The site is dark-only, so the light/dark switch would be a dead control.
+   Contrast, font size, OpenDyslexic and the other controls stay available. */
+#lightSwitch,
+#lightSwitch + label {
+    display: none !important;
+}
+
+#setColorScheme {
+    margin-bottom: 1ex;
+}
+
+#setContrast {
+    margin-left: 0;
+    border-left: 0;
+    padding-top: 2em;
+}
+
+/* --------------------------------------------------------------------------
+   Wordmark
+   -------------------------------------------------------------------------- */
+
+#logo #logotype__text {
+    animation: none !important;
+    fill: var(--fg);
+    stroke: none;
+    font-family: var(--tt);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Monospace details
+   -------------------------------------------------------------------------- */
+
+.section-title,
+.section-title strong,
+#list-posts .section-title,
+#list-tags .section-title,
+.feed-item > hgroup time,
+.feed-item > hgroup > div,
+.feed-item > footer,
+.readingTime,
+#timestamp,
+#doc-author,
+#main-footer,
+#license,
+#colophon,
+#contentinfo .section-title,
+#bi18n,
+#bi18n a,
+#has-i18n,
+#i18n-menu,
+#has-l10n,
+.pagination a,
+ul.taxonomy,
+.taxonomy,
+.rounded,
+.on-plank .languangeName {
+    font-family: var(--tt);
+}
+
+/* --------------------------------------------------------------------------
+   Homepage hero
+   -------------------------------------------------------------------------- */
+
+#home #top {
+    padding: 0 1rem;
+}
+
+#home .hero {
+    margin: 0 auto;
+    border-top: 1pt solid var(--g18);
+    padding: 1.5rem 0 1rem;
+}
+
+#home .hero__content {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1.5rem 0 2rem;
+}
+
+#home .hero__content > p {
+    max-width: 46rem;
+    font-size: var(--normalsize);
+    line-height: 1.6;
+}
+
+.ascii-kicker {
+    margin: 0 0 0.75rem;
+    font-family: var(--tt);
+    font-size: var(--scriptsize);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--mid);
+}
+
+.ascii-hero {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 1.25rem auto 1.5rem;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    border: 1pt solid var(--g18);
+    border-top: 2pt solid var(--ac);
+    background:
+        repeating-linear-gradient(0deg, transparent 0 3px, var(--scan) 3px 4px),
+        var(--bg);
+    color: var(--ac);
+    font-family: var(--tt);
+    font-size: clamp(0.55rem, 1.55vw, 1.15rem);
+    font-variant-ligatures: none;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-shadow: none;
+    white-space: pre;
+}
+
+.terminal-line {
+    margin: 0 0 1rem;
+    font-family: var(--tt);
+    font-size: var(--small);
+    color: var(--mid);
+    white-space: pre-wrap;
+}
+
+.terminal-line .prompt {
+    color: var(--ac);
+}
+
+.cursor {
+    display: inline-block;
+    width: 0.62em;
+    height: 1.05em;
+    margin-left: 0.15em;
+    background: var(--ac);
+    vertical-align: -0.12em;
+    animation: term-blink 1.1s steps(1) infinite;
+}
+
+@keyframes term-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Homepage log / feed
+   -------------------------------------------------------------------------- */
+
+#home #list-posts {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+#home #list-tags {
+    display: none;
+}
+
+#list-posts .section-title {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    margin: 0 0 1.5rem;
+    font-size: var(--footnotesize);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ac);
+}
+
+#list-posts .section-title strong {
+    font-weight: 500;
+}
+
+#list-posts .section-title::after {
+    flex: 1;
+    height: 1pt;
+    background: var(--g18);
+    content: '';
+}
+
+.feed-item {
+    margin: 0;
+    border: 0;
+    border-top: 1pt solid var(--g18);
+    border-radius: 0;
+    padding: 1.5rem 0;
+    background: transparent;
+}
+
+.feed-item:last-child {
+    border-bottom: 1pt solid var(--g18);
+}
+
+.feed-item:hover,
+.feed-item:focus-within {
+    --tsf: none;
+    background: var(--g18s);
+}
+
+.feed-item > hgroup {
+    gap: 0.35rem;
+}
+
+.feed-item > hgroup > div {
+    flex-direction: row;
+}
+
+.feed-item > hgroup time {
+    margin-left: 0;
+    padding-right: 1rem;
+    padding-left: 0;
+    color: var(--ac);
+}
+
+.feed-item h2 {
+    margin: 0.35rem 0 0;
+    font-size: var(--Large);
+    font-weight: 600;
+}
+
+.feed-item > section {
+    margin: 0.35rem 0 0.75rem;
+}
+
+.feed-item .par {
+    max-height: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0.86;
+}
+
+hr.ldots {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Tags and taxonomy
+   -------------------------------------------------------------------------- */
+
+#list-tags {
+    border-left: 1pt solid var(--g18);
+    padding-left: 1.5rem;
+}
+
+#list-tags .section-title {
+    margin-bottom: 1rem;
+    font-size: var(--scriptsize);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ac);
+}
+
+#list-tags a,
+.rounded,
+.rounded a,
+ul.taxonomy a {
+    border-radius: 0;
+}
+
+#list-tags a {
+    border: 1pt solid var(--g18);
+    background: transparent;
+    color: var(--fg);
+}
+
+#list-tags a:hover,
+#list-tags a:focus {
+    border-color: var(--ac);
+    color: var(--ac);
+}
+
+.feed-item ul.rounded.invert a,
+ul.rounded.invert a {
+    border: 1pt solid var(--ac) !important;
+    border-radius: 0;
+    background: transparent !important;
+    color: var(--ac) !important;
+}
+
+.feed-item ul.rounded.invert a:hover,
+.feed-item ul.rounded.invert a:focus,
+ul.rounded.invert a:hover,
+ul.rounded.invert a:focus {
+    background: var(--ac) !important;
+    color: var(--bg) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Footer / content information
+   -------------------------------------------------------------------------- */
+
+#main-footer {
+    border: 1pt solid var(--g18);
+    border-radius: 0;
+    background: var(--term-panel);
+    color: var(--fg);
+}
+
+#main-footer a {
+    color: var(--ac);
+}
+
+#main-footer a:hover,
+#main-footer a:focus {
+    color: var(--fg);
+}
+
+#main-footer,
+#unified-footer,
+#license {
+    text-transform: none;
+}
+
+#license {
+    letter-spacing: 0.08em;
+    font-size: var(--scriptsize);
+    font-variant: normal;
+    font-style: normal;
+}
+
+/* Brand-coloured share glyphs would break the two-colour palette. */
+#bionReadSwitch + label,
+#saveButton {
+    border-radius: 0;
+}
+
+#contribute {
+    border-radius: 0;
+}
+
+#contrib-menu a {
+    border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Pagefind
+   -------------------------------------------------------------------------- */
+
+.pagefind-ui {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: var(--ac);
+    --pagefind-ui-text: var(--fg);
+    --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--g18);
+    --pagefind-ui-tag: var(--bg);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0;
+    --pagefind-ui-font: var(--sf);
+}
+
+.pagefind-ui__search-input,
+.pagefind-ui__result-link {
+    font-family: var(--sf);
+}
+
+/* --------------------------------------------------------------------------
+   Motion preferences
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+    .ascii-hero {
+        padding: 0.9rem 0.75rem;
+        font-size: clamp(0.58rem, 1.55vw, 1.15rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor {
+        animation: none;
+    }
 }
