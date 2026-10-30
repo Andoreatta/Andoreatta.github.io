@@ -1822,7 +1822,7 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
     overflow: hidden;
     background: url('/images/lain/run-rein.gif');
     image-rendering: pixelated;
-    animation: run-lain 1s linear infinite;
+    animation: run-lain 0.3s linear infinite;
 }
 
 .running-lain--notes {

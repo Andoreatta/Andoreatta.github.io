@@ -36,7 +36,7 @@ e AppSec até pentest interno, Active Directory e red team em AWS, Azure e GCP.
 
 <ul class="profile-certs">
   <li><span class="cert">HTB CPTS</span><span class="note">Hack The Box Certified Penetration Testing Specialist — certificação prática com foco em enumeração, exploração web e de rede, Active Directory, pivoting, escalação de privilégios e relatórios.</span></li>
-  <li><span class="cert">CRTA</span><span class="note">Certified Red Team Analyst — operações de red team, caminhos de ataque em Active Directory, C2, evasão e relatórios.</span></li>
+  <li><span class="cert">CRTA</span><span class="note">Certified Red Team Analyst — operações de red team, caminhos de ataque em Active Directory e evasão.</span></li>
   <li><span class="cert">MCRTA</span><span class="note">Multi-Cloud Red Team Analyst — identidade, IAM/RBAC e caminhos de ataque em AWS, Azure e GCP.</span></li>
   <li><span class="cert">ISC2 CC</span><span class="note">Certified in Cybersecurity — fundamentos de segurança, controle de acesso, redes e operações.</span></li>
   <li><span class="cert">EXIN ISFS</span><span class="note">Information Security Foundation based on ISO/IEC 27001 — fundamentos de gestão de segurança da informação.</span></li>
