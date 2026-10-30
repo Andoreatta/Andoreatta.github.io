@@ -11,6 +11,11 @@ tags = ['oscp', 'methodology', 'htb', 'linux', 'writeups']
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
+Box selection: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
+HTB column only; the paths, edge cases and commands are mine, snapshotted at the
+time of writing. This page contains spoilers — for the technique without the box,
+use the neutral [Linux privilege escalation](/notes/linux-privilege-escalation/) notes.
+
 ## How to use this page
 
 * Start with a full TCP scan plus the UDP ports people skip (161, and NFS/mountd on dynamic ports), then fuzz vhosts before directory-brute-forcing the IP root.

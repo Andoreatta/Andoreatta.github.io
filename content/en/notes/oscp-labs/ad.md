@@ -11,6 +11,11 @@ tags = ['oscp', 'methodology', 'htb', 'active-directory', 'writeups']
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
+Box selection: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
+HTB column only; the paths, edge cases and commands are mine, snapshotted at the
+time of writing. This page contains spoilers — for the technique without the box,
+use the neutral [Active Directory](/notes/active-directory/) notes.
+
 ## How to use this page
 
 * **Assumed breach vs unauthenticated.** Only **five** boxes hand you credentials at the start — Administrator (`olivia:ichliebedich`), Certified (`judith.mader:judith09`), EscapeTwo (`rose:KxEPkKe6R8su`), Puppy (`levi.james:KingofAkron2025!`) and Signed (`scott:Sm230#C5NatH`). For those, the first ten minutes are `--shares`, BloodHound, `certipy find` and per-service auth checks — **not** brute force. Everything else starts with null SMB/RPC, a web bug, or a share.

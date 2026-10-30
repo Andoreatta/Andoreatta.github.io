@@ -9,6 +9,14 @@ tags = ['oscp', 'methodology', 'htb', 'machine-index']
 
 > One row per box for the whole OSCP-like list — **76 machines**: 39 Linux, 18 Windows, 16 AD and 3 non-AD. Use it to pick a box by technique, to revise a path in 30 seconds, and to tick off what you have actually rooted. Detail lives in [Linux](/notes/oscp-labs/linux/), [Windows](/notes/oscp-labs/windows/) and [Active Directory](/notes/oscp-labs/ad/); this page only routes you there.
 
+{{< hint info >}}
+Names and platforms follow [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/).
+Paths, tools, CVEs and study tracks are annotations from hands-on practice, and
+this page is a snapshot that is not updated when the sheet changes. Use it when
+you are stuck mid-box; for a no-spoiler run, work from the neutral technique
+notes and come back after the root flag.
+{{< /hint >}}
+
 ## How to use this page
 
 - **Revision:** read the row, then explain the path out loud without looking at the page. If you stall on the privesc cell, open the machine page.
@@ -140,4 +148,8 @@ Counted by tagging every row above against the page it came from. A box appears 
 
 **Sanity check:** the Linux privesc count (42) equals the 39 Linux machines plus the 3 non-AD Linux machines — every Linux box in the list requires a Linux privesc step. The Windows privesc count (22) exceeds the 18 Windows machines because the AD boxes also require Windows-side escalation. The AD count (16) matches the AD table exactly. Before an exam run: at least one ticked box per row, and no phase left at zero.
 
----
+## Source
+
+Box list: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
+Hack The Box column only. The selection is Lainkusanagi's; the one-line paths,
+tool/CVE calls and study tracks are mine. Not synced with the sheet.

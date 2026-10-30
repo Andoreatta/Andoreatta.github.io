@@ -776,3 +776,16 @@ Grouped by the phase where the box turns, not one row per machine. Each group na
 | AD — assumed breach | Certified, EscapeTwo, Puppy, Signed | ACL and GPO abuse to DCSync · MSSQL as an AD pivot · Coerced authentication to Net-NTLMv2 |
 | AD — certificate and backup paths | Escape, EscapeTwo, Certified, Blackfield | ADCS ESC chains · Backup and Server Operators · ACL and GPO abuse to DCSync |
 | Cross-cutting: pivot and loot | Poison, Editor, Buff, Jeeves | Localhost-only services and tunnels · Payload staging and delivery · Loot: hidden data, dumps and stored credentials |
+
+## Where these patterns come from
+
+Written while working the HTB portion of
+[Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
+then generalised: each row names the boxes it fired on, and every command still
+needs its placeholders replaced. The [machine index](/notes/oscp-labs/machine-index/)
+routes you to a box; this page routes you to a technique, which is what carries
+into a practice CTF or an exam set you have not seen.
+
+The library is hand-written and **not regenerated when the list changes**, so a
+box can appear on the sheet before it appears here. Proving Grounds coverage will
+be added if I get access to the platform or plan an OSCP attempt.

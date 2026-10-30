@@ -6,6 +6,7 @@ type = 'notes'
 weight = 10
 toc = false
 tags = ['oscp', 'methodology']
+credit = "Box selection: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/). Credit for the list is Lainkusanagi's; the annotations are mine."
 +++
 
 Worked examples from the **OSCP-like HTB list**, organised as a field manual rather than a walkthrough collection. The commands, patterns and methodology are generic pentesting material — OSCP is one application of them, not the frame.
@@ -13,6 +14,24 @@ Worked examples from the **OSCP-like HTB list**, organised as a field manual rat
 {{< hint warning >}}
 **Spoilers ahead.** The machine pages describe intended and common unintended paths. Attempt each box first, then compare methodology. Only test systems you are authorized to test.
 {{< /hint >}}
+
+{{< hint info >}}
+**A companion to the list, not a replacement.** The [machine index](/notes/oscp-labs/machine-index/)
+and [pattern library](/notes/oscp-labs/patterns/) are meant to sit next to
+[Lainkusanagi's list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/) —
+open them when you are stuck mid-box in exam practice or in a practice CTF, or
+when you want the technique behind a path you already found. Try the box first;
+they work as a check, not a shortcut.
+{{< /hint >}}
+
+**No spoilers?** Every machine page names the foothold, the privesc, and often
+the CVE. If you want to solve boxes unaided, stay out of this section and use
+the neutral tracks instead — [Methodology](/notes/oscp-labs/methodology/),
+[Command Checklist](/notes/oscp-labs/commands/), and the
+[Linux](/notes/linux-privilege-escalation/), [Windows](/notes/windows-privilege-escalation/),
+[Active Directory](/notes/active-directory/), [Web](/notes/web-applications/)
+and [Protocols and Services](/notes/protocols-and-services/) notes. Those cover
+pentesting technique and recall for any target, not one lab.
 
 ## The five layers
 
@@ -55,4 +74,9 @@ Worked examples from the **OSCP-like HTB list**, organised as a field manual rat
 
 Each machine entry ends with the writeup(s) used. Research was cross-checked against public writeups (0xdf, Ippsec, HackTricks, HTB official) and local tool versions where possible. Items that could not be verified are marked **(unverified)**. If a box is retired, patched, or you find a better path, update the entry.
 
-The machine list itself is maintained by **Lainkusanagi**; these pages annotate the HTB portion for study and general practice.
+Box names come from [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
+and only from its Hack The Box column — this section is HTB-only. These pages are
+a snapshot, not a mirror: the sheet may gain boxes that are not covered here, and
+the pattern library is written by hand, so it is not re-cut when the list changes.
+Proving Grounds boxes will be added if I get access to the platform or plan an
+OSCP attempt.
