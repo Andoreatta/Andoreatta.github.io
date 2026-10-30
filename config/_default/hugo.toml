@@ -57,6 +57,10 @@ enableRobotsTXT = true
 
 [outputs]
     home = ['html', 'rss', 'json']
+    ## Tag pages are discovery aids, not feeds. Keeping RSS on every tag term
+    ## generated ~16 MB of full-content XML from the imported notes.
+    taxonomy = ['html']
+    term = ['html']
 
 [sitemap]
     changeFreq = 'monthly'

@@ -50,7 +50,9 @@ jobs:
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Index Pagefind
-        run: npx pagefind --site "./public"
+        run: |
+          npx pagefind --site "./public"
+          rm -f ./public/pagefind/pagefind-component-ui.* ./public/pagefind/pagefind-modular-ui.*
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5.0.0
         with:
