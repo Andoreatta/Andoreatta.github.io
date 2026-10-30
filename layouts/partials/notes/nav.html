@@ -35,6 +35,9 @@
         }
         var box = nav.getBoundingClientRect();
         var activeBox = active.getBoundingClientRect();
+        if (activeBox.top >= box.top && activeBox.bottom <= box.bottom) {
+            return;
+        }
         nav.scrollTop += activeBox.top - box.top - (nav.clientHeight - activeBox.height) / 2;
     }
     function sync() {

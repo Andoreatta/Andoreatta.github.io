@@ -14,7 +14,8 @@
                     <a class="notes-card" href="{{ .RelPermalink }}">
                         <span class="notes-card__title">{{ .LinkTitle }}</span>
                         {{- if .IsSection }}
-                            <span class="notes-card__meta">{{ len .RegularPagesRecursive }} pages</span>
+                            {{- $count := len .RegularPagesRecursive }}
+                            <span class="notes-card__meta">{{ $count }} {{ if eq $count 1 }}page{{ else }}pages{{ end }}</span>
                         {{- else }}
                             {{- with .Summary }}
                                 <span class="notes-card__desc">{{ . | plainify | truncate 150 }}</span>
