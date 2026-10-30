@@ -1,6 +1,6 @@
 +++
-title = 'Pentesting Notes'
-description = 'Field notes for penetration testing: methodology, commands, privilege escalation, web attacks, and lab writeups.'
+title = 'Andoreatta Pentesting Notes and Methodology'
+description = 'Andoreatta pentesting notes and methodology: commands, privilege escalation, web attacks, protocols, and lab writeups.'
 date = 2026-10-30
 type = 'notes'
 weight = 0

@@ -5,7 +5,7 @@
     weight = 1
 
 [[main]]
-    name = 'Notes'
+    name = 'Pentesting Notes'
     identifier = 'notes'
     pageRef = '/notes'
     weight = 2

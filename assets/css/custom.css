@@ -181,7 +181,7 @@ ul.taxonomy,
     grid-template-columns: 20rem minmax(0, 1fr);
     gap: clamp(1.25rem, 2.5vw, 2rem);
     align-items: center;
-    max-width: 52rem;
+    max-width: 56rem;
     margin: 0 auto;
 }
 
@@ -815,15 +815,25 @@ ul.rounded.invert a:focus {
     }
 }
 
+:root {
+    --max-width: 60rem;
+}
+
 @media (min-width: 1200px) {
     :root {
-        --max-width: 72rem;
+        --max-width: 84rem;
     }
 }
 
 @media (min-width: 1600px) {
     :root {
-        --max-width: 80rem;
+        --max-width: 92rem;
+    }
+}
+
+@media (min-width: 1920px) {
+    :root {
+        --max-width: 100rem;
     }
 }
 
@@ -846,7 +856,7 @@ ul.rounded.invert a:focus {
     --notes-muted: #a5947c;
 
     display: grid;
-    grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
+    grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr);
     gap: clamp(1.5rem, 4vw, 3.5rem);
     align-items: start;
     margin: 1.5rem auto 4rem;
@@ -1039,6 +1049,7 @@ ul.rounded.invert a:focus {
 .notes-index .content > ul,
 .notes-index .content > ol {
     width: auto;
+    max-width: 60rem;
 }
 
 .notes-article #content p,
@@ -1976,4 +1987,16 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
     .lain-band {
         display: none !important;
     }
+}
+
+/* Keep the page padding from collapsing at the wide-layout breakpoint. */
+#top,
+.pagewidth {
+    padding-left: max(var(--void), 1rem);
+    padding-right: max(var(--void), 1rem);
+}
+
+/* The hidden print tooltip could extend outside the viewport at 1200px. */
+#print-button .t.srt {
+    display: none;
 }
