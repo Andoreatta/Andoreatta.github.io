@@ -49,8 +49,11 @@ enableRobotsTXT = true
             [markup.goldmark.extensions.passthrough]
                 enable = true
                 [markup.goldmark.extensions.passthrough.delimiters]
-                    block = [['\[', '\]'], ['$$', '$$'], ['\begin{equation}', '\end{equation}'], ['\begin{align}', '\end{align}']]
-                    inline = [['\(', '\)'], ['$', '$'] ]
+                    ## Keep explicit `$$`/environment math, but do not treat `$` or
+                    ## `\[` as math: the pentesting notes are full of shell variables
+                    ## (`$TARGET`, `$IP`) and escaped literal brackets.
+                    block = [['$$', '$$'], ['\begin{equation}', '\end{equation}'], ['\begin{align}', '\end{align}']]
+                    inline = [['\(', '\)']]
 
 [outputs]
     home = ['html', 'rss', 'json']

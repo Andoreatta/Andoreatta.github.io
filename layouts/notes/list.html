@@ -1,0 +1,28 @@
+{{- define "main" -}}
+<div class="notes-shell pagewidth">
+    {{ partial "notes/nav.html" . }}
+    <div class="notes-main">
+        <article class="notes-index" data-pagefind-body>
+            <header class="notes-header">
+                <h1 id="title" data-pagefind-meta="title">{{ .Title }}</h1>
+            </header>
+
+            {{- if eq .RelPermalink "/notes/" }}
+                {{ partial "notes/cards.html" . }}
+                {{- with .Content }}
+                    <section class="content notes-intro">{{ . }}</section>
+                {{- end }}
+            {{- else }}
+                {{- with .Content }}
+                    <section class="content notes-intro">{{ . }}</section>
+                {{- end }}
+                {{ partial "notes/cards.html" . }}
+            {{- end }}
+
+            {{- with .Params.credit }}
+                <footer class="notes-credit">{{ . | markdownify }}</footer>
+            {{- end }}
+        </article>
+    </div>
+</div>
+{{- end -}}

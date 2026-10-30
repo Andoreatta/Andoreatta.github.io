@@ -5,10 +5,16 @@
     weight = 1
 
 [[main]]
+    name = 'Notes'
+    identifier = 'notes'
+    pageRef = '/notes'
+    weight = 2
+
+[[main]]
     name = 'About'
     identifier = 'about'
     pageRef = '/about'
-    weight = 2
+    weight = 3
 
 [[footer]]
     name = 'LinkedIn'

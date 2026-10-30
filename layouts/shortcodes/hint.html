@@ -1,0 +1,7 @@
+{{- $level := .Get 0 | default "info" | lower -}}
+{{- $labels := dict "info" "Note" "success" "Success" "warning" "Warning" "danger" "Warning" -}}
+{{- $label := index $labels $level | default "Note" -}}
+<aside class="note note--{{ $level }}" role="note">
+    <p class="note__label">{{ $label }}</p>
+    <div class="note__body">{{ .Inner | strings.TrimSpace | markdownify }}</div>
+</aside>

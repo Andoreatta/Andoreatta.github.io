@@ -1,0 +1,28 @@
+{{- $page := . -}}
+{{- with .Pages -}}
+    {{- $cardsTitle := "Pages" -}}
+    {{- if eq $page.RelPermalink "/notes/" -}}
+        {{- $cardsTitle = "Sections" -}}
+    {{- else if $page.Sections -}}
+        {{- $cardsTitle = "Sections and pages" -}}
+    {{- end -}}
+    <section class="notes-cards-wrap" data-pagefind-ignore="all">
+        <h2 class="notes-section-title">{{ $cardsTitle }}</h2>
+        <ul class="notes-cards">
+            {{- range .ByWeight }}
+                <li>
+                    <a class="notes-card" href="{{ .RelPermalink }}">
+                        <span class="notes-card__title">{{ .LinkTitle }}</span>
+                        {{- if .IsSection }}
+                            <span class="notes-card__meta">{{ len .RegularPagesRecursive }} pages</span>
+                        {{- else }}
+                            {{- with .Summary }}
+                                <span class="notes-card__desc">{{ . | plainify | truncate 150 }}</span>
+                            {{- end }}
+                        {{- end }}
+                    </a>
+                </li>
+            {{- end }}
+        </ul>
+    </section>
+{{- end -}}

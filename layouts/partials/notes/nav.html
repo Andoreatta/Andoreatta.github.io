@@ -1,0 +1,62 @@
+{{- $page := . -}}
+{{- $root := site.GetPage "/notes" -}}
+{{- with $root -}}
+<details class="notes-nav" id="notes-nav" open>
+    <summary>
+        <span class="notes-nav__label">Notes navigation</span>
+        <span class="notes-nav__hint">tap to open</span>
+    </summary>
+    <nav aria-label="Pentesting notes">
+        <ul class="notes-nav__list">
+            <li class="notes-nav__root">
+                <a href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>All notes</a>
+            </li>
+            {{- range .Pages.ByWeight -}}
+                {{- if .IsSection -}}
+                    {{- template "notes-nav-section" (dict "section" . "page" $page) -}}
+                {{- else -}}
+                    <li><a href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+                {{- end -}}
+            {{- end -}}
+        </ul>
+    </nav>
+</details>
+<script>
+(function () {
+    var nav = document.getElementById('notes-nav');
+    if (!nav || !window.matchMedia) {
+        return;
+    }
+    var narrow = window.matchMedia('(max-width: 960px)');
+    function sync() {
+        nav.open = !narrow.matches;
+    }
+    sync();
+    if (narrow.addEventListener) {
+        narrow.addEventListener('change', sync);
+    } else if (narrow.addListener) {
+        narrow.addListener(sync);
+    }
+})();
+</script>
+{{- end -}}
+
+{{- define "notes-nav-section" -}}
+    {{- $section := .section -}}
+    {{- $page := .page -}}
+    {{- $active := or (eq $page $section) (hasPrefix $page.RelPermalink $section.RelPermalink) -}}
+    <li class="notes-nav__section{{ if $active }} is-active{{ end }}">
+        <a href="{{ $section.RelPermalink }}" {{ if eq $page $section }}aria-current="page"{{ end }}>{{ $section.LinkTitle }}</a>
+        {{- with $section.Pages -}}
+            <ul>
+                {{- range .ByWeight -}}
+                    {{- if .IsSection -}}
+                        {{- template "notes-nav-section" (dict "section" . "page" $page) -}}
+                    {{- else -}}
+                        <li><a href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+                    {{- end -}}
+                {{- end -}}
+            </ul>
+        {{- end -}}
+    </li>
+{{- end -}}

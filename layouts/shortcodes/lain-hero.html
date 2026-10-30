@@ -1,7 +1,14 @@
-<div class="ascii-kicker" aria-hidden="true">[ serial experiments // portrait 001 ]</div>
-<div class="lain-art" aria-hidden="true" data-pagefind-ignore>
-    <div class="lain-art__stack">
-        {{- partial "ascii/lain.html" (dict "class" "lain-art__portrait") -}}
+<div class="home-hero">
+    <div class="home-hero__art">
+        <div class="lain-art" aria-hidden="true" data-pagefind-ignore>
+            <div class="lain-art__stack">
+                {{- partial "ascii/lain.html" (dict "class" "lain-art__portrait") -}}
+            </div>
+        </div>
+    </div>
+    <div class="home-hero__terminal">
+        <div class="ascii-kicker" aria-hidden="true">[ serial experiments // portrait 001 ]</div>
+        <p class="terminal-line" aria-hidden="true"><span class="prompt">srl@exp:~$</span> cat intro.txt<span class="cursor" aria-hidden="true"></span></p>
+        <div class="home-hero__intro">{{ .Inner | markdownify }}</div>
     </div>
 </div>
-<p class="terminal-line" aria-hidden="true"><span class="prompt">srl@exp:~$</span> cat intro.txt<span class="cursor" aria-hidden="true"></span></p>

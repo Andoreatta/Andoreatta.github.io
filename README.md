@@ -43,6 +43,33 @@ hugo new content pt-br/posts/meu-post.md
 Use the same `translationKey` in both files so the language switcher and the
 Portuguese-browser redirect can find the translated version.
 
+## Pentesting notes
+
+The pentesting notes live under `content/en/notes/` and are published in English
+only at `/notes/`. They use `type = 'notes'`, which keeps them out of the home
+feed and gives them the notes sidebar, index cards, in-page table of contents,
+and full-text Pagefind indexing.
+
+The source of truth is the separate `Pentesting-Notes` repository. The importer
+is one-way and idempotent; it rewrites links, copies screenshots, converts
+GitBook hints/figures, and regenerates front matter:
+
+```sh
+python3 scripts/import-notes.py --source ~/Workspace/Pentesting-Notes
+```
+
+The hand-written landing page at `content/en/notes/_index.md` is preserved by
+the importer. To add a note that should survive future imports, add it to the
+source repository first.
+
+Tag pages are generated from the note tags. The notes index credits
+[sfoffo's Pentesting Notes](https://notes.sfoffo.com/) as the original
+inspiration and base material.
+
+Because the notes are full of shell variables (`$TARGET`, `$IP`), `$...$` is
+not configured as inline math. Use `$$...$$`, `\(...\)`, or a LaTeX environment
+for explicit math.
+
 ## About pages
 
 The bilingual About pages live in `content/en/about.md` and

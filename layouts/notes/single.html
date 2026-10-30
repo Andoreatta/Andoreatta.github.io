@@ -1,0 +1,60 @@
+{{- define "main" -}}
+<div class="notes-shell pagewidth">
+    {{ partial "notes/nav.html" . }}
+    <div class="notes-main">
+        <article class="notes-article sf" data-pagefind-body>
+            <header class="notes-header">
+                <h1 id="title" data-pagefind-meta="title">{{ .Title }}</h1>
+                {{- with .Description }}
+                    <p class="notes-desc">{{ . }}</p>
+                {{- end }}
+            </header>
+
+            {{- with .TableOfContents }}
+                <details class="notes-toc" id="notes-toc" open>
+                    <summary>On this page</summary>
+                    {{ . }}
+                </details>
+                <script>
+                (function () {
+                    var toc = document.getElementById('notes-toc');
+                    if (!toc || !window.matchMedia) {
+                        return;
+                    }
+                    var narrow = window.matchMedia('(max-width: 960px)');
+                    function sync() {
+                        toc.open = !narrow.matches;
+                    }
+                    sync();
+                    if (narrow.addEventListener) {
+                        narrow.addEventListener('change', sync);
+                    } else if (narrow.addListener) {
+                        narrow.addListener(sync);
+                    }
+                })();
+                </script>
+            {{- end }}
+
+            <section id="content" class="content">
+                {{- if .Params.task }}
+                    {{ replaceRE `\s+disabled(="")?` "" .Content | safeHTML }}
+                {{- else }}
+                    {{ .Content }}
+                {{- end }}
+            </section>
+
+            <footer class="notes-footer">
+                {{- with .GetTerms "tags" }}
+                    <div class="notes-tags">
+                        <span>tags:</span>
+                        {{- range . }}
+                            <a href="{{ .RelPermalink }}">#{{ lower .LinkTitle }}</a>
+                        {{- end }}
+                    </div>
+                {{- end }}
+                {{ partial "notes/prevnext.html" . }}
+            </footer>
+        </article>
+    </div>
+</div>
+{{- end -}}

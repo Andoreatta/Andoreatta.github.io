@@ -1,0 +1,30 @@
+{{- $page := . -}}
+{{- $pages := .CurrentSection.RegularPages.ByWeight -}}
+{{- $prev := false -}}
+{{- $next := false -}}
+{{- range $index, $candidate := $pages -}}
+    {{- if eq $candidate $page -}}
+        {{- if gt $index 0 -}}
+            {{- $prev = index $pages (sub $index 1) -}}
+        {{- end -}}
+        {{- if lt (add $index 1) (len $pages) -}}
+            {{- $next = index $pages (add $index 1) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- if or $prev $next -}}
+<nav class="notes-prevnext" aria-label="Previous and next note">
+    {{- with $prev }}
+        <a class="notes-prevnext__prev" href="{{ .RelPermalink }}">
+            <span>← previous</span>
+            <strong>{{ .LinkTitle }}</strong>
+        </a>
+    {{- end }}
+    {{- with $next }}
+        <a class="notes-prevnext__next" href="{{ .RelPermalink }}">
+            <span>next →</span>
+            <strong>{{ .LinkTitle }}</strong>
+        </a>
+    {{- end }}
+</nav>
+{{- end -}}
