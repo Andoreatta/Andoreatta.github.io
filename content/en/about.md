@@ -36,11 +36,11 @@ Directory, and red teaming across AWS, Azure, and GCP.
 ## Certifications
 
 <ul class="profile-certs">
-  <li><span class="cert">HTB CPTS</span><span class="note">Certified Penetration Testing Specialist</span></li>
-  <li><span class="cert">CRTA</span><span class="note">Certified Red Team Analyst</span></li>
-  <li><span class="cert">MCRTA</span><span class="note">Multi-Cloud Red Team Analyst — AWS, Azure, and GCP</span></li>
-  <li><span class="cert">ISC2 CC</span><span class="note">Certified in Cybersecurity</span></li>
-  <li><span class="cert">EXIN ISFS</span><span class="note">ISO/IEC 27001</span></li>
+  <li><span class="cert">HTB CPTS</span><span class="note">Hack The Box Certified Penetration Testing Specialist — hands-on certification covering enumeration, web and network exploitation, Active Directory, pivoting, privilege escalation, and reporting.</span></li>
+  <li><span class="cert">CRTA</span><span class="note">Certified Red Team Analyst — red team operations, Active Directory attack paths, C2, evasion, and reporting.</span></li>
+  <li><span class="cert">MCRTA</span><span class="note">Multi-Cloud Red Team Analyst — identity, IAM/RBAC, and attack paths across AWS, Azure, and GCP.</span></li>
+  <li><span class="cert">ISC2 CC</span><span class="note">Certified in Cybersecurity — security fundamentals, access control, networks, and operations.</span></li>
+  <li><span class="cert">EXIN ISFS</span><span class="note">Information Security Foundation based on ISO/IEC 27001 — information security management fundamentals.</span></li>
 </ul>
 
 <p class="profile-additional">Also: Acronis Cloud Tech Professional — Advanced Security; TrendAI Vision One Cloud Security Certified Practitioner; TrendAI Vision One Security Operations (SecOps) Certified Practitioner.</p>

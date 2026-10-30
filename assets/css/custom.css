@@ -516,7 +516,7 @@ ul.rounded.invert a:focus {
 #content .profile-kicker {
     margin: 0 0 0.75rem;
     font-family: var(--tt);
-    font-size: var(--scriptsize);
+    font-size: 0.85rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ac);
@@ -540,7 +540,8 @@ ul.rounded.invert a:focus {
 #content .profile-location {
     margin: 0.2rem 0 1.25rem;
     font-family: var(--tt);
-    font-size: var(--scriptsize);
+    font-size: 0.9rem;
+    line-height: 1.45;
     color: var(--mid);
 }
 
@@ -550,7 +551,7 @@ ul.rounded.invert a:focus {
     gap: 1.25rem;
     margin: 0 0 1.75rem;
     font-family: var(--tt);
-    font-size: var(--scriptsize);
+    font-size: 0.9rem;
 }
 
 #content .profile-links a {
@@ -606,7 +607,7 @@ ul.rounded.invert a:focus {
 #content .profile-timeline .when,
 #content .profile-education .when {
     font-family: var(--tt);
-    font-size: var(--scriptsize);
+    font-size: 0.85rem;
     color: var(--ac);
     white-space: nowrap;
 }
@@ -637,24 +638,28 @@ ul.rounded.invert a:focus {
     grid-template-columns: 9rem 1fr;
     gap: 1rem;
     border-bottom: 1pt solid var(--g18s);
-    padding: 0.45rem 0;
+    padding: 0.55rem 0;
 }
 
 #content .profile-certs .cert {
     font-family: var(--tt);
-    font-size: var(--scriptsize);
+    font-size: 0.9rem;
+    font-weight: 600;
     color: var(--ac);
 }
 
 #content .profile-certs .note {
     color: var(--mid);
+    font-size: var(--small);
+    line-height: 1.5;
 }
 
 #content .profile-additional {
     width: auto;
     margin: 0 0 2rem;
     color: var(--mid);
-    font-size: var(--scriptsize);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 #content .profile-toolbox {
@@ -1058,26 +1063,26 @@ body:has(#content .profile-name) #content {
 }
 
 /* GitBook-style callouts */
-.note {
+aside.note {
     margin: 1.25rem 0;
     border-left: 3pt solid var(--ac);
     padding: 0.8rem 1rem;
     background: var(--term-panel);
 }
 
-.note--warning {
+aside.note--warning {
     border-left-color: #d8a657;
 }
 
-.note--danger {
+aside.note--danger {
     border-left-color: #e06c75;
 }
 
-.note--success {
+aside.note--success {
     border-left-color: #8fbc6f;
 }
 
-.note__label {
+aside.note .note__label {
     margin: 0 0 0.35rem;
     color: var(--ac);
     font-family: var(--tt);
@@ -1086,27 +1091,27 @@ body:has(#content .profile-name) #content {
     text-transform: uppercase;
 }
 
-.note--warning .note__label {
+aside.note--warning .note__label {
     color: #d8a657;
 }
 
-.note--danger .note__label {
+aside.note--danger .note__label {
     color: #e06c75;
 }
 
-.note--success .note__label {
+aside.note--success .note__label {
     color: #8fbc6f;
 }
 
-.note__body > :first-child {
+aside.note .note__body > :first-child {
     margin-top: 0;
 }
 
-.note__body > :last-child {
+aside.note .note__body > :last-child {
     margin-bottom: 0;
 }
 
-.note__body p {
+aside.note .note__body p {
     text-indent: 0;
 }
 
