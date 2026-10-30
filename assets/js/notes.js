@@ -79,7 +79,9 @@
 
     /* Keyboard access for horizontally scrollable code blocks */
     content.querySelectorAll('.chroma, pre, pre code').forEach(function (block) {
-        if (block.scrollWidth > block.clientWidth + 1) {
+        var style = window.getComputedStyle(block);
+        var scrolls = style.overflowX === 'auto' || style.overflowX === 'scroll';
+        if (scrolls && block.scrollWidth > block.clientWidth + 1) {
             block.tabIndex = 0;
             block.setAttribute('role', 'region');
             block.setAttribute('aria-label', 'Scrollable code block');

@@ -1472,8 +1472,30 @@ ul.rounded.invert a:focus {
 }
 
 .notes-article .highlight,
-.notes-code-wrap {
+.notes-article .notes-code-wrap {
     position: relative;
+    margin: 1.25rem 0;
+    border: 1pt solid var(--g18s);
+    border-left: 2pt solid var(--ac);
+    background: var(--code-bg);
+    padding: 0.85rem 1rem;
+    color: var(--code-fg);
+}
+
+.notes-article .highlight > pre.chroma,
+.notes-article .notes-code-wrap > pre {
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}
+
+.notes-article .highlight pre code,
+.notes-article .notes-code-wrap pre code {
+    padding: 0;
+    overflow-x: visible;
+    width: max-content;
+    max-width: none;
 }
 
 .notes-copy {
@@ -1621,4 +1643,179 @@ ul.rounded.invert a:focus {
 
 a#has-i18n > .alt {
     color: var(--mid);
+}
+
+/* --------------------------------------------------------------------------
+   Notes code palette
+   -------------------------------------------------------------------------- */
+
+/* The theme only enables its dark syntax variables under
+   prefers-color-scheme: dark. This site is dark-only, so force them unless an
+   accessibility palette is active. */
+body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
+    --y6a: #bf97b4;
+    --w8u: #81b31e;
+    --s8i: #ee819e;
+    --n8e: #93a1c8;
+    --m4i: #7fad90;
+    --y4i: #ec838c;
+    --f8a: #a19dcd;
+    --s4n: #06abfe;
+    --d3u: #ba9d8c;
+    --r6a: #b6a63a;
+    --y4a: #75a7e1;
+    --k8i: #f0870f;
+    --y6i: #00b3db;
+    --o5a: #d98ca2;
+    --c3u: #a9a0b6;
+    --s5o: #81a7c5;
+    --s5e: #ab98d7;
+    --y7i: #00b1dd;
+    --i3i: #f57f8b;
+    --t9u: #01bc4c;
+}
+
+.notes-article {
+    --code-bg: #0d0d0d;
+    --code-fg: var(--fg);
+    --code-comment: var(--m4i);
+    --code-keyword: var(--s4n);
+    --code-string: var(--f8a);
+    --code-number: var(--k8i);
+    --code-builtin: var(--k8i);
+    --code-function: var(--w8u);
+    --code-type: var(--y6a);
+    --code-tag: var(--r6a);
+    --code-variable: var(--y7i);
+    --code-operator: var(--i3i);
+    --code-error: var(--s8i);
+    --code-inserted: var(--t9u);
+}
+
+.notes-article .chroma .cl,
+.notes-article .chroma .w,
+.notes-article .notes-code-wrap pre {
+    color: var(--code-fg);
+}
+
+.notes-article .chroma .c,
+.notes-article .chroma .ch,
+.notes-article .chroma .cm,
+.notes-article .chroma .c1,
+.notes-article .chroma .cs,
+.notes-article .chroma .cp,
+.notes-article .chroma .cpf {
+    color: var(--code-comment);
+    font-style: italic;
+}
+
+.notes-article .chroma .k,
+.notes-article .chroma .kc,
+.notes-article .chroma .kd,
+.notes-article .chroma .kn,
+.notes-article .chroma .kp,
+.notes-article .chroma .kr,
+.notes-article .chroma .kt {
+    color: var(--code-keyword);
+}
+
+.notes-article .chroma .kn {
+    font-weight: 600;
+}
+
+.notes-article .chroma .s,
+.notes-article .chroma .sa,
+.notes-article .chroma .sb,
+.notes-article .chroma .sc,
+.notes-article .chroma .dl,
+.notes-article .chroma .sd,
+.notes-article .chroma .s2,
+.notes-article .chroma .se,
+.notes-article .chroma .sh,
+.notes-article .chroma .si,
+.notes-article .chroma .sx,
+.notes-article .chroma .sr,
+.notes-article .chroma .s1,
+.notes-article .chroma .ss {
+    color: var(--code-string);
+}
+
+.notes-article .chroma .m,
+.notes-article .chroma .mb,
+.notes-article .chroma .mf,
+.notes-article .chroma .mh,
+.notes-article .chroma .mi,
+.notes-article .chroma .il,
+.notes-article .chroma .mo,
+.notes-article .chroma .l {
+    color: var(--code-number);
+}
+
+.notes-article .chroma .nb,
+.notes-article .chroma .bp,
+.notes-article .chroma .no {
+    color: var(--code-builtin);
+}
+
+.notes-article .chroma .nf,
+.notes-article .chroma .fm {
+    color: var(--code-function);
+}
+
+.notes-article .chroma .t,
+.notes-article .chroma .nc,
+.notes-article .chroma .nn,
+.notes-article .chroma .ni {
+    color: var(--code-type);
+}
+
+.notes-article .chroma .n,
+.notes-article .chroma .nv,
+.notes-article .chroma .vc,
+.notes-article .chroma .vg,
+.notes-article .chroma .vi,
+.notes-article .chroma .vm,
+.notes-article .chroma .nx,
+.notes-article .chroma .py,
+.notes-article .chroma .nl {
+    color: var(--code-variable);
+}
+
+.notes-article .chroma .nt,
+.notes-article .chroma .na {
+    color: var(--code-tag);
+}
+
+.notes-article .chroma .o,
+.notes-article .chroma .p,
+.notes-article .chroma .x {
+    color: var(--code-operator);
+}
+
+.notes-article .chroma .ow {
+    color: var(--code-keyword);
+}
+
+.notes-article .chroma .err,
+.notes-article .chroma .gd,
+.notes-article .chroma .gr,
+.notes-article .chroma .gt {
+    color: var(--code-error);
+}
+
+.notes-article .chroma .gi {
+    color: var(--code-inserted);
+}
+
+.notes-article .chroma .gh,
+.notes-article .chroma .gu {
+    color: var(--code-type);
+}
+
+.notes-article .chroma .ge {
+    font-style: italic;
+}
+
+.notes-article .chroma .gs {
+    font-weight: 600;
 }
