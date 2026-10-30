@@ -62,9 +62,16 @@ The hand-written landing page at `content/en/notes/_index.md` is preserved by
 the importer. To add a note that should survive future imports, add it to the
 source repository first.
 
-Tag pages are generated from the note tags. The notes index credits
+Tag pages are generated from the note tags. Tag RSS feeds are intentionally
+disabled because they were emitting full note bodies and accounted for most of
+the deploy size. The notes index credits
 [sfoffo's Pentesting Notes](https://notes.sfoffo.com/) as the original
 inspiration and base material.
+
+Notes include copyable code blocks, heading permalinks, related notes, and
+persistent checklist state. Search is loaded lazily and can be filtered by
+section. The importer converts screenshots to WebP and adds intrinsic
+dimensions to avoid layout shift.
 
 Because the notes are full of shell variables (`$TARGET`, `$IP`), `$...$` is
 not configured as inline math. Use `$$...$$`, `\(...\)`, or a LaTeX environment

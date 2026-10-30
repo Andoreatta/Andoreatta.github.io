@@ -73,6 +73,15 @@ enableRobotsTXT = true
     category = 'categories'
     tag = 'tags'
 
+## Related notes are scored by shared tags.
+[related]
+    threshold = 20
+    includeNewer = true
+    toLower = true
+    [[related.indices]]
+        name = 'tags'
+        weight = 100
+
 ## Site parameters
 [params]
     title = 'srl.exp.net'

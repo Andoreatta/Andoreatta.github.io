@@ -1,0 +1,12 @@
+{{- $page := . -}}
+{{- $related := where (site.RegularPages.Related $page) "Type" "notes" | first 4 -}}
+{{- with $related -}}
+<section class="notes-related" aria-labelledby="related-notes">
+    <h2 id="related-notes">Related notes</h2>
+    <ul>
+        {{- range . }}
+            <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        {{- end }}
+    </ul>
+</section>
+{{- end -}}

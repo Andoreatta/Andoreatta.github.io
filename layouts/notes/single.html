@@ -1,5 +1,12 @@
+{{- define "head" -}}
+{{- $notesJS := resources.Get "js/notes.js" | minify | fingerprint -}}
+<script src="{{ $notesJS.RelPermalink }}" integrity="{{ $notesJS.Data.Integrity }}" crossorigin="anonymous" defer></script>
+{{- end -}}
+
 {{- define "main" -}}
 <div class="notes-shell pagewidth">
+    <span class="pagefind-filter" data-pagefind-filter="Section">{{ .CurrentSection.Title }}</span>
+
     {{ partial "notes/nav.html" . }}
     <div class="notes-main">
         <article class="notes-article sf" data-pagefind-body>
@@ -44,14 +51,18 @@
             </section>
 
             <footer class="notes-footer">
-                {{- with .GetTerms "tags" }}
-                    <div class="notes-tags">
-                        <span>tags:</span>
-                        {{- range . }}
-                            <a href="{{ .RelPermalink }}">#{{ lower .LinkTitle }}</a>
-                        {{- end }}
-                    </div>
-                {{- end }}
+                <div class="notes-meta">
+                    {{- with .GetTerms "tags" }}
+                        <div class="notes-tags">
+                            <span>tags:</span>
+                            {{- range . }}
+                                <a href="{{ .RelPermalink }}">#{{ lower .LinkTitle }}</a>
+                            {{- end }}
+                        </div>
+                    {{- end }}
+                    <span class="notes-updated">updated {{ .Lastmod | time.Format ":date_long" }}</span>
+                </div>
+                {{ partial "notes/related.html" . }}
                 {{ partial "notes/prevnext.html" . }}
             </footer>
         </article>

@@ -3,8 +3,8 @@
 {{- with $root -}}
 <details class="notes-nav" id="notes-nav" open>
     <summary>
-        <span class="notes-nav__label">Notes navigation</span>
-        <span class="notes-nav__hint">tap to open</span>
+        <span class="notes-nav__label">{{ $page.Title }}</span>
+        <span class="notes-nav__hint">menu</span>
     </summary>
     <nav aria-label="Pentesting notes">
         <ul class="notes-nav__list">
@@ -28,10 +28,25 @@
         return;
     }
     var narrow = window.matchMedia('(max-width: 960px)');
+    function centerActive() {
+        var active = nav.querySelector('a[aria-current="page"]');
+        if (!active || !nav.clientHeight) {
+            return;
+        }
+        var box = nav.getBoundingClientRect();
+        var activeBox = active.getBoundingClientRect();
+        nav.scrollTop += activeBox.top - box.top - (nav.clientHeight - activeBox.height) / 2;
+    }
     function sync() {
         nav.open = !narrow.matches;
+        centerActive();
     }
     sync();
+    nav.addEventListener('toggle', function () {
+        if (nav.open) {
+            centerActive();
+        }
+    });
     if (narrow.addEventListener) {
         narrow.addEventListener('change', sync);
     } else if (narrow.addListener) {
