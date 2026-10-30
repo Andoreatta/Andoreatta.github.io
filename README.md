@@ -128,9 +128,9 @@ The portrait has a single CSS-only horizontal flip every 0.15 seconds, with no
 other motion. The animation is disabled under `prefers-reduced-motion`.
 
 The homepage and notes footer use a 2560×146 running-Lain sprite strip. The
-optimized lossless WebP asset is 5.5 KB with a GIF fallback, animated through
-CSS `background-position` at 0.2 seconds per strip, stepped through its 8 frames. The moving dot background is
-CSS-only and drifts left-to-right over 240 seconds.
+6.4 KB, 3-color GIF is animated through CSS `background-position` with the same
+smooth 1-second linear loop used by fauux. The moving dot background is CSS-only
+and drifts left-to-right over 240 seconds.
 
 On screens 1200px and wider the layout shell widens to 84rem, to 92rem at
 1600px, and to 100rem at 1920px. Note prose is capped at 60rem while code,
