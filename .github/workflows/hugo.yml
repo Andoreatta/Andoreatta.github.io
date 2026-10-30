@@ -52,6 +52,9 @@ jobs:
         run: |
           npx pagefind --site "./public"
           rm -f ./public/pagefind/pagefind-component-ui.* ./public/pagefind/pagefind-modular-ui.*
+      - name: Validate sitemaps
+        run: |
+          python3 -c "import glob, xml.etree.ElementTree as ET; files = ['public/sitemap.xml'] + glob.glob('public/*/sitemap.xml'); [ET.parse(f) for f in files]; print(f'validated {len(files)} sitemaps')"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5.0.0
         with:

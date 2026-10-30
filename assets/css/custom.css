@@ -1879,3 +1879,11 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
 #print-button .t.srt {
     display: none;
 }
+
+/* Full-bleed strips use 100vw; keep classic scrollbars from creating a
+   horizontal scrollbar. `clip` does not create a scroll container, so the
+   sticky notes sidebar continues to work. */
+html,
+body {
+    overflow-x: clip;
+}
