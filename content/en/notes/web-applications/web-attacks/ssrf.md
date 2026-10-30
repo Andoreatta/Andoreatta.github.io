@@ -249,7 +249,7 @@ Public rebinding services: [lock.cmpxchg8b.com/rebinder.html](https://lock.cmpxc
 
 There is no way to send a POST request with the `http://` scheme. **`gopher://` sends arbitrary bytes to a TCP socket**, which lets you build any request yourself — including POST, and including raw commands for non-HTTP services.
 
-### 6.1 Gopher POST — your original example, corrected
+### 6.1 Gopher POST example
 
 Suppose you want to send a POST to `login.php` with `username=sfoffo&password=admin`. Spaces (`%20`) and newlines (`%0D%0A`) must be URL-encoded, and the data is prefixed with `gopher://<host>:<port>/_`:
 

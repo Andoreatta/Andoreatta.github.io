@@ -8,8 +8,6 @@ tags = ['oscp', 'methodology', 'htb', 'windows', 'writeups']
 +++
 
 > Eighteen standalone Windows boxes from the OSCP-like list — one intended path each, the non-obvious step that decides it, and the exact command worth memorising. **These are edge-case notes, not walkthroughs**: every IP, hostname, port, user and payload path must be adapted to the target, and the linked writeup remains the walkthrough of record.
->
-> **Verification status (2026-10-28):** every CVE and technique below was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. **Two factual errors** in earlier drafts were corrected — a misattributed **CVE-2019-0708 (BlueKeep) reference** in the RDP notes and the **CVE-2020-0796 (SMBGhost) version range** in the SMB notes. A third item — the **Mailing "which process opens the document"** step — remains marked **(unverified)** because the source does not state it. See [Corrections](#corrections).
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
@@ -339,7 +337,7 @@ msiexec /quiet /qn /i rev.msi   # after reg query HKCU\...\Installer /v AlwaysIn
 * Two independent ways to `tyler`: the intended XSRF (`change_pass.php` accepts **GET** and never asks for the current password, so a link in a contact message resets his password when the bot clicks), and an accidental second-order SQLi — register as `' or 1='1`, then log in and `home.php` prints every user's notes.
 * 8808 is the same directory as the `new-site` SMB share, so `smbclient put` + `curl` = code execution. The share/webroot is wiped on a timer, so script the upload-and-trigger instead of hand-crafting it twice.
 * Enumerate WSL as a *credential store*, not a privilege boundary: `bash.exe` lives under `C:\Windows\WinSxS\amd64_microsoft-windows-lxss-bash_*`, and `root`'s `.bash_history` (also readable via `C:\Users\tyler\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_*\LocalState\rootfs\root`) contains the `smbclient -U 'administrator%…' \\127.0.0.1\c$` line — `where /R c:\ bash.exe`, then `cat .bash_history`.
-* A WSL uid-0 shell is *not* Windows admin — it is sandboxed to tyler's access. Use the recovered password with `net use \\127.0.0.1\c$ /user:administrator`, or `winexe`/`psexec.py` from Kali.
+* A WSL uid-0 shell is *not* Windows admin — it is sandboxed to tyler's access. Use the recovered password with `net use \\127.0.0.1\c$ /user:administrator`, or `winexe`/`psexec.py` from the attacker host.
 
 **Commands to remember:**
 
@@ -471,29 +469,3 @@ Use this as a checklist before you start and again after every shell. Each item 
 - [ ] Exploit scripts lie: hardcoded `/votingsystem/` (Love), a missing scheme in `host =` (Remote), random JSP names (`jar tf`, Jerry), missing SMB auth in impacket (Sniper), .NET-version-specific Watson/Sherlock (Bounty). Proxy the script through Burp before guessing.
 - [ ] AV/AppLocker, not a broken exploit: `shell_exec` over `system` (Buff), Ebowla for env-keyed payloads (Giddy), payload inside an allowed path such as `C:\Windows\System32\spool\drivers\color` (Sniper), `C:\Windows\tasks` (Giddy).
 - [ ] Kernel fallbacks only after the above: `Hotfix(s): N/A` → Windows-Exploit-Suggester → an exploit that takes LHOST/LPORT (Arctic); a userland service bug found with `netstat`/`tasklist` beats a patch-level scan (Buff).
-
----
-
-## Corrections
-
-Two factual errors in earlier drafts were corrected during verification. Both are reflected in the notes above.
-
-### RDP notes — BlueKeep is CVE-2019-0708, pre-auth
-
-**Earlier draft:** a reference in the cross-machine notes implied BlueKeep required authentication or was a post-auth issue.
-
-**Verified:** **CVE-2019-0708** is a **pre-authentication**, **wormable** RDP remote code execution vulnerability in Remote Desktop Services. It requires **no user interaction** and can be exploited **before authentication** by sending specially crafted packets. The "requires no user interaction" and "must occur before authentication" properties are the defining characteristics of BlueKeep. The notes have been corrected to state this explicitly.
-
-### SMB notes — SMBGhost affects Windows 10 1903 and 1909 only
-
-**Earlier draft:** the SMB cross-machine notes implied SMBGhost (CVE-2020-0796) affected Windows Server 2019, which the Windows box notes correctly did *not* list.
-
-**Verified:** **CVE-2020-0796** ("SMBGhost") affects **Windows 10 versions 1903 and 1909**, and **Windows Server Core** installations derived from those builds — not Windows Server 2019 in general. It is a **pre-auth** RCE in the **SMBv3.1.1 compression** feature. The notes have been corrected to state the version range accurately.
-
-### Mailing — CVE-2024-21413 and CVE-2023-2255 attributions confirmed
-
-**Earlier draft:** the CVE numbers were correct but the mechanism descriptions were thin.
-
-**Verified:** **CVE-2024-21413** is an Outlook **MonikerLink** RCE and credential-leak flaw (CVSS **9.8**) disclosed **13 February 2024**. **CVE-2023-2255** is a LibreOffice **floating-frame** flaw: documents with floating frames linked to external files load the frame contents **without prompting the user**, which can lead to **arbitrary code execution** when a malformed document is opened. Both attributions were correct and the mechanism descriptions have been expanded.
-
-> **Verification method:** every CVE was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. Techniques without a CVE were checked against multiple public walkthroughs. Where a source conflict remained, the note names both possibilities rather than asserting one. The `[Machine](page)` links point to the detail pages in this repository; the CVE numbers are the external anchors.

@@ -8,8 +8,6 @@ tags = ['oscp', 'methodology', 'htb', 'machine-index']
 +++
 
 > One row per box for the whole OSCP-like list — **76 machines**: 39 Linux, 18 Windows, 16 AD and 3 non-AD. Use it to pick a box by technique, to revise a path in 30 seconds, and to tick off what you have actually rooted. Detail lives in [Linux](/notes/oscp-labs/linux/), [Windows](/notes/oscp-labs/windows/) and [Active Directory](/notes/oscp-labs/ad/); this page only routes you there.
->
-> **Verification status (2026-10-28):** every CVE and path below was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. Two CVE misattributions from earlier drafts were corrected — [Keeper](#corrections) and [Enigma](#corrections). One "false lead" was confirmed and kept — [Dog](#corrections). Where a source still disagrees, the row is marked **(unverified)**.
 
 ## How to use this page
 
@@ -116,26 +114,6 @@ Linux boxes that sit in the AD column of the source sheet but have no domain, no
 | [Bucket](/notes/oscp-labs/ad/) | LocalStack S3 upload | pd4ml attachment read | LocalStack · pd4ml | [ ] |
 | [Facts](/notes/oscp-labs/ad/) | Camaleon CMS admin | sudo facter --custom-dir | **CVE-2024-46987** · facter | [ ] |
 
-## Corrections
-
-Three verification changes were made to earlier drafts. All three are reflected in the rows above.
-
-### Enigma — CVE-2026-29782, not CVE-2025-69212
-
-**Earlier attribution:** "one writeup reports a file-upload RCE credited as **CVE-2025-69212**, another describes an authenticated SQLi in the Aggiornamenti module plus PHP deserialization via PHPGGC **(unverified)**."
-
-**Verified attribution:** the RCE chain on Enigma is **CVE-2026-29782** — an unauthenticated `oauth2.php` endpoint that loads a record from `zz_oauth2` using an attacker-controlled `state` parameter and calls `unserialize()` on `access_token` without class restriction. The public PoC explicitly describes it as *"auth-SQLi → PHP object injection → RCE"* for OpenSTAManager ≤ 2.10.1. **CVE-2025-69212** is a separate **OS Command Injection** in the P7M (signed XML) decoding function, affecting 2.9.8 and earlier. The `(unverified)` caveat is removed.
-
-### Keeper — CVE-2023-32784, not CVE-2022-32784
-
-The KeePass master-password recovery is **CVE-2023-32784** (KeePass 2.x before 2.54, cleartext master password recoverable from a memory dump). CVE-2022-32784 is a **Request Tracker REST 2.0 API information disclosure** — a different product and a different primitive. The foothold (Request Tracker default credentials `root:password`) is correct and well documented, but the CVE in the *Key tool or CVE* column belonged to the KeePass step and was off by one year.
-
-### Dog — CVE-2024-41709 is a false lead, confirmed
-
-CVE-2024-41709 is a **Backdrop CMS field-label sanitization** issue affecting versions before 1.27.3 and 1.28.x before 1.28.2, mitigated by the *"administer fields"* permission. The Dog path uses an **authenticated RCE via malicious archive upload** in the admin module installer, **not** CVE-2024-41709. The original note calling it a false lead is correct and is now recorded as verified rather than speculative.
-
-> **Verification method:** each CVE was checked against the NVD/MITRE record, the vendor advisory, and at least one independent write-up. Paths without a CVE (Jerry, Netmon, Love) were checked against multiple public walkthroughs. The `[Machine](page)` links point to the detail pages in this repository; the CVE numbers are the external anchors.
-
 ## Study tracks
 
 Six orders through the same 76 boxes. Each one assumes the previous is comfortable; skip ahead only if you can already explain the privesc step.
@@ -163,5 +141,3 @@ Counted by tagging every row above against the page it came from. A box appears 
 **Sanity check:** the Linux privesc count (42) equals the 39 Linux machines plus the 3 non-AD Linux machines — every Linux box in the list requires a Linux privesc step. The Windows privesc count (22) exceeds the 18 Windows machines because the AD boxes also require Windows-side escalation. The AD count (16) matches the AD table exactly. Before an exam run: at least one ticked box per row, and no phase left at zero.
 
 ---
-
-*Last verified: 2026-10-28. If a CVE is retired, reassigned, or a write-up contradicts a row, update the row and add a note under [Corrections](#corrections) rather than silently editing it.*

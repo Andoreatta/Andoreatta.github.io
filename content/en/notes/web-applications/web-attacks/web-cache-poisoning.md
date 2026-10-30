@@ -20,7 +20,7 @@ Web caches sit between the client and the origin server to reduce latency and lo
 | [Practical Web Cache Poisoning](https://portswigger.net/research/practical-web-cache-poisoning) | The foundational PortSwigger research |
 | [Web Cache Entanglement](https://portswigger.net/research/web-cache-entanglement) | Cache poisoning + request smuggling chains |
 | [Gotta Cache 'em All](https://portswigger.net/research/gotta-cache-em-all) | **Path confusion** — delimiter discrepancies between CDN and origin |
-| **Web-Cache-Vulnerability-Scanner (WCVS) 2.0.0** | Hackmanit's CLI scanner — **10 poisoning techniques** and **9+ deception techniques**, built-in crawler, Kali package (Aug 2025) |
+| **Web-Cache-Vulnerability-Scanner (WCVS) 2.0.0** | Hackmanit's CLI scanner — **10 poisoning techniques** and **9+ deception techniques**, built-in crawler, distribution package (Aug 2025) |
 | **Param Miner** (Burp) | Unkeyed-header and unkeyed-parameter discovery — still the best manual probe |
 | **Cache Killer** (Burp) | Adds a cache-busting parameter automatically |
 | **HTTP Request Smuggler** (Burp) | Detects the desync primitives that feed cache poisoning |
@@ -30,7 +30,7 @@ Web caches sit between the client and the origin server to reduce latency and lo
 **WCVS 2.0.0 quick reference:**
 
 ```bash
-# Kali package (2.0.0-0kali1)
+# Package (2.0.0)
 sudo apt install web-cache-vulnerability-scanner
 
 # Scan a target — poisoning + deception

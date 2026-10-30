@@ -303,7 +303,7 @@ int main ()
   return 0;
 }
 
-// Compile on Kali:
+// Compile on the attacker host:
 // x86_64-w64-mingw32-gcc adduser.c -o binaryfilename.exe
 ```
 

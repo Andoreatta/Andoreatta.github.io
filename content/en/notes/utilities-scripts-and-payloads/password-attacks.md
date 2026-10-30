@@ -171,7 +171,7 @@ keepass2john database.kdbx > hash
 john --wordlist=wordlist.txt hash
 ```
 
-> **Edge case:** `john-data` on Kali ships only the `*2john` scripts — install the `john` binary separately, or build **John Jumbo** for Argon2 and KDBX v4 support.
+> **Edge case:** `john-data` on the attacker host ships only the `*2john` scripts — install the `john` binary separately, or build **John Jumbo** for Argon2 and KDBX v4 support.
 
 ### 2.4 Quinto — automated cracking orchestration (2026)
 

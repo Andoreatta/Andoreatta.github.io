@@ -8,8 +8,6 @@ tags = ['oscp', 'methodology', 'patterns']
 +++
 
 > A problem-first index of the recurring techniques that decide the boxes on the OSCP-like lab list. Each pattern is deliberately small: **when** to reach for it, the **prerequisite check** that must pass, the commands worth memorising, and the machines where it was the difference between stuck and rooted. It sits between three neighbours: the [command checklist](/notes/oscp-labs/commands/) you run at the start of every box, the [Linux](/notes/oscp-labs/linux/), [Windows](/notes/oscp-labs/windows/) and [AD](/notes/oscp-labs/ad/) machine pages that walk one box end-to-end, and the "Cross-machine patterns" summary at the end of each machine page. This page is the layer that transfers: a technique is worth learning when you can name two machines it appears on and the condition that makes it fire. Nothing here is a walkthrough, and every command still needs its placeholders replaced.
->
-> **Verification status (2026-10-28):** every CVE in this library was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. **Three factual corrections** were made to earlier drafts — Enigma's OpenSTAManager chain (CVE-2026-29782, not CVE-2025-69212), Keeper's KeePass CVE (CVE-2023-32784, not CVE-2022-32784), and the CVE-2022-32784 misidentification itself (it is an Apple Safari/iOS bug, not a Request Tracker bug). See [Corrections](#corrections) for the evidence.
 
 ## Pattern index
 
@@ -778,35 +776,3 @@ Grouped by the phase where the box turns, not one row per machine. Each group na
 | AD — assumed breach | Certified, EscapeTwo, Puppy, Signed | ACL and GPO abuse to DCSync · MSSQL as an AD pivot · Coerced authentication to Net-NTLMv2 |
 | AD — certificate and backup paths | Escape, EscapeTwo, Certified, Blackfield | ADCS ESC chains · Backup and Server Operators · ACL and GPO abuse to DCSync |
 | Cross-cutting: pivot and loot | Poison, Editor, Buff, Jeeves | Localhost-only services and tunnels · Payload staging and delivery · Loot: hidden data, dumps and stored credentials |
-
----
-
-## Corrections
-
-Three factual corrections were made to earlier drafts. All three are reflected in the patterns above.
-
-### Enigma — CVE-2026-29782, not CVE-2025-69212
-
-**Earlier draft:** "one writeup reports a file-upload RCE credited as CVE-2025-69212, another describes an authenticated SQLi in the Aggiornamenti module plus PHP deserialization via PHPGGC (unverified)."
-
-**Verified:** CVE-2026-29782 is an **unauthenticated RCE via insecure deserialization** in OpenSTAManager < 2.10.2. The `oauth2.php` file runs with `$skip_permissions = true`, loads a record from `zz_oauth2` using the attacker-controlled `state` parameter, and calls `unserialize()` on `access_token` **without class restriction**. CVE-2025-69212 is a separate **OS Command Injection** in the P7M decoding function, affecting 2.9.8 and earlier. The Enigma chain uses **CVE-2026-29782**.
-
-### Keeper — CVE-2023-32784, not CVE-2022-32784
-
-**Earlier draft:** "CVE-2022-32784 (`keepass_dump.py`) recovers all but the first character of the KeePass master password."
-
-**Verified:** the KeePass memory-dump vulnerability is **CVE-2023-32784** (KeePass 2.x before 2.54; cleartext master password recoverable from a process dump, swap file, hibernation file, or full RAM dump; the first character cannot be recovered). **CVE-2022-32784 is an Apple Safari/iOS/iPadOS information-disclosure bug fixed in Safari 15.6, iOS 15.6, and iPadOS 15.6** — not a Request Tracker bug and not a KeePass bug. The Request Tracker foothold (`root:password`) is correct and separate.
-
-### Solidstate — CVE-2015-7611 (added)
-
-**Earlier draft:** the Solidstate row listed Apache James 2.3.2 with no CVE.
-
-**Verified:** **CVE-2015-7611** is an OS command injection in Apache James Server 2.3.2 when configured with file-based user repositories — it allows remote attackers to execute arbitrary system commands. The row now includes it.
-
-### Nineveh — CVE-2014-0476 (added)
-
-**Earlier draft:** the Nineveh row listed chkrootkit 0.49 with no CVE.
-
-**Verified:** **CVE-2014-0476** is the unquoted `SLAPPER_FILES` path in the `slapper()` function of chkrootkit before 0.50, allowing a local user to execute arbitrary code via a Trojan-horse executable — exploitable when `/tmp` is not mounted `noexec`. The row now includes it.
-
-> **Verification method:** every CVE was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. Techniques without a CVE (Jerry, Netmon, Love) were checked against multiple public walkthroughs. Where a source conflict remained, the pattern text names both possibilities rather than asserting one. The `[Machine](page)` links point to the detail pages in this repository; the CVE numbers are the external anchors.

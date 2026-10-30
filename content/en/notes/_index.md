@@ -29,10 +29,10 @@ never paste a placeholder into a live target.
 
 ## Conventions
 
-- `$TARGET` / `<IP>` — target address; `$ATTACKER` / `<LHOST>` — your Kali address.
-- Commands are shown for Kali Linux; adapt paths and package names on other distributions.
+- `$TARGET` / `<IP>` — target address; `$ATTACKER` / `<LHOST>` — your attacker address.
+- Commands are shown for Linux; adapt paths and package names on other distributions.
 - "Exam note" callouts highlight behaviour that commonly differs between lab boxes and the exam (timeouts, lockouts, egress filtering, AV).
-- Hashcat modes and tool names are checked against current Kali releases (NetExec replaces CrackMapExec; Impacket scripts use the `impacket-` prefix).
+- Hashcat modes and tool names are checked against current tool releases (NetExec replaces CrackMapExec; Impacket scripts use the `impacket-` prefix).
 
 ## Legal
 

@@ -197,7 +197,7 @@ CDATA allows the file contents to be embedded literally — including newlines a
 <root>&joined;</root>
 ```
 
-> **Correction to a common mistake:** use `&joined;` — **not** `&xxe;`. `xxe` is the **parameter** entity that loads the remote DTD and is not available as a general entity in the document body. `joined` is the general entity the DTD defines.
+> **Common mistake:** use `&joined;` — **not** `&xxe;`. `xxe` is the **parameter** entity that loads the remote DTD and is not available as a general entity in the document body. `joined` is the general entity the DTD defines.
 
 ---
 

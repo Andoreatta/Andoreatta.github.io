@@ -52,6 +52,6 @@ Worked examples from the **OSCP-like HTB list**, organised as a field manual rat
 
 ## Sources and accuracy
 
-Each machine entry ends with the writeup(s) used. Research was cross-checked against public writeups (0xdf, Ippsec, HackTricks, HTB official) and local Kali tool versions where possible. Items that could not be verified are marked **(unverified)**. If a box is retired, patched, or you find a better path, update the entry.
+Each machine entry ends with the writeup(s) used. Research was cross-checked against public writeups (0xdf, Ippsec, HackTricks, HTB official) and local tool versions where possible. Items that could not be verified are marked **(unverified)**. If a box is retired, patched, or you find a better path, update the entry.
 
 The machine list itself is maintained by **Lainkusanagi**; these pages annotate the HTB portion for study and general practice.

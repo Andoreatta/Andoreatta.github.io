@@ -534,6 +534,142 @@ def clean_entities(text: str) -> str:
     return text
 
 
+KALI_REPLACEMENTS = [
+    ("your Kali address", "your attacker address"),
+    ("Commands are shown for Kali Linux; adapt paths and package names on other distributions.",
+     "Commands are shown for Linux; adapt paths and package names on other distributions."),
+    ("current Kali releases", "current tool releases"),
+    ("local Kali tool versions", "local tool versions"),
+    ("shipped on current Kali", "shipped on current distributions"),
+    ("Kali 2025.4 → 2026.2 changed flags", "Recent tool releases changed flags"),
+    ("Upload back to Kali", "Upload back to the attacker host"),
+    ("parse on Kali", "parse on the attacker host"),
+    ("Pulling loot back to Kali", "Pulling loot back to the attacker host"),
+    ("from Kali", "from the attacker host"),
+    ("On Kali", "On the attacker host"),
+    ("on Kali", "on the attacker host"),
+    ("# Kali package (2.0.0-0kali1)", "# Package (2.0.0)"),
+    ("Kali package (Aug 2025)", "distribution package (Aug 2025)"),
+    ("Kali package", "distribution package"),
+    ("john-data on Kali ships only", "john-data on some distributions ships only"),
+    ("OpenBSD netcat (Kali default)", "OpenBSD netcat (the default on many distributions)"),
+    ("OpenBSD `nc` (Kali default)", "OpenBSD `nc` (the default on many distributions)"),
+    ("fails on Kali", "fails on Linux"),
+    ("Compile on Kali", "Compile on Linux"),
+    ("# Kali", "# Linux"),
+]
+
+
+def replace_kali(text: str) -> str:
+    for old, new in KALI_REPLACEMENTS:
+        text = text.replace(old, new)
+    return re.sub(r"\bKali\b", "Linux", text, flags=re.I)
+
+
+def strip_correction_sections(body: str) -> str:
+    """Remove dedicated `## Corrections` sections outside code fences."""
+    lines = body.splitlines()
+    in_fence = False
+    skipping = False
+    out: list[str] = []
+    for line in lines:
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            if not skipping:
+                out.append(line)
+            continue
+        if not in_fence:
+            heading = re.match(r"^(#{1,6})\s+(.*)$", line)
+            if heading:
+                level = len(heading.group(1))
+                title = heading.group(2).strip().lower()
+                if skipping and level <= 2:
+                    skipping = False
+                if not skipping and level == 2 and title.startswith("correction"):
+                    skipping = True
+                    continue
+            if skipping:
+                continue
+        out.append(line)
+    return re.sub(r"\n---\s*\n\s*$", "\n", "\n".join(out))
+
+
+def strip_verification_blockquotes(body: str) -> str:
+    """Drop verification-status blockquote paragraphs that discuss corrections."""
+    lines = body.splitlines()
+    out: list[str] = []
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        if (
+            line.startswith(">")
+            and re.search(r"verification status", line, re.I)
+            and re.search(r"correction|corrected|#corrections", line, re.I)
+        ):
+            while index < len(lines) and lines[index].startswith(">"):
+                index += 1
+            if index < len(lines) and not lines[index].strip():
+                index += 1
+            continue
+        out.append(line)
+        index += 1
+    return "\n".join(out)
+
+
+def clean_correction_notes(body: str) -> str:
+    body = re.sub(
+        r"\*\*Correction:\*\*\s*([a-z])",
+        lambda match: match.group(1).upper(),
+        body,
+    )
+    body = body.replace(", not CVE-2025-69212.", ".")
+    body = body.replace(", not CVE-2022-32784.", ".")
+    body = re.sub(r'\s*The ["“]unverified["”] note in earlier drafts is resolved\.', "", body)
+    body = re.sub(r"^\*Last verified:[^\n]*\[Corrections\][^\n]*\*\s*$", "", body, flags=re.M)
+    body = body.replace(
+        "### 6.1 Gopher POST — your original example, corrected",
+        "### 6.1 Gopher POST example",
+    )
+    body = body.replace(
+        "> **Correction to a common mistake:**",
+        "> **Common mistake:**",
+    )
+    body = body.replace(
+        "Try the *corrected* account name",
+        "Try the *actual* account name",
+    )
+    body = body.replace(
+        "against the corrected name",
+        "against the actual name",
+    )
+    return body
+
+
+def collapse_empty_blockquotes(body: str) -> str:
+    """Remove a lone `>` left behind after deleting a blockquote paragraph."""
+    lines = body.splitlines()
+    out: list[str] = []
+    for index, line in enumerate(lines):
+        if line.strip() == ">":
+            lookahead = index + 1
+            while lookahead < len(lines) and not lines[lookahead].strip():
+                lookahead += 1
+            if lookahead >= len(lines) or not lines[lookahead].startswith(">"):
+                if out and out[-1].strip():
+                    out.append("")
+                continue
+        out.append(line)
+    return "\n".join(out)
+
+
+def clean_notes_body(body: str) -> str:
+    body = strip_correction_sections(body)
+    body = strip_verification_blockquotes(body)
+    body = collapse_empty_blockquotes(body)
+    body = clean_correction_notes(body)
+    return replace_kali(body)
+
+
 def rewrite_links(
     text: str,
     rel: Path,
@@ -670,6 +806,7 @@ def main() -> int:
         body = convert_figures(body, rel, source, warnings)
         body = clean_entities(body)
         body = body.replace('<mark style="color:red;">', "<mark>")
+        body = clean_notes_body(body)
 
         title, body = extract_h1(body)
         title = TITLE_OVERRIDES.get(rel.as_posix(), title)
@@ -716,6 +853,7 @@ def main() -> int:
             body = convert_figures(body, readme_rel, source, warnings)
             body = clean_entities(body)
             body = body.replace('<mark style="color:red;">', "<mark>")
+            body = clean_notes_body(body)
             title, body = extract_h1(body)
             title = TITLE_OVERRIDES.get(readme_rel.as_posix(), title)
             if not title:

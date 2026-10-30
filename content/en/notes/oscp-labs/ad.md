@@ -8,8 +8,6 @@ tags = ['oscp', 'methodology', 'htb', 'active-directory', 'writeups']
 +++
 
 > The AD half of the OSCP-like HTB list — one path per box, the step that actually decides it, and the exact command worth memorising. These are **edge-case notes, not walkthroughs**: every IP, domain, user and path must be adapted to your target, and the linked writeup remains the walkthrough of record.
->
-> **Verification status (2026-10-28):** every CVE and technique below was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. **Three factual corrections** were made to earlier drafts — the **Solidstate CVE** (CVE-2015-7611), the **Nineveh chkrootkit CVE** (CVE-2014-0476), and the **OpenSTAManager chain attribution** (CVE-2026-29782, not CVE-2025-69212). See [Corrections](#corrections). Where a source conflict remains, the note is marked **(unverified)**.
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
@@ -17,7 +15,7 @@ Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Lib
 
 * **Assumed breach vs unauthenticated.** Only **five** boxes hand you credentials at the start — Administrator (`olivia:ichliebedich`), Certified (`judith.mader:judith09`), EscapeTwo (`rose:KxEPkKe6R8su`), Puppy (`levi.james:KingofAkron2025!`) and Signed (`scott:Sm230#C5NatH`). For those, the first ten minutes are `--shares`, BloodHound, `certipy find` and per-service auth checks — **not** brute force. Everything else starts with null SMB/RPC, a web bug, or a share.
 * **BloodHound before exploitation.** Collect with `bloodhound-python -c all --zip` (or `bloodhound-ce-python`) and read the *Abuse Info* of each edge; rights on the **domain node** show up as GetChanges/GetChangesAll, not as an edge called "DCSync" (Sauna).
-* **Every found secret is a reuse test.** Fan out `nxc smb/ldap/winrm/mssql/ftp` with `--continue-on-success`; a service that fails is not the service that matters (Return: WinRM but no SMB admin; Administrator: FTP but no WinRM for `benjamin`). Try the *corrected* account name when a config spells it differently (Sauna).
+* **Every found secret is a reuse test.** Fan out `nxc smb/ldap/winrm/mssql/ftp` with `--continue-on-success`; a service that fails is not the service that matters (Return: WinRM but no SMB admin; Administrator: FTP but no WinRM for `benjamin`). Try the *actual* account name when a config spells it differently (Sauna).
 * **ADCS, delegation and time.** None of Active/Forest/Sauna/Flight/Return/Blackfield/Cicada/TheFrizz/Administrator/Monteverde exposes a CA — do not burn exam minutes on Certipy there. The ESC paths live in Escape (ESC1), EscapeTwo (ESC4→ESC1) and Certified (ESC9). Clock skew is the single most common time sink: `sudo ntpdate <dc fqdn>`, expect the VPN to drop, reconnect — but note that AS-REP roasting tolerates hours of skew (Sauna).
 
 ## At-a-glance
@@ -73,7 +71,7 @@ psexec.py active.htb/administrator@IP
 
 * `rpcclient -U "" -N` plus `enumdomusers` / `enumdomgroups` / `querygroupmem` yields users and RIDs with **no credentials at all** — cheaper and quieter than kerbrute.
 * AS-REP: loop `GetNPUsers` per user and grep `krb5asrep`; the tool prints a "doesn't have UF_DONT_REQUIRE_PREAUTH" line for every failure, which is noise, not a finding.
-* The BloodHound path is nested groups ending in **WriteDacl on the domain object** — you must join `Exchange Windows Permissions` *and* write the ACE (`-Rights DCSync`), then `secretsdump` works from Kali.
+* The BloodHound path is nested groups ending in **WriteDacl on the domain object** — you must join `Exchange Windows Permissions` *and* write the ACE (`-Rights DCSync`), then `secretsdump` works from the attacker host.
 * **60-second revert:** a scheduled task `restore` runs `revert.ps1` in a `while($true)` loop, resetting `svc-alfresco` to `s3rvice` and stripping DCSync ACEs and group memberships. If your ACE "disappears", that is why: re-add and dump in one chain (`schtasks /query /tn restore /v`).
 
 **Commands to remember:**
@@ -98,7 +96,7 @@ evil-winrm -u administrator -H <NTLM>
 
 * kerbrute returns the *same* name in four casings (`fsmith`, `Fsmith`, `FSmith`, `FSMITH`) as separate "valid" hits — lowercase and `sort -u` before roasting or spraying, or your list (and any lockout counter) is inflated 4×.
 * nmap reports `clock-skew: 8h00m40s`, yet kerbrute/`GetNPUsers` still worked — a roast needs no ticket, so don't detour into time sync before trying it.
-* winPEAS shows `DefaultUserName = EGOTISTICALBANK\svc_loanmanager` from AutoLogon while the real account is `svc_loanmgr`; `net user` on the box settles it — try the password against the corrected name.
+* winPEAS shows `DefaultUserName = EGOTISTICALBANK\svc_loanmanager` from AutoLogon while the real account is `svc_loanmgr`; `net user` on the box settles it — try the password against the actual name.
 * DCSync rights appear in BloodHound as **GetChanges + GetChangesAll** on the domain node, not as an edge labelled "DCSync"; read the node's Abuse Info.
 
 **Commands to remember:**
@@ -551,29 +549,3 @@ Read this as a checklist, not prose. Each line names the boxes where that decisi
 **Tooling that paid off**
 
 - [ ] `netexec` across smb/ldap/mssql/winrm/ftp (`--local-auth`, `-k`, `-M coerce_plus`, `--continue-on-success`, `--generate-hosts-file`), BloodHound CE, Impacket (`GetUserSPNs`, `GetNPUsers`, `secretsdump`, `mssqlclient`, `owneredit`, `dacledit`, `ticketer`, `dpapi`, `ntlmrelayx`), Certipy (`find`/`req`/`auth`/`shadow`/`template`), `bloodyAD`, `net rpc` (`group addmem`, `password`), `evil-winrm`, Responder, `dnstool.py`.
-
----
-
-## Corrections
-
-Three factual corrections were made to earlier drafts. All three are reflected in the boxes above.
-
-### Solidstate — CVE-2015-7611 (added)
-
-**Earlier draft:** the Solidstate row listed Apache James 2.3.2 with no CVE.
-
-**Verified:** **CVE-2015-7611** is an OS command injection in Apache James Server 2.3.2 when configured with file-based user repositories — it allows remote attackers to execute arbitrary system commands. The row now includes it.
-
-### Nineveh — CVE-2014-0476 (added)
-
-**Earlier draft:** the Nineveh row listed chkrootkit 0.49 with no CVE.
-
-**Verified:** **CVE-2014-0476** is the unquoted `SLAPPER_FILES` path in the `slapper()` function of chkrootkit before 0.50, allowing a local user to execute arbitrary code via a Trojan-horse executable. The row now includes it.
-
-### Enigma — CVE-2026-29782, not CVE-2025-69212
-
-**Earlier draft:** "one writeup reports a file-upload RCE credited as CVE-2025-69212, another describes an authenticated SQLi in the Aggiornamenti module plus PHP deserialization via PHPGGC (unverified)."
-
-**Verified:** **CVE-2026-29782** is an **unauthenticated RCE via insecure deserialization** in OpenSTAManager < 2.10.2 — the `oauth2.php` endpoint loads a record using an attacker-controlled `state` parameter and calls `unserialize()` on `access_token` without class restriction. **CVE-2025-69212** is a separate **OS Command Injection** in the P7M (signed XML) decoding function, affecting 2.9.8 and earlier. The Enigma chain uses **CVE-2026-29782**.
-
-> **Verification method:** every CVE was checked against NVD/MITRE, the vendor advisory, and at least one independent write-up. Techniques without a CVE were checked against multiple public walkthroughs. Where a source conflict remained, the note names both possibilities rather than asserting one. The `[Machine](page)` links point to the detail pages in this repository; the CVE numbers are the external anchors.

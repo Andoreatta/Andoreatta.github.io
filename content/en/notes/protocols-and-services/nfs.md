@@ -70,7 +70,7 @@ By default, NFS maps `root` on the client to `nobody` on the server (`root_squas
 
 1. Enumerate exports: `showmount -e <target-ip>`
 2. Check options from a local shell: `cat /etc/exports` — look for `no_root_squash` and a writable export (`/tmp`, `/var/www`, a home directory).
-3. On Kali, mount the export as root:
+3. On the attacker host, mount the export as root:
 
    ```bash
    sudo mkdir -p /mnt/nfs
