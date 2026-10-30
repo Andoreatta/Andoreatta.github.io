@@ -24,7 +24,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.168.0
+      HUGO_VERSION: 0.169.0
+      PAGEFIND_VERSION: 1.5.2
     steps:
       - name: Install Hugo CLI
         run: |
@@ -50,7 +51,7 @@ jobs:
             --minify
       - name: Index Pagefind
         run: |
-          npx pagefind --site "./public"
+          npx pagefind@${{ env.PAGEFIND_VERSION }} --site "./public"
           rm -f ./public/pagefind/pagefind-component-ui.* ./public/pagefind/pagefind-modular-ui.*
       - name: Validate sitemaps
         run: |

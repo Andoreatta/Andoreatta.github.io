@@ -5,6 +5,7 @@ type = 'notes'
 weight = 30
 toc = false
 tags = ['web', 'web-attacks']
+description = 'Injection, XSS, SSRF, XXE, deserialization, JWT, OAuth and SAML attacks: the primitives, the preconditions that make them fire, and the bypasses worth remembering.'
 +++
 
 ## **Introduction**

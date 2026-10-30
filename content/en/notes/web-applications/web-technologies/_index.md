@@ -5,6 +5,7 @@ type = 'notes'
 weight = 40
 toc = false
 tags = ['web', 'web-technologies']
+description = 'Tomcat, IIS, WordPress, Drupal, Joomla, GitLab, Jenkins, WebSphere, SAP NetWeaver, CGI and PDF generators: fingerprinting, default paths, and the exploits that actually land.'
 +++
 
 ## **Identifying Web Technologies**

@@ -12,7 +12,8 @@ The theme is tracked as a Git submodule at `themes/hugo-brewm`.
 
 ## Local development
 
-Hugo extended 0.168.0 or newer is required.
+Hugo extended 0.169.0 or newer is required; CI pins `0.169.0` and Pagefind
+`1.5.2` so a local build matches the deployed one.
 
 ```sh
 git submodule update --init --recursive
@@ -25,7 +26,7 @@ With search enabled, Pagefind is only generated during a production build:
 
 ```sh
 hugo --gc --minify
-npx pagefind --site public
+npx pagefind@1.5.2 --site public
 ```
 
 ## Writing
@@ -180,3 +181,11 @@ git submodule update --remote --merge themes/hugo-brewm
 git add themes/hugo-brewm
 git commit -m "Update hugo-brewm theme"
 ```
+
+`layouts/partials/head/meta.html` is a **site override** of the theme's file. The
+upstream version replaces the description of every non-page kind with
+`"<kind> | <site title>"`, which threw away the `description` written in each
+section `_index.md` and produced `section | srl.exp.net` / `term | srl.exp.net`.
+The override keeps the front-matter description, generates a real one for tag
+pages, and only falls back to the kind string when a page has nothing else.
+Re-check it against the theme after a theme update.
