@@ -83,8 +83,6 @@
         var scrolls = style.overflowX === 'auto' || style.overflowX === 'scroll';
         if (scrolls && block.scrollWidth > block.clientWidth + 1) {
             block.tabIndex = 0;
-            block.setAttribute('role', 'region');
-            block.setAttribute('aria-label', 'Scrollable code block');
         }
     });
 
