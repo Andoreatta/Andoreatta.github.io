@@ -1,0 +1,7 @@
+<div class="lain-band" aria-hidden="true" data-pagefind-ignore>
+    {{- range seq 1 7 }}
+        <div class="lain-band__figure" style="--i: {{ . }};">
+            {{- partial "ascii/lain.html" (dict "class" "lain-band__portrait") -}}
+        </div>
+    {{- end }}
+</div>

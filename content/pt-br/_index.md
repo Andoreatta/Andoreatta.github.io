@@ -8,3 +8,5 @@ fechando este mundo, abrindo o próximo.
 
 <a class="profile-more" href="/pt-br/about/">[ mais sobre mim → ]</a>
 {{< /lain-hero >}}
+
+{{< lain-band >}}
