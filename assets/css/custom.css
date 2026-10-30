@@ -994,84 +994,36 @@ body:has(#content .profile-name) #content {
     color: var(--ac);
 }
 
-/* Pinned checklists: sticky at the top of the sidebar, gently glowing */
-.notes-nav__pinned {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 0;
-    z-index: 2;
-    margin: 0 0 0.9rem;
-    border: 1pt solid color-mix(in srgb, var(--ac) 30%, transparent);
-    padding: 0.5rem 0.45rem 0.55rem;
-    background: var(--bg);
+/* Checklists read brighter: static amber, no motion */
+.notes-nav__checklist {
+    border-left-color: color-mix(in srgb, #d8a657 55%, transparent);
+    color: #e5b76d;
+    text-shadow: 0 0 9px color-mix(in srgb, #d8a657 30%, transparent);
 }
 
-.notes-nav__pinned-label {
-    display: block;
-    margin: 0 0 0.3rem 0.4rem;
-    color: var(--ac);
-    font-size: 0.66rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+.notes-nav__checklist:hover,
+.notes-nav__checklist:focus-visible {
+    color: #f0c883;
+    text-shadow: 0 0 12px color-mix(in srgb, #d8a657 45%, transparent);
 }
 
-.notes-nav__pinned ul {
-    margin: 0;
-    padding: 0;
-}
-
-.notes-nav__pin {
-    border-left: 2px solid color-mix(in srgb, var(--ac) 45%, transparent);
-    padding: 0.22rem 0.4rem;
-    color: var(--notes-muted);
-    animation: nav-pin-glow 4.2s ease-in-out infinite;
-}
-
-.notes-nav__pin:hover,
-.notes-nav__pin:focus-visible {
-    animation: none;
-    color: var(--ac);
-    box-shadow: 0 0 0 1pt color-mix(in srgb, var(--ac) 55%, transparent);
-}
-
-@keyframes nav-pin-glow {
-    0%,
-    100% {
-        color: var(--notes-muted);
-        box-shadow: 0 0 0 0 transparent;
-    }
-
-    50% {
-        color: var(--ac);
-        box-shadow: 0 0 10px color-mix(in srgb, var(--ac) 35%, transparent);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .notes-nav__pin {
-        animation: none;
-        color: var(--ac);
-        box-shadow: 0 0 0 1pt color-mix(in srgb, var(--ac) 30%, transparent);
-    }
+.notes-nav__checklist[aria-current="page"] {
+    border-left-color: #d8a657;
+    color: #f0c883;
 }
 
 @media (prefers-contrast: more) {
-    .notes-nav__pin {
-        animation: none;
-        color: var(--fg);
-        box-shadow: none;
-        border-left-color: var(--ac);
+    .notes-nav__checklist {
+        color: #f0c883;
+        text-shadow: none;
+        border-left-color: #d8a657;
     }
 }
 
 @media print {
-    .notes-nav__pinned {
-        position: static;
-    }
-
-    .notes-nav__pin {
-        animation: none;
-        box-shadow: none;
+    .notes-nav__checklist {
+        color: inherit;
+        text-shadow: none;
     }
 }
 
@@ -1445,10 +1397,6 @@ aside.note .note__body p {
         margin-bottom: 0.5rem;
         border: 1pt solid var(--g18);
         padding: 0.5rem 0.75rem;
-    }
-
-    .notes-nav__pinned {
-        position: static;
     }
 
     .notes-nav > summary {

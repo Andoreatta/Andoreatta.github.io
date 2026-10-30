@@ -11,24 +11,11 @@
             <li class="notes-nav__root">
                 <a href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>All notes</a>
             </li>
-            {{- $pinned := where site.RegularPages "Params.task" true -}}
-            {{- with $pinned }}
-            <li class="notes-nav__pinned">
-                <span class="notes-nav__pinned-label" id="notes-nav-pinned">Pinned</span>
-                <ul aria-labelledby="notes-nav-pinned">
-                    {{- range .ByWeight }}
-                    <li>
-                        <a class="notes-nav__pin" href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .Params.navTitle | default .LinkTitle }}</a>
-                    </li>
-                    {{- end }}
-                </ul>
-            </li>
-            {{- end }}
             {{- range .Pages.ByWeight -}}
                 {{- if .IsSection -}}
                     {{- template "notes-nav-section" (dict "section" . "page" $page) -}}
                 {{- else -}}
-                    <li><a href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+                    <li><a {{ if .Params.task }}class="notes-nav__checklist" {{ end }}href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
                 {{- end -}}
             {{- end -}}
         </ul>
@@ -84,7 +71,7 @@
                     {{- if .IsSection -}}
                         {{- template "notes-nav-section" (dict "section" . "page" $page) -}}
                     {{- else -}}
-                        <li><a href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+                        <li><a {{ if .Params.task }}class="notes-nav__checklist" {{ end }}href="{{ .RelPermalink }}" {{ if eq $page . }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
                     {{- end -}}
                 {{- end -}}
             </ul>

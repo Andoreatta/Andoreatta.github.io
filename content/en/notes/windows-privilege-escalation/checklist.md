@@ -1,6 +1,5 @@
 +++
 title = 'Windows Privilege Escalation Checklist'
-navTitle = 'Windows privesc'
 description = 'Phase-by-phase Windows privilege escalation checklist: token privileges, service and registry misconfigurations, credentials and DPAPI, UAC bypass, tasks, and kernel fallbacks.'
 date = 2026-10-30
 type = 'notes'
