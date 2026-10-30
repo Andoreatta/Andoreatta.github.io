@@ -225,9 +225,6 @@ ul.taxonomy,
 }
 
 .lain-art {
-    --jump: 4px;
-    --sway: 1px;
-
     width: max-content;
     max-width: 100%;
     margin: 0;
@@ -246,8 +243,8 @@ ul.taxonomy,
     width: max-content;
     color: var(--fg);
     transform-origin: center bottom;
-    animation: lain-dance 2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
-    will-change: transform, color;
+    animation: lain-flip 0.15s steps(1, end) infinite;
+    will-change: transform;
 }
 
 .lain-art pre {
@@ -263,66 +260,12 @@ ul.taxonomy,
     white-space: pre;
 }
 
-@keyframes lain-dance {
-    0%, 5% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
-        color: var(--fg);
+@keyframes lain-flip {
+    0%, 49.9% {
+        transform: scaleX(1);
     }
-    8%, 10% {
-        transform: translate3d(0, calc(var(--jump) / 4), 0) rotate(-1deg) scaleX(1);
-        color: var(--fg);
-    }
-    14%, 16% {
-        transform: translate3d(calc(var(--sway) * -1), calc(var(--jump) * -1), 0) rotate(-2deg) scaleX(1);
-        color: var(--ac);
-    }
-    20%, 28% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
-        color: var(--fg);
-    }
-    29% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
-        color: var(--fg);
-    }
-    30%, 36% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(-1);
-        color: var(--fg);
-    }
-    40%, 42% {
-        transform: translate3d(0, calc(var(--jump) / 4), 0) rotate(1deg) scaleX(-1);
-        color: var(--fg);
-    }
-    46%, 48% {
-        transform: translate3d(var(--sway), calc(var(--jump) * -1), 0) rotate(2deg) scaleX(-1);
-        color: var(--ac);
-    }
-    52%, 60% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(-1);
-        color: var(--fg);
-    }
-    61% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(-1);
-        color: var(--fg);
-    }
-    62%, 68% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
-        color: var(--fg);
-    }
-    70%, 72% {
-        transform: translate3d(0, calc(var(--jump) / 4), 0) rotate(-1deg) scaleX(1);
-        color: var(--fg);
-    }
-    76%, 78% {
-        transform: translate3d(calc(var(--sway) * -1), calc(var(--jump) * -1), 0) rotate(-2deg) scaleX(1);
-        color: var(--ac);
-    }
-    82%, 90% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
-        color: var(--fg);
-    }
-    100% {
-        transform: translate3d(0, 0, 0) rotate(0) scaleX(1);
-        color: var(--fg);
+    50%, 100% {
+        transform: scaleX(-1);
     }
 }
 
@@ -779,9 +722,6 @@ ul.rounded.invert a:focus {
     }
 
     .lain-art {
-        --jump: 3px;
-        --sway: 0.5px;
-
         padding: 0.4rem;
     }
 
@@ -1844,7 +1784,7 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
     opacity: 0.55;
     pointer-events: none;
     will-change: transform;
-    animation: background-drift 30s linear infinite;
+    animation: background-drift 240s linear infinite;
 }
 
 @keyframes background-drift {
@@ -1852,122 +1792,53 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
         transform: translate3d(0, 0, 0);
     }
     to {
-        transform: translate3d(-100px, 0, 0);
+        transform: translate3d(100px, 0, 0);
     }
 }
 
 /* --------------------------------------------------------------------------
-   Full-width dancing Lain band
+   Full-width running Lain sprite strip
    -------------------------------------------------------------------------- */
 
-.lain-band {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: clamp(0.75rem, 2.2vw, 2rem);
+.running-lain {
     width: 100vw;
+    height: 146px;
     margin: 1.5rem 0 0 calc(50% - 50vw);
-    padding: 1rem 0;
     overflow: hidden;
+    background-image: url('/images/lain/run-rein.gif');
+    background-image: image-set(
+        url('/images/lain/run-rein.webp') type('image/webp'),
+        url('/images/lain/run-rein.gif') type('image/gif')
+    );
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    background-size: 2560px 146px;
+    image-rendering: pixelated;
+    animation: run-lain 0.5s linear infinite;
+}
+
+.running-lain--notes {
+    margin-top: 3rem;
     border-top: 1pt solid var(--g18s);
-    border-bottom: 1pt solid var(--g18s);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 
-.lain-band__figure {
-    flex: 0 0 auto;
-    color: var(--fg);
-    transform-origin: center bottom;
-    will-change: transform, color;
-    animation: lain-band-dance 4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
-    animation-delay: calc(var(--i) * -0.55s);
-}
-
-.lain-band__portrait {
-    margin: 0;
-    color: inherit;
-    font-family: var(--braille-font);
-    font-size: 0.38rem;
-    font-variant-ligatures: none;
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: 0;
-    text-align: left;
-    white-space: pre;
-    user-select: none;
-}
-
-@keyframes lain-band-dance {
-    0%, 100% {
-        transform: translate3d(0, 0, 0) rotate(0);
-        color: var(--fg);
+@keyframes run-lain {
+    from {
+        background-position: 0 0;
     }
-    10% {
-        transform: translate3d(0, -4px, 0) rotate(-1deg);
-        color: var(--fg);
-    }
-    20% {
-        transform: translate3d(-2px, 0, 0) rotate(1deg);
-        color: var(--fg);
-    }
-    30% {
-        transform: translate3d(0, -7px, 0) rotate(-2deg);
-        color: var(--ac);
-    }
-    42%, 58% {
-        transform: translate3d(0, 0, 0) rotate(0);
-        color: var(--fg);
-    }
-    70% {
-        transform: translate3d(2px, -3px, 0) rotate(2deg);
-        color: var(--fg);
-    }
-    80% {
-        transform: translate3d(0, -6px, 0) rotate(-1deg);
-        color: var(--ac);
-    }
-    90% {
-        transform: translate3d(0, 0, 0) rotate(0);
-        color: var(--fg);
-    }
-}
-
-@media (max-width: 1100px) {
-    .lain-band__figure:nth-child(n + 7) {
-        display: none;
-    }
-}
-
-@media (max-width: 900px) {
-    .lain-band__figure:nth-child(n + 6) {
-        display: none;
-    }
-}
-
-@media (max-width: 640px) {
-    .lain-band {
-        gap: 0.75rem;
-        padding: 0.75rem 0;
-    }
-
-    .lain-band__figure:nth-child(n + 4) {
-        display: none;
-    }
-
-    .lain-band__portrait {
-        font-size: 0.34rem;
+    to {
+        background-position: -2560px 0;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #background-body::before {
+    #background-body::before,
+    .running-lain {
         animation: none;
     }
 
-    .lain-band__figure {
+    .lain-art__stack {
         animation: none;
-        color: var(--fg);
     }
 }
 
@@ -1977,14 +1848,14 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
         animation: none;
     }
 
-    .lain-band__figure {
+    .running-lain {
         animation: none;
     }
 }
 
 @media print {
     #background-body::before,
-    .lain-band {
+    .running-lain {
         display: none !important;
     }
 }

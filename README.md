@@ -124,10 +124,14 @@ self-hosted at `static/fonts/braille/`. It is licensed under the SIL Open Font
 License 1.1; see `static/fonts/braille/OFL.txt`. The rest of the site uses the
 native mono stack.
 
-The portrait has a CSS-only two-second dance loop: three small hops, two
-quick horizontal mirror flips, and a brief pink pulse at each jump peak. The
-panel itself stays static. The animation is disabled under
-`prefers-reduced-motion`.
+The portrait has a single CSS-only horizontal flip every 0.15 seconds, with no
+other motion. The animation is disabled under `prefers-reduced-motion`.
+
+The homepage and notes footer use a 2560×146 running-Lain sprite strip. The
+optimized lossless WebP asset is 5.5 KB with a GIF fallback, animated through
+CSS `background-position` at 0.5 seconds per strip. The moving dot background is
+CSS-only and drifts left-to-right over 240 seconds.
+
 On screens 1200px and wider the layout shell widens to 84rem, to 92rem at
 1600px, and to 100rem at 1920px. Note prose is capped at 60rem while code,
 tables, and cards use the full article width.

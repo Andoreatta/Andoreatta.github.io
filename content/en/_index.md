@@ -9,4 +9,4 @@ closing this world, opening the next.
 <a class="profile-more" href="/about/">[ more about me → ]</a>
 {{< /lain-hero >}}
 
-{{< lain-band >}}
+{{< running-lain >}}
