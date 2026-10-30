@@ -50,23 +50,14 @@ only at `/notes/`. They use `type = 'notes'`, which keeps them out of the home
 feed and gives them the notes sidebar, index cards, in-page table of contents,
 and full-text Pagefind indexing.
 
-The source of truth is the separate `Pentesting-Notes` repository. The importer
-is one-way and idempotent; it rewrites links, copies screenshots, converts
-GitBook hints/figures, and regenerates front matter:
-
-```sh
-python3 scripts/import-notes.py --source ~/Workspace/Pentesting-Notes
-```
-
-The hand-written landing page at `content/en/notes/_index.md` is preserved by
-the importer. To add a note that should survive future imports, add it to the
-source repository first.
+The notes are maintained directly in this repository under `content/en/notes/`.
+Each section has a hand-written `_index.md` landing page, and every note carries
+its own front matter (`type = 'notes'`, `weight`, `toc`, `tags`). To add a note,
+create the Markdown file in the matching section directory.
 
 The `/notes/` section cards show a one-line `description` from each section's
-front matter. The importer generates these from `SECTION_DESCRIPTIONS` in
-`scripts/import-notes.py`. The English and Portuguese homepages carry a compact
-three-entry guide that links to the section map, the Lab Field Manual, and the
-tag index.
+front matter. The English and Portuguese homepages carry a compact three-entry
+guide that links to the section map, the Lab Field Manual, and the tag index.
 
 Tag pages are generated from the note tags. Tag RSS feeds are intentionally
 disabled because they were emitting full note bodies and accounted for most of
@@ -76,8 +67,8 @@ inspiration and base material.
 
 Notes include copyable code blocks, heading permalinks, related notes, and
 persistent checklist state. Search is loaded lazily and can be filtered by
-section. The importer converts screenshots to WebP and adds intrinsic
-dimensions to avoid layout shift.
+section. Screenshots are stored as WebP with intrinsic dimensions to avoid
+layout shift.
 
 Because the notes are full of shell variables (`$TARGET`, `$IP`), `$...$` is
 not configured as inline math. Use `$$...$$`, `\(...\)`, or a LaTeX environment
