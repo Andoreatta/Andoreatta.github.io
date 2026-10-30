@@ -142,9 +142,10 @@ enableRobotsTXT = true
         images = 'https://serial.experiments.network/images/social-card.png'
 
     [params.typeface]
-        webSafe = false
-        ## The actual families are overridden in assets/css/custom.css.
-        ## These values only select the theme fallback stylesheets.
+        webSafe = true
+        ## The site uses self-hosted Atkinson Hyperlegible and the native mono
+        ## stack, so the theme's remote typeface stylesheets are not loaded.
+        ## These values are kept only for theme compatibility.
         roman = 'crimson'
         sans = 'inter'
         localHost = false

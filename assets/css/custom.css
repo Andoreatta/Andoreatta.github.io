@@ -51,8 +51,8 @@
 }
 
 :root {
-    --sf: 'Atkinson Hyperlegible', 'Inter', system-ui, sans-serif;
-    --rm: 'Atkinson Hyperlegible', 'Crimson', Georgia, serif;
+    --sf: 'Atkinson Hyperlegible', system-ui, sans-serif;
+    --rm: 'Atkinson Hyperlegible', Georgia, serif;
 
     /* Native system monospace: no extra webfont download. */
     --tt: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Monaco,
@@ -1816,13 +1816,25 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
    -------------------------------------------------------------------------- */
 
 .running-lain {
+    position: relative;
     width: 100vw;
     height: 146px;
     margin: 1.5rem 0 0 calc(50% - 50vw);
     overflow: hidden;
-    background: url('/images/lain/run-rein.gif');
+}
+
+.running-lain::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100vw + 2560px);
+    height: 146px;
+    background: url('/images/lain/run-rein.gif') repeat-x;
+    background-size: 2560px 146px;
+    content: '';
     image-rendering: pixelated;
-    will-change: background-position;
+    pointer-events: none;
+    will-change: transform;
     animation: run-lain 0.3s linear infinite;
 }
 
@@ -1833,16 +1845,16 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
 
 @keyframes run-lain {
     from {
-        background-position: -2560px 0;
+        transform: translate3d(-2560px, 0, 0);
     }
     to {
-        background-position: 2560px 0;
+        transform: translate3d(0, 0, 0);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     #background-body::before,
-    .running-lain {
+    .running-lain::before {
         animation: none;
     }
 
@@ -1857,7 +1869,7 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
         animation: none;
     }
 
-    .running-lain {
+    .running-lain::before {
         animation: none;
     }
 }
