@@ -1822,6 +1822,7 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
     overflow: hidden;
     background: url('/images/lain/run-rein.gif');
     image-rendering: pixelated;
+    will-change: background-position;
     animation: run-lain 0.3s linear infinite;
 }
 
@@ -1832,10 +1833,10 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
 
 @keyframes run-lain {
     from {
-        background-position: 2560px 0;
+        background-position: -2560px 0;
     }
     to {
-        background-position: -2560px 0;
+        background-position: 2560px 0;
     }
 }
 

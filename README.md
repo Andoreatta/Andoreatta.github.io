@@ -129,7 +129,7 @@ other motion. The animation is disabled under `prefers-reduced-motion`.
 
 The homepage and notes footer use a 2560×146 running-Lain sprite strip. The
 6.4 KB, 3-color GIF is animated through CSS `background-position` with the same
-smooth linear loop based on fauux's sliding technique; the current speed is 0.3 seconds per pass. The moving dot background is CSS-only
+smooth 0.3-second linear loop, sliding left-to-right in the direction she faces. The moving dot background is CSS-only
 and drifts left-to-right over 240 seconds.
 
 On screens 1200px and wider the layout shell widens to 84rem, to 92rem at
