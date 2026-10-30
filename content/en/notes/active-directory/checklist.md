@@ -1,9 +1,10 @@
 +++
 title = 'Active Directory Checklist'
+navTitle = 'AD checklist'
 description = 'Phase-by-phase Active Directory checklist: unauthenticated recon, credential acquisition, BloodHound, ACL abuse, delegation, coercion and relay, ADCS ESC chains, and trusts.'
 date = 2026-10-30
 type = 'notes'
-weight = 80
+weight = 90
 toc = true
 task = true
 tags = ['active-directory', 'privilege-escalation', 'checklist']

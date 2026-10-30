@@ -1,5 +1,6 @@
 +++
 title = 'Linux Privilege Escalation Checklist'
+navTitle = 'Linux privesc'
 description = 'Phase-by-phase Linux privilege escalation checklist: quick wins, credentials, sudo and SUID paths, cron and systemd, containers, Kubernetes, and kernel fallbacks.'
 date = 2026-10-30
 type = 'notes'
