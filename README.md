@@ -129,7 +129,7 @@ other motion. The animation is disabled under `prefers-reduced-motion`.
 
 The homepage and notes footer use a 2560×146 running-Lain sprite strip. The
 optimized lossless WebP asset is 5.5 KB with a GIF fallback, animated through
-CSS `background-position` at 0.5 seconds per strip. The moving dot background is
+CSS `background-position` at 0.2 seconds per strip, stepped through its 8 frames. The moving dot background is
 CSS-only and drifts left-to-right over 240 seconds.
 
 On screens 1200px and wider the layout shell widens to 84rem, to 92rem at

@@ -1824,7 +1824,7 @@ body:not(.deuteranopia):not(.protanopia):not(.tritanopia):not(.monochrome) {
     background-repeat: repeat-x;
     background-size: 2560px 146px;
     image-rendering: pixelated;
-    animation: run-lain 0.5s linear infinite;
+    animation: run-lain 0.2s steps(8, end) infinite;
 }
 
 .running-lain--notes {
