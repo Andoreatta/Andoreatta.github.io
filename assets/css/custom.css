@@ -690,6 +690,16 @@ ul.rounded.invert a:focus {
     color: var(--fg);
 }
 
+/* The about page is a profile, not an article: tighten the top gap and
+   remove the article-style paragraph indent. */
+body:has(#content .profile-name) #main-article {
+    margin-top: 0.5in;
+}
+
+body:has(#content .profile-name) #content {
+    margin-top: 0.5rem;
+}
+
 /* --------------------------------------------------------------------------
    Motion preferences
    -------------------------------------------------------------------------- */

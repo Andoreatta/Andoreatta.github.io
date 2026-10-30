@@ -1,7 +1,8 @@
 +++
 title = 'Sobre'
-description = 'Lucas Andreatta — segurança de aplicações e testes de invasão.'
+description = 'Lucas Andreatta — AppSec, pentest e red team.'
 translationKey = 'about'
+noIndent = true
 +++
 
 <p class="profile-kicker">[ perfil // appsec &amp; pentest ]</p>
@@ -9,48 +10,36 @@ translationKey = 'about'
 <h2 class="profile-name">Lucas Andreatta</h2>
 
 <p class="profile-role">AppSec &amp; Pentester</p>
-<p class="profile-location">Curitiba, Paraná, Brasil</p>
+<p class="profile-location">Curitiba, Paraná, Brasil · Português · English · Русский</p>
 
 <nav class="profile-links" aria-label="Perfis">
   <a href="https://www.linkedin.com/in/lucas-andreatta1/" rel="me noopener" target="_blank">[ linkedin ]</a>
   <a href="https://github.com/andoreatta" rel="me noopener" target="_blank">[ github ]</a>
 </nav>
 
-<dl class="profile-facts">
-  <dt>foco</dt>
-  <dd>AppSec · Testes de invasão · Red/Purple Team · SOC · ISO 27001</dd>
-  <dt>atualmente</dt>
-  <dd>Focado em segurança de aplicações e testes de invasão.</dd>
-  <dt>idiomas</dt>
-  <dd>Português · Inglês · Russo</dd>
-</dl>
+Sou desenvolvedor e acabei migrando para segurança. Hoje trabalho entre código e
+infraestrutura: leio aplicações por dentro, testo como atacante e ajudo o time a
+corrigir o que aparece.
 
-Minha trajetória combina engenharia de software e operações de segurança. Atuei
-no desenvolvimento de back-end, integrações biométricas e drivers para o kernel
-Linux, e hoje tenho foco em segurança de aplicações, testes de invasão,
-red/purple team e práticas alinhadas à ISO 27001.
+Curto o lado prático: entender a causa no código, provar o impacto no sistema e
+deixar uma recomendação que dá para executar. Na prática, isso vai de code review
+e AppSec até pentest interno, Active Directory e red team em AWS, Azure e GCP.
 
-Trabalho com análise de vulnerabilidades, segurança de aplicações white-box,
-OWASP, segurança de redes e ferramentas de SOC como Wazuh, Zabbix, Graylog,
-Sophos e Acronis.
+## O que eu faço
 
-## Foco
-
-- Segurança de aplicações
-- Testes de invasão
-- Red team / Purple team
-- Operações de segurança (SOC)
-- ISO 27001
-- Segurança em nuvem (AWS / Azure / GCP)
+- **AppSec e code review** — leio código com olhar de dev: OWASP Top 10, autenticação e autorização, dependências, secrets, SAST/DAST e segurança no CI/CD.
+- **Pentest e red team** — testo aplicações web e APIs, exploro falhas como SQLi, XSS, SSRF e RCE, e escrevo relatórios técnicos e executivos.
+- **Ambientes internos e Active Directory** — enumeração, abuso de ACLs, Kerberoasting, AS-REP Roasting, movimentação lateral e caminhos até Domain Admin.
+- **Cloud offensive security** — enumeração de serviços, IAM/RBAC, tokens, compute e storage em AWS, Azure e GCP, com cenários alinhados ao MITRE ATT&CK Cloud.
 
 ## Certificações
 
 <ul class="profile-certs">
-  <li><span class="cert">HTB CPTS</span><span class="note">Hack The Box Certified Penetration Testing Specialist</span></li>
+  <li><span class="cert">HTB CPTS</span><span class="note">Certified Penetration Testing Specialist</span></li>
   <li><span class="cert">CRTA</span><span class="note">Certified Red Team Analyst</span></li>
-  <li><span class="cert">MCRTA</span></li>
+  <li><span class="cert">MCRTA</span><span class="note">Multi-Cloud Red Team Analyst — AWS, Azure e GCP</span></li>
   <li><span class="cert">ISC2 CC</span><span class="note">Certified in Cybersecurity</span></li>
-  <li><span class="cert">EXIN ISFS</span><span class="note">Information Security Foundation based on ISO/IEC 27001</span></li>
+  <li><span class="cert">EXIN ISFS</span><span class="note">ISO/IEC 27001</span></li>
 </ul>
 
 <p class="profile-additional">Também: Acronis Cloud Tech Professional — Advanced Security; TrendAI Vision One Cloud Security Certified Practitioner; TrendAI Vision One Security Operations (SecOps) Certified Practitioner.</p>
@@ -65,19 +54,6 @@ Sophos e Acronis.
   <li><span class="when">2023</span><span class="what"><strong>Instrutor de TI</strong> · On Byte</span></li>
 </ol>
 
-## Formação
 
-<p class="profile-education"><span class="when">2023–2026</span><span class="what"><strong>Bacharelado em Ciência da Computação</strong> · UniFil</span></p>
-
-## Ferramentas
-
-<p class="profile-toolbox">
-  <span>Wazuh</span><span>Zabbix</span><span>Graylog</span><span>Sophos</span>
-  <span>Acronis</span><span>Outpost24</span><span>Docker/Podman</span>
-  <span>Terraform</span><span>Linux/BSD</span><span>SAST/DAST</span>
-</p>
-
-<p class="profile-toolbox">
-  <span>C#/.NET</span><span>TypeScript/React</span><span>C/C++</span>
-  <span>Elixir</span><span>Python</span><span>SQL</span>
-</p>
+Aberto a conversas sobre AppSec, Product Security, Pentest, Red Team, Active
+Directory e Cloud Security.
