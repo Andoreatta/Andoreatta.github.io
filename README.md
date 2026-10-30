@@ -5,8 +5,8 @@ Static bilingual blog built with [Hugo](https://gohugo.io/) and the
 
 - English: `/`
 - Portuguese (Brazil): `/pt-br/`
-- Canonical domain (future): `https://serial.experiments.network/`
-- Current deployment: `https://andoreatta.github.io/`
+- Canonical domain: `https://serial.experiments.network/`
+- Fallback deployment URL: `https://andoreatta.github.io/`
 
 The theme is tracked as a Git submodule at `themes/hugo-brewm`.
 
@@ -43,7 +43,7 @@ hugo new content pt-br/posts/meu-post.md
 Use the same `translationKey` in both files so the language switcher and the
 Portuguese-browser redirect can find the translated version.
 
-## Pentesting notes
+## Andoreatta Pentesting Notes and Methodology
 
 The pentesting notes live under `content/en/notes/` and are published in English
 only at `/notes/`. They use `type = 'notes'`, which keeps them out of the home
@@ -128,9 +128,9 @@ The portrait has a CSS-only two-second dance loop: three small hops, two
 quick horizontal mirror flips, and a brief pink pulse at each jump peak. The
 panel itself stays static. The animation is disabled under
 `prefers-reduced-motion`.
-On screens 1200px and wider the layout shell widens to 72rem, and to 80rem at
-1600px. Article paragraphs keep the theme's narrower golden-ratio measure for
-readability.
+On screens 1200px and wider the layout shell widens to 84rem, to 92rem at
+1600px, and to 100rem at 1920px. Note prose is capped at 60rem while code,
+tables, and cards use the full article width.
 
 The theme's night clock and flowline illustrations are disabled; the light/dark
 switch is hidden because the palette is intentionally dark-only. Contrast,
@@ -146,32 +146,31 @@ The repository is a GitHub user site, so Pages must use:
 
 - **Settings → Pages → Build and deployment → Source:** GitHub Actions
 
-## Attaching the custom domain
+## Custom domain
 
-When DNS is ready:
+The code already points at `https://serial.experiments.network/`:
 
-1. Add a file named `static/CNAME` containing:
+- `baseURL` is set in `config/_default/hugo.toml`
+- `static/CNAME` contains the custom domain
+- `params.socialCard.images` uses the custom domain
 
-   ```text
-   serial.experiments.network
-   ```
+Remaining external steps:
 
-2. Change `baseURL` in `config/_default/hugo.toml` to:
-
-   ```toml
-   baseURL = 'https://serial.experiments.network/'
-   ```
-
-   Also update `params.socialCard.images` to the same domain.
-
-3. Create a DNS record:
+1. At the DNS provider for `experiments.network`, create:
 
    ```text
    CNAME  serial  andoreatta.github.io
    ```
 
-4. In GitHub, set the custom domain under **Settings → Pages**.
-5. Wait for DNS and the certificate, then enable **Enforce HTTPS**.
+   If using Cloudflare, set the record to **DNS only** until GitHub provisions
+   the certificate.
+
+2. In GitHub, set the custom domain under **Settings → Pages**.
+3. Wait for DNS and the certificate, then enable **Enforce HTTPS**.
+4. Add the domain to Google Search Console and Bing Webmaster Tools, then submit
+   `https://serial.experiments.network/sitemap.xml`.
+
+`AllowAIRobots = true` is set so search and AI crawlers can index the site.
 
 ## Updating the theme
 

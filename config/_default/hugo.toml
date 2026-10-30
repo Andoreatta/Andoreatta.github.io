@@ -1,6 +1,6 @@
 ## Base URL for the site
 ## Switch to 'https://serial.experiments.network/' when the custom domain is attached.
-baseURL = 'https://andoreatta.github.io/'
+baseURL = 'https://serial.experiments.network/'
 ## Site title
 title = 'srl.exp.net'
 ## Use hugo-brewm theme
@@ -89,7 +89,7 @@ enableRobotsTXT = true
     copyright = '&copy; 2026 srl.exp.net'
     extMeta = true
     coffeeStat = false
-    AllowAIRobots = false
+    AllowAIRobots = true
     ZenMode = false
     DisableFootBar = false
     unifiedFooter = true
@@ -139,7 +139,7 @@ enableRobotsTXT = true
     [params.socialCard]
         enable = true
         ## Update this to https://serial.experiments.network/... with the custom domain.
-        images = 'https://andoreatta.github.io/images/social-card.png'
+        images = 'https://serial.experiments.network/images/social-card.png'
 
     [params.typeface]
         webSafe = false

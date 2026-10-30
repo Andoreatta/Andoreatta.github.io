@@ -1,6 +1,25 @@
 {{- define "head" -}}
 {{- $notesJS := resources.Get "js/notes.js" | minify | fingerprint -}}
 <script src="{{ $notesJS.RelPermalink }}" integrity="{{ $notesJS.Data.Integrity }}" crossorigin="anonymous" defer></script>
+{{- $author := or site.Params.author.name site.Title -}}
+{{- $description := .Description | default .Summary | plainify | truncate 220 -}}
+{{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" "TechArticle"
+    "headline" .Title
+    "description" $description
+    "datePublished" (.Date.Format "2006-01-02")
+    "dateModified" (.Lastmod.Format "2006-01-02")
+    "author" (dict "@type" "Person" "name" $author)
+    "publisher" (dict "@type" "Person" "name" $author)
+    "mainEntityOfPage" .Permalink
+    "url" .Permalink
+    "image" (or site.Params.socialCard.images site.Params.images)
+-}}
+{{- with .Params.tags -}}
+    {{- $schema = merge $schema (dict "keywords" (delimit . ", ")) -}}
+{{- end -}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{- end -}}
 
 {{- define "main" -}}
