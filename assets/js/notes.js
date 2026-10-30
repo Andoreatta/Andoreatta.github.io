@@ -86,7 +86,9 @@
         }
     });
 
-    /* Accessible, persistent checklist state */
+    /* Accessible, persistent checklist state.
+       Keyed by a hash of the item text, so inserting or reordering items does not
+       reset progress. Legacy index-based keys are migrated once. */
     var storageKey = 'srl-notes-checklist:' + window.location.pathname;
     var saved = {};
     try {
@@ -95,16 +97,30 @@
         saved = {};
     }
 
+    function itemHash(value) {
+        var hash = 2166136261;
+        for (var i = 0; i < value.length; i++) {
+            hash ^= value.charCodeAt(i);
+            hash = (hash * 16777619) >>> 0;
+        }
+        return hash.toString(36);
+    }
+
     content.querySelectorAll('input[type="checkbox"]').forEach(function (box, index) {
         var item = box.closest('li');
-        if (item) {
-            var label = item.textContent.replace(/\s+/g, ' ').trim();
-            if (label) {
-                box.setAttribute('aria-label', label.slice(0, 180));
-            }
+        var label = item ? item.textContent.replace(/\s+/g, ' ').trim() : '';
+        if (label) {
+            box.setAttribute('aria-label', label.slice(0, 180));
         }
 
-        var key = 'task-' + index;
+        var key = 'task-' + itemHash(label || 'item-' + index);
+        var legacyKey = 'task-' + index;
+
+        if (saved[key] === undefined && saved[legacyKey] !== undefined) {
+            saved[key] = saved[legacyKey];
+            delete saved[legacyKey];
+        }
+
         box.id = box.id || 'notes-' + key;
         if (saved[key]) {
             box.checked = true;

