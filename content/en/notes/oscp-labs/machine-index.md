@@ -27,89 +27,92 @@ and come back after the root flag.
 
 | Machine | Foothold | Privesc / path | Key tool or CVE | Done |
 | --- | --- | --- | --- | --- |
-| [Enigma](/notes/oscp-labs/linux/) | NFS onboarding PDF | OliveTin mysqldump break-out | showmount · OpenSTAManager · **CVE-2026-29782** | [ ] |
-| [Nibbles](/notes/oscp-labs/linux/) | NibbleBlog plugin upload | sudo writable monitor.sh | **CVE-2015-6967** · NibbleBlog | [ ] |
-| [Solidstate](/notes/oscp-labs/linux/) | Apache James admin 4555 | root cron /opt/tmp.py | **CVE-2015-7611** · Apache James 2.3.2 · pspy32 | [ ] |
-| [Poison](/notes/oscp-labs/linux/) | LFI log poisoning | VNC secret.zip → root | vncpasswd · proxychains | [ ] |
-| [Editor](/notes/oscp-labs/linux/) | XWiki Groovy RCE | ndsudo PATH hijack | **CVE-2025-24893** · **CVE-2024-32019** | [ ] |
-| [Sunday](/notes/oscp-labs/linux/) | finger enum → SSH 22022 | sudo wget | hashcat 7400 · finger-user-enum | [ ] |
-| [Keeper](/notes/oscp-labs/linux/) | Request Tracker default creds | KeePass dump → PuTTY key | **CVE-2023-32784** · kpcli · RT root:password | [ ] |
-| [Pilgrimage](/notes/oscp-labs/linux/) | .git → ImageMagick read | binwalk PFS traversal | **CVE-2022-44268** · **CVE-2022-4510** | [ ] |
-| [Cozyhosting](/notes/oscp-labs/linux/) | Spring actuator session hijack | sudo ssh ProxyCommand | actuator/sessions · GTFOBins ssh | [ ] |
-| [Codify](/notes/oscp-labs/linux/) | vm2 sandbox escape | glob bypass → pspy | vm2 3.9.16 · pspy | [ ] |
-| [Tartarsauce](/notes/oscp-labs/linux/) | WordPress gwolle-gb RFI | sudo tar → backuperer race | wpscan · GTFOBins tar | [ ] |
-| [Jarvis](/notes/oscp-labs/linux/) | UNION SQLi → phpMyAdmin | SUID systemctl unit | **CVE-2018-12613** · sqlmap | [ ] |
-| [Tabby](/notes/oscp-labs/linux/) | Tomcat manager WAR deploy | lxd group mount | manager-script · lxd | [ ] |
-| [Connected](/notes/oscp-labs/linux/) | FreePBX pre-auth SQLi | incron writable init.conf | **CVE-2025-57819** · incron | [ ] |
-| [Mentor](/notes/oscp-labs/linux/) | SNMP community → admin JWT | snmpd.conf cleartext → sudo | snmpwalk · COPY PROGRAM | [ ] |
-| [Devvortex](/notes/oscp-labs/linux/) | Joomla config leak | apport-cli pager | **CVE-2023-23752** · **CVE-2023-1326** | [ ] |
-| [Irked](/notes/oscp-labs/linux/) | UnrealIRCd backdoor shell | SUID viewuser /tmp/listusers | UnrealIRCd 3.2.8.1 · steghide | [ ] |
-| [Popcorn](/notes/oscp-labs/linux/) | upload Content-Type bypass | PAM MOTD passwd write | **CVE-2010-0832** · DirtyCow | [ ] |
-| [Bashed](/notes/oscp-labs/linux/) | /dev/phpbash.php webshell | writable /scripts cron | phpbash · pspy | [ ] |
-| [Broker](/notes/oscp-labs/linux/) | ActiveMQ OpenWire exploit | sudo nginx root config | **CVE-2023-46604** · nginx | [ ] |
-| [Silentium](/notes/oscp-labs/linux/) | Flowise reset-token ATO | Gogs symlink → root keys | **CVE-2025-58434** (ATO) · **CVE-2025-59528** (RCE) · **CVE-2025-8110** | [ ] |
-| [Networked](/notes/oscp-labs/linux/) | backup.tar source leak | cron filename injection | AddHandler · changename.sh | [ ] |
-| [UpDown](/notes/oscp-labs/linux/) | dev header → .git source | sudo easy_install setup.py | phar:// · easy_install | [ ] |
-| [Swagshop](/notes/oscp-labs/linux/) | Magento admin object injection | sudo vi wildcard | shoplift · Magento 1.9 | [ ] |
-| [Nineveh](/notes/oscp-labs/linux/) | type-juggling login → LFI | port knock → chkrootkit | phpLiteAdmin · **CVE-2014-0476** | [ ] |
-| [Pandora](/notes/oscp-labs/linux/) | SNMP args → internal SQLi | SUID backup PATH hijack | snmpbulkwalk · ltrace | [ ] |
-| [OpenAdmin](/notes/oscp-labs/linux/) | OpenNetAdmin xajax injection | internal vhost → sudo nano | OpenNetAdmin 18.1.1 · sudo nano | [ ] |
-| [Precious](/notes/oscp-labs/linux/) | PDFKit URL injection | sudo ruby YAML.load | **CVE-2022-25765** · exiftool | [ ] |
-| [Busqueda](/notes/oscp-labs/linux/) | Searchor eval() injection | full-checkup CWD hijack | Searchor 2.4.0 · docker-inspect | [ ] |
-| [Monitored](/notes/oscp-labs/linux/) | SNMP args → Nagios token | getprofile symlink zip | **CVE-2023-40931** · getprofile.sh | [ ] |
-| [BoardLight](/notes/oscp-labs/linux/) | Dolibarr default creds | Enlightenment SUID escape | **CVE-2023-30253** · **CVE-2022-37706** | [ ] |
-| [Magic](/notes/oscp-labs/linux/) | SQLi login → upload bypass | SUID sysinfo PATH | exif_imagetype · ltrace | [ ] |
-| [Help](/notes/oscp-labs/linux/) | GraphQL credential leak | kernel 4.4.0-116 LPE | **CVE-2017-16995** · GraphQL | [ ] |
-| [Editorial](/notes/oscp-labs/linux/) | SSRF to internal API | GitPython ext:: clone | SSRF · GitPython ext:: | [ ] |
-| [Builder](/notes/oscp-labs/linux/) | Jenkins CLI file read | admin → root SSH key | **CVE-2024-23897** · jenkins-cli | [ ] |
-| [Linkvortex](/notes/oscp-labs/linux/) | dev .git → Ghost CVE | sudo clean_symlink env | **CVE-2023-40028** · git-dumper | [ ] |
-| [UnderPass](/notes/oscp-labs/linux/) | SNMP → daloRADIUS panel | sudo mosh-server | snmpwalk · mosh-client | [ ] |
-| [Dog](/notes/oscp-labs/linux/) | Backdrop .git → module upload | sudo bee eval | git-dumper · bee | [ ] |
-| [Cctv](/notes/oscp-labs/linux/) | ZoneMinder SQLi | tcpdump caps → motionEye | **CVE-2024-51482** · **CVE-2025-60787** | [ ] |
+| [Enigma](/notes/oscp-labs/linux/#enigma) | NFS onboarding PDF | OliveTin mysqldump break-out | showmount · OpenSTAManager · **CVE-2026-29782** | [ ] |
+| [Nibbles](/notes/oscp-labs/linux/#nibbles) | NibbleBlog plugin upload | sudo writable monitor.sh | **CVE-2015-6967** · NibbleBlog | [ ] |
+| [Solidstate](/notes/oscp-labs/linux/#solidstate) | Apache James admin 4555 | root cron /opt/tmp.py | **CVE-2015-7611** · Apache James 2.3.2 · pspy32 | [ ] |
+| [Poison](/notes/oscp-labs/linux/#poison) | LFI log poisoning | VNC secret.zip → root | vncpasswd · proxychains | [ ] |
+| [Editor](/notes/oscp-labs/linux/#editor) | XWiki Groovy RCE | ndsudo PATH hijack | **CVE-2025-24893** · **CVE-2024-32019** | [ ] |
+| [Sunday](/notes/oscp-labs/linux/#sunday) | finger enum → SSH 22022 | sudo wget | hashcat 7400 · finger-user-enum | [ ] |
+| [Keeper](/notes/oscp-labs/linux/#keeper) | Request Tracker default creds | KeePass dump → PuTTY key | **CVE-2023-32784** · kpcli · RT root:password | [ ] |
+| [Pilgrimage](/notes/oscp-labs/linux/#pilgrimage) | .git → ImageMagick read | binwalk PFS traversal | **CVE-2022-44268** · **CVE-2022-4510** | [ ] |
+| [Cozyhosting](/notes/oscp-labs/linux/#cozyhosting) | Spring actuator session hijack | sudo ssh ProxyCommand | actuator/sessions · GTFOBins ssh | [ ] |
+| [Codify](/notes/oscp-labs/linux/#codify) | vm2 sandbox escape | glob bypass → pspy | vm2 3.9.16 · pspy | [ ] |
+| [Tartarsauce](/notes/oscp-labs/linux/#tartarsauce) | WordPress gwolle-gb RFI | sudo tar → backuperer race | wpscan · GTFOBins tar | [ ] |
+| [Jarvis](/notes/oscp-labs/linux/#jarvis) | UNION SQLi → phpMyAdmin | SUID systemctl unit | **CVE-2018-12613** · sqlmap | [ ] |
+| [Tabby](/notes/oscp-labs/linux/#tabby) | Tomcat manager WAR deploy | lxd group mount | manager-script · lxd | [ ] |
+| [Connected](/notes/oscp-labs/linux/#connected) | FreePBX pre-auth SQLi | incron writable init.conf | **CVE-2025-57819** · incron | [ ] |
+| [Mentor](/notes/oscp-labs/linux/#mentor) | SNMP community → admin JWT | snmpd.conf cleartext → sudo | snmpwalk · COPY PROGRAM | [ ] |
+| [Devvortex](/notes/oscp-labs/linux/#devvortex) | Joomla config leak | apport-cli pager | **CVE-2023-23752** · **CVE-2023-1326** | [ ] |
+| [Irked](/notes/oscp-labs/linux/#irked) | UnrealIRCd backdoor shell | SUID viewuser /tmp/listusers | UnrealIRCd 3.2.8.1 · steghide | [ ] |
+| [Popcorn](/notes/oscp-labs/linux/#popcorn) | upload Content-Type bypass | PAM MOTD passwd write | **CVE-2010-0832** · DirtyCow | [ ] |
+| [Bashed](/notes/oscp-labs/linux/#bashed) | /dev/phpbash.php webshell | writable /scripts cron | phpbash · pspy | [ ] |
+| [Broker](/notes/oscp-labs/linux/#broker) | ActiveMQ OpenWire exploit | sudo nginx root config | **CVE-2023-46604** · nginx | [ ] |
+| [Silentium](/notes/oscp-labs/linux/#silentium) | Flowise reset-token ATO | Gogs symlink → root keys | **CVE-2025-58434** (ATO) · **CVE-2025-59528** (RCE) · **CVE-2025-8110** | [ ] |
+| [Networked](/notes/oscp-labs/linux/#networked) | backup.tar source leak | cron filename injection | AddHandler · changename.sh | [ ] |
+| [UpDown](/notes/oscp-labs/linux/#updown) | dev header → .git source | sudo easy_install setup.py | phar:// · easy_install | [ ] |
+| [Swagshop](/notes/oscp-labs/linux/#swagshop) | Magento admin object injection | sudo vi wildcard | shoplift · Magento 1.9 | [ ] |
+| [Nineveh](/notes/oscp-labs/linux/#nineveh) | type-juggling login → LFI | port knock → chkrootkit | phpLiteAdmin · **CVE-2014-0476** | [ ] |
+| [Pandora](/notes/oscp-labs/linux/#pandora) | SNMP args → internal SQLi | SUID backup PATH hijack | snmpbulkwalk · ltrace | [ ] |
+| [OpenAdmin](/notes/oscp-labs/linux/#openadmin) | OpenNetAdmin xajax injection | internal vhost → sudo nano | OpenNetAdmin 18.1.1 · sudo nano | [ ] |
+| [Precious](/notes/oscp-labs/linux/#precious) | PDFKit URL injection | sudo ruby YAML.load | **CVE-2022-25765** · exiftool | [ ] |
+| [Busqueda](/notes/oscp-labs/linux/#busqueda) | Searchor eval() injection | full-checkup CWD hijack | Searchor 2.4.0 · docker-inspect | [ ] |
+| [Monitored](/notes/oscp-labs/linux/#monitored) | SNMP args → Nagios token | getprofile symlink zip | **CVE-2023-40931** · getprofile.sh | [ ] |
+| [BoardLight](/notes/oscp-labs/linux/#boardlight) | Dolibarr default creds | Enlightenment SUID escape | **CVE-2023-30253** · **CVE-2022-37706** | [ ] |
+| [Magic](/notes/oscp-labs/linux/#magic) | SQLi login → upload bypass | SUID sysinfo PATH | exif_imagetype · ltrace | [ ] |
+| [Help](/notes/oscp-labs/linux/#help) | GraphQL credential leak | kernel 4.4.0-116 LPE | **CVE-2017-16995** · GraphQL | [ ] |
+| [Editorial](/notes/oscp-labs/linux/#editorial) | SSRF to internal API | GitPython ext:: clone | SSRF · GitPython ext:: | [ ] |
+| [Builder](/notes/oscp-labs/linux/#builder) | Jenkins CLI file read | admin → root SSH key | **CVE-2024-23897** · jenkins-cli | [ ] |
+| [Linkvortex](/notes/oscp-labs/linux/#linkvortex) | dev .git → Ghost CVE | sudo clean_symlink env | **CVE-2023-40028** · git-dumper | [ ] |
+| [UnderPass](/notes/oscp-labs/linux/#underpass) | SNMP → daloRADIUS panel | sudo mosh-server | snmpwalk · mosh-client | [ ] |
+| [Dog](/notes/oscp-labs/linux/#dog) | Backdrop .git → module upload | sudo bee eval | git-dumper · bee | [ ] |
+| [Cctv](/notes/oscp-labs/linux/#cctv) | ZoneMinder SQLi | tcpdump caps → motionEye | **CVE-2024-51482** · **CVE-2025-60787** | [ ] |
 
 ## Windows
 
 | Machine | Foothold | Privesc / path | Key tool or CVE | Done |
 | --- | --- | --- | --- | --- |
-| [Markup](/notes/oscp-labs/windows/) | default creds → XXE | writable job.bat as SYSTEM | XXE · icacls | [ ] |
-| [Jerry](/notes/oscp-labs/windows/) | Tomcat default creds | WAR deploys as SYSTEM | Tomcat 7.0.88 · msfvenom | [ ] |
-| [Netmon](/notes/oscp-labs/windows/) | anonymous FTP = C: drive | PRTG notification injection | PRTG · psexec | [ ] |
-| [Servmon](/notes/oscp-labs/windows/) | NVMS-1000 path traversal | NSClient++ 0.5.2.35 | NSClient++ · 8443 tunnel | [ ] |
-| [Chatterbox](/notes/oscp-labs/windows/) | AChat UDP overflow | Alfred ACL → root.txt | AutoRunScript · icacls | [ ] |
-| [Jeeves](/notes/oscp-labs/windows/) | Jenkins no-auth console | KeePass PTH → ADS | KeePass · psexec -hashes | [ ] |
-| [Sniper](/notes/oscp-labs/windows/) | LFI → session poisoning | weaponized .chm | Out-CHM · AppLocker | [ ] |
-| [Querier](/notes/oscp-labs/windows/) | xlsm macros → MSSQL creds | xp_dirtree → GPP cpassword | olevba · GPP | [ ] |
-| [Giddy](/notes/oscp-labs/windows/) | stacked SQLi xp_dirtree | UniFi taskkill.exe hijack | xp_dirtree · Ebowla | [ ] |
-| [Bounty](/notes/oscp-labs/windows/) | IIS upload null byte | SeImpersonate → LonelyPotato | web.config · LonelyPotato | [ ] |
-| [Arctic](/notes/oscp-labs/windows/) | ColdFusion FCKeditor upload | MS10-059 kernel | MS10-059 · exploit-suggester | [ ] |
-| [Remote](/notes/oscp-labs/windows/) | NFS Umbraco.sdf | XSLT RCE → TeamViewer AES | Umbraco · TeamViewer 7 | [ ] |
-| [Buff](/notes/oscp-labs/windows/) | Gym Management upload | CloudMe overflow via Chisel | Chisel · CloudMe 1.11.2 | [ ] |
-| [Love](/notes/oscp-labs/windows/) | TLS cert vhost → SSRF | AlwaysInstallElevated → SYSTEM | AlwaysInstallElevated · msiexec | [ ] |
-| [Secnotes](/notes/oscp-labs/windows/) | XSRF password reset | SMB share → WSL history | CSRF · WSL rootfs | [ ] |
-| [Access](/notes/oscp-labs/windows/) | FTP mdb + PST | cmdkey → runas /savecred | runas /savecred · DPAPI | [ ] |
-| [Mailing](/notes/oscp-labs/windows/) | traversal → hMailServer.ini | CVE-2024-21413 → CVE-2023-2255 | **CVE-2024-21413** · **CVE-2023-2255** | [ ] |
-| [Heist](/notes/oscp-labs/windows/) | guest portal Cisco config | Firefox dump → admin reuse | Cisco type 7 · procdump | [ ] |
+| [Markup](/notes/oscp-labs/windows/#markup) | default creds → XXE | writable job.bat as SYSTEM | XXE · icacls | [ ] |
+| [Jerry](/notes/oscp-labs/windows/#jerry) | Tomcat default creds | WAR deploys as SYSTEM | Tomcat 7.0.88 · msfvenom | [ ] |
+| [Netmon](/notes/oscp-labs/windows/#netmon) | anonymous FTP = C: drive | PRTG notification injection | PRTG · psexec | [ ] |
+| [Servmon](/notes/oscp-labs/windows/#servmon) | NVMS-1000 path traversal | NSClient++ 0.5.2.35 | NSClient++ · 8443 tunnel | [ ] |
+| [Chatterbox](/notes/oscp-labs/windows/#chatterbox) | AChat UDP overflow | Alfred ACL → root.txt | AutoRunScript · icacls | [ ] |
+| [Jeeves](/notes/oscp-labs/windows/#jeeves) | Jenkins no-auth console | KeePass PTH → ADS | KeePass · psexec -hashes | [ ] |
+| [Sniper](/notes/oscp-labs/windows/#sniper) | LFI → session poisoning | weaponized .chm | Out-CHM · AppLocker | [ ] |
+| [Querier](/notes/oscp-labs/windows/#querier) | xlsm macros → MSSQL creds | xp_dirtree → GPP cpassword | olevba · GPP | [ ] |
+| [Giddy](/notes/oscp-labs/windows/#giddy) | stacked SQLi xp_dirtree | UniFi taskkill.exe hijack | xp_dirtree · Ebowla | [ ] |
+| [Bounty](/notes/oscp-labs/windows/#bounty) | IIS upload null byte | SeImpersonate → LonelyPotato | web.config · LonelyPotato | [ ] |
+| [Arctic](/notes/oscp-labs/windows/#arctic) | ColdFusion FCKeditor upload | MS10-059 kernel | MS10-059 · exploit-suggester | [ ] |
+| [Remote](/notes/oscp-labs/windows/#remote) | NFS Umbraco.sdf | XSLT RCE → TeamViewer AES | Umbraco · TeamViewer 7 | [ ] |
+| [Buff](/notes/oscp-labs/windows/#buff) | Gym Management upload | CloudMe overflow via Chisel | Chisel · CloudMe 1.11.2 | [ ] |
+| [Love](/notes/oscp-labs/windows/#love) | TLS cert vhost → SSRF | AlwaysInstallElevated → SYSTEM | AlwaysInstallElevated · msiexec | [ ] |
+| [Secnotes](/notes/oscp-labs/windows/#secnotes) | XSRF password reset | SMB share → WSL history | CSRF · WSL rootfs | [ ] |
+| [Access](/notes/oscp-labs/windows/#access) | FTP mdb + PST | cmdkey → runas /savecred | runas /savecred · DPAPI | [ ] |
+| [Mailing](/notes/oscp-labs/windows/#mailing) | traversal → hMailServer.ini | CVE-2024-21413 → CVE-2023-2255 | **CVE-2024-21413** · **CVE-2023-2255** | [ ] |
+| [Heist](/notes/oscp-labs/windows/#heist) | guest portal Cisco config | Firefox dump → admin reuse | Cisco type 7 · procdump | [ ] |
 
 ## Active Directory
 
 | Machine | Diff | Foothold | Privesc / path | Key tool or CVE | Done |
 | --- | --- | --- | --- | --- | --- |
-| [Active](/notes/oscp-labs/ad/) | Easy | anonymous Replication share | GPP → Kerberoast Administrator | gpp-decrypt · GetUserSPNs | [ ] |
-| [Forest](/notes/oscp-labs/ad/) | Easy | null RPC → AS-REP roast | WriteDacl domain → DCSync | GetNPUsers · secretsdump | [ ] |
-| [Sauna](/notes/oscp-labs/ad/) | Easy | kerbrute → AS-REP fsmith | AutoLogon → GetChanges | kerbrute · secretsdump | [ ] |
-| [Flight](/notes/oscp-labs/ad/) | Hard | UNC include → NetNTLMv2 | machine TGT → DCSync | ntlm_theft · Rubeus tgtdeleg | [ ] |
-| [Return](/notes/oscp-labs/ad/) | Easy | printer panel LDAP bind | Server Operators binPath swap | Responder · Server Operators | [ ] |
-| [Blackfield](/notes/oscp-labs/ad/) | Hard | profiles share → AS-REP | ForceChangePassword → SeBackup | rpcclient setuserinfo2 · diskshadow | [ ] |
-| [Cicada](/notes/oscp-labs/ad/) | Easy | guest SMB → HR note | spray → reg save SAM | netexec --rid-brute · reg save | [ ] |
-| [TheFrizz](/notes/oscp-labs/ad/) | Medium | Gibbon LMS file write | GPO abuse → SYSTEM | **CVE-2023-45878** · SharpGPOAbuse · hashcat 1420 | [ ] |
-| [Administrator](/notes/oscp-labs/ad/) | Medium | assumed breach → BloodHound | GenericAll chain → DCSync | BloodHound · targetedKerberoast | [ ] |
-| [Monteverde](/notes/oscp-labs/ad/) | Medium | querydispinfo → user spray | ADSync LocalDB → DA | ADSync · mcrypt.dll | [ ] |
-| [Escape](/notes/oscp-labs/ad/) | Medium | SMB PDF creds → MSSQL | coerce → ESC1 | Certipy ESC1 · xp_dirtree | [ ] |
-| [EscapeTwo](/notes/oscp-labs/ad/) | Medium | assumed breach → xlsx | WriteOwner → ESC4 → ESC1 | Certipy ESC4 · bloodyAD | [ ] |
-| [Certified](/notes/oscp-labs/ad/) | Medium | assumed breach → WriteOwner | shadow creds → ESC9 | Certipy ESC9 · owneredit | [ ] |
-| [Puppy](/notes/oscp-labs/ad/) | Medium | assumed breach → HR group | KeePassXC → DPAPI | KeePassXC · dpapi.py | [ ] |
-| [Timelapse](/notes/oscp-labs/ad/) | Easy | null SMB zip → pfx | cert WinRM → LAPS | pfx2john · LAPS | [ ] |
-| [Signed](/notes/oscp-labs/ad/) | Medium | assumed breach SQL login | silver ticket → OPENROWSET | ticketer.py · OPENROWSET | [ ] |
+| [Active](/notes/oscp-labs/ad/#active) | Easy | anonymous Replication share | GPP → Kerberoast Administrator | gpp-decrypt · GetUserSPNs | [ ] |
+| [Forest](/notes/oscp-labs/ad/#forest) | Easy | null RPC → AS-REP roast | WriteDacl domain → DCSync | GetNPUsers · secretsdump | [ ] |
+| [Sauna](/notes/oscp-labs/ad/#sauna) | Easy | kerbrute → AS-REP fsmith | AutoLogon → GetChanges | kerbrute · secretsdump | [ ] |
+| [Flight](/notes/oscp-labs/ad/#flight) | Hard | UNC include → NetNTLMv2 | machine TGT → DCSync | ntlm_theft · Rubeus tgtdeleg | [ ] |
+| [Return](/notes/oscp-labs/ad/#return) | Easy | printer panel LDAP bind | Server Operators binPath swap | Responder · Server Operators | [ ] |
+| [Blackfield](/notes/oscp-labs/ad/#blackfield) | Hard | profiles share → AS-REP | ForceChangePassword → SeBackup | rpcclient setuserinfo2 · diskshadow | [ ] |
+| [Cicada](/notes/oscp-labs/ad/#cicada) | Easy | guest SMB → HR note | spray → reg save SAM | netexec --rid-brute · reg save | [ ] |
+| [TheFrizz](/notes/oscp-labs/ad/#thefrizz) | Medium | Gibbon LMS file write | GPO abuse → SYSTEM | **CVE-2023-45878** · SharpGPOAbuse · hashcat 1420 | [ ] |
+| [Administrator](/notes/oscp-labs/ad/#administrator) | Medium | assumed breach → BloodHound | GenericAll chain → DCSync | BloodHound · targetedKerberoast | [ ] |
+| [Monteverde](/notes/oscp-labs/ad/#monteverde) | Medium | querydispinfo → user spray | ADSync LocalDB → DA | ADSync · mcrypt.dll | [ ] |
+| [Escape](/notes/oscp-labs/ad/#escape) | Medium | SMB PDF creds → MSSQL | coerce → ESC1 | Certipy ESC1 · xp_dirtree | [ ] |
+| [EscapeTwo](/notes/oscp-labs/ad/#escapetwo) | Medium | assumed breach → xlsx | WriteOwner → ESC4 → ESC1 | Certipy ESC4 · bloodyAD | [ ] |
+| [Certified](/notes/oscp-labs/ad/#certified) | Medium | assumed breach → WriteOwner | shadow creds → ESC9 | Certipy ESC9 · owneredit | [ ] |
+| [Puppy](/notes/oscp-labs/ad/#puppy) | Medium | assumed breach → HR group | KeePassXC → DPAPI | KeePassXC · dpapi.py | [ ] |
+| [Timelapse](/notes/oscp-labs/ad/#timelapse) | Easy | null SMB zip → pfx | cert WinRM → LAPS | pfx2john · LAPS | [ ] |
+| [Signed](/notes/oscp-labs/ad/#signed) | Medium | assumed breach SQL login | silver ticket → OPENROWSET | ticketer.py · OPENROWSET | [ ] |
+
+Difficulty is recorded for the AD set only, where the source list rates the box;
+the Linux and Windows tables do not carry ratings yet.
 
 ## Also on the list (not AD)
 
@@ -117,9 +120,9 @@ Linux boxes that sit in the AD column of the source sheet but have no domain, no
 
 | Machine | Foothold | Privesc / path | Key tool or CVE | Done |
 | --- | --- | --- | --- | --- |
-| [Gobox](/notes/oscp-labs/ad/) | Go template SSTI | backdoored nginx module | SSTI · LocalStack | [ ] |
-| [Bucket](/notes/oscp-labs/ad/) | LocalStack S3 upload | pd4ml attachment read | LocalStack · pd4ml | [ ] |
-| [Facts](/notes/oscp-labs/ad/) | Camaleon CMS admin | sudo facter --custom-dir | **CVE-2024-46987** · facter | [ ] |
+| [Gobox](/notes/oscp-labs/ad/#gobox) | Go template SSTI | backdoored nginx module | SSTI · LocalStack | [ ] |
+| [Bucket](/notes/oscp-labs/ad/#bucket) | LocalStack S3 upload | pd4ml attachment read | LocalStack · pd4ml | [ ] |
+| [Facts](/notes/oscp-labs/ad/#facts) | Camaleon CMS admin | sudo facter --custom-dir | **CVE-2024-46987** · facter | [ ] |
 
 ## Study tracks
 

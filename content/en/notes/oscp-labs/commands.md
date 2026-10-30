@@ -19,6 +19,10 @@ tags = ['oscp', 'methodology', 'commands']
 4. **Run one step at a time and read the output.** The checkboxes are ordered by cost, not importance; skip the ones whose precondition is absent and record why.
 5. **Confirm the flag on your install** when a tool changes often: `nxc --help`, `certipy req -h`, `impacket-GetUserSPNs -h`, `hashcat --example-hashes`.
 
+The same command appears in more than one phase, and again in the one-page
+pre-flight blocks — deliberately, so you never have to jump sections mid-box.
+When a tool changes a flag, update every copy of the line.
+
 {{< hint warning >}}
 These are **templates, not fire-and-forget**. Anything that writes, resets, configures or coerces can break the target: `sc config`, `certipy template`, `setuserinfo2`, `ntlmrelayx`, `xp_cmdshell`, `diskshadow`, `reg save`, and every password reset need the authorization and rollback plan from [Phase 0](/notes/oscp-labs/methodology/). On shared lab infrastructure, prefer read-only proof and revert what you change.
 {{< /hint >}}

