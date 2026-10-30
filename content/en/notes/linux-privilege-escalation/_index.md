@@ -1,5 +1,6 @@
 +++
 title = 'Linux Privilege Escalation'
+description = 'Enumeration, groups, sudo/SUID, capabilities, services, environment variables, kernel paths, and a checklist.'
 date = 2026-10-30
 type = 'notes'
 weight = 30

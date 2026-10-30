@@ -62,6 +62,12 @@ The hand-written landing page at `content/en/notes/_index.md` is preserved by
 the importer. To add a note that should survive future imports, add it to the
 source repository first.
 
+The `/notes/` section cards show a one-line `description` from each section's
+front matter. The importer generates these from `SECTION_DESCRIPTIONS` in
+`scripts/import-notes.py`. The English and Portuguese homepages carry a compact
+three-entry guide that links to the section map, the Lab Field Manual, and the
+tag index.
+
 Tag pages are generated from the note tags. Tag RSS feeds are intentionally
 disabled because they were emitting full note bodies and accounted for most of
 the deploy size. The notes index credits
@@ -81,8 +87,8 @@ for explicit math.
 
 The bilingual About pages live in `content/en/about.md` and
 `content/pt-br/about.md`. They contain the public professional profile:
-role, focus areas, certifications, compact experience, education, languages,
-toolbox, LinkedIn, and GitHub.
+role, focus areas, certifications, compact experience, languages, LinkedIn,
+and GitHub.
 
 No phone number, email address, or copy of the source resume PDF is published.
 Public contact is limited to LinkedIn and GitHub.

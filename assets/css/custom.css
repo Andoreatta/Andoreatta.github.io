@@ -706,6 +706,99 @@ body:has(#content .profile-name) #content {
 }
 
 /* --------------------------------------------------------------------------
+   Homepage notes guide
+   -------------------------------------------------------------------------- */
+
+.notes-guide {
+    max-width: 56rem;
+    margin: 2.5rem auto 0;
+}
+
+.notes-guide .notes-guide__title {
+    margin: 0 0 0.6rem;
+    border-bottom: 1pt solid var(--g18s);
+    padding-bottom: 0.5rem;
+    color: var(--ac);
+    font-family: var(--tt);
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.notes-guide__lede {
+    max-width: 46rem;
+    margin: 0 0 1.25rem;
+    color: var(--mid);
+    line-height: 1.6;
+}
+
+.notes-guide__items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.notes-guide__item {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 0.45rem;
+    border: 1pt solid var(--g18s);
+    padding: 0.9rem 1rem;
+    background: var(--term-panel);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.notes-guide__item:hover,
+.notes-guide__item:focus-visible {
+    border-color: var(--ac);
+    background: var(--g18s);
+}
+
+.notes-guide__item h3 {
+    margin: 0;
+    color: var(--fg);
+    font-family: var(--tt);
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+}
+
+.notes-guide__item p {
+    margin: 0 0 0.35rem;
+    color: var(--mid);
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.notes-guide__cta {
+    align-self: flex-start;
+    margin-top: auto;
+    border-bottom: 1pt solid var(--g18);
+    padding-bottom: 0.15rem;
+    color: var(--ac);
+    font-family: var(--tt);
+    font-size: 0.9rem;
+}
+
+.notes-guide__item:hover .notes-guide__cta,
+.notes-guide__item:focus-visible .notes-guide__cta {
+    border-color: var(--ac);
+    color: var(--fg);
+}
+
+.notes-guide__note {
+    margin: 1rem 0 0;
+    color: var(--mid);
+    font-family: var(--tt);
+    font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
    Motion preferences
    -------------------------------------------------------------------------- */
 

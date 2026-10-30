@@ -1,5 +1,6 @@
 +++
 title = 'Active Directory'
+description = 'Initial access, enumeration, lateral movement, NTLM relay, Kerberos delegation, ADCS, trusts, and a compromise checklist.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

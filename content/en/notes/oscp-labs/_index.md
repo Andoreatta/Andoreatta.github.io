@@ -1,5 +1,6 @@
 +++
 title = 'Lab Field Manual'
+description = 'Methodology, command checklist, pattern library, machine index, and HTB lab notes.'
 date = 2026-10-30
 type = 'notes'
 weight = 10

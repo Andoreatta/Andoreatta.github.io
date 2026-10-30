@@ -1,5 +1,6 @@
 +++
 title = 'Utilities, Scripts and Payloads'
+description = 'Shells and payloads, Metasploit, file transfers, pivoting, and password attacks.'
 date = 2026-10-30
 type = 'notes'
 weight = 70

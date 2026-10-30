@@ -164,6 +164,18 @@ SECTION_INTROS = {
     ),
 }
 
+SECTION_DESCRIPTIONS = {
+    "oscp-labs": "Methodology, command checklist, pattern library, machine index, and HTB lab notes.",
+    "active-directory": "Initial access, enumeration, lateral movement, NTLM relay, Kerberos delegation, ADCS, trusts, and a compromise checklist.",
+    "linux-privilege-escalation": "Enumeration, groups, sudo/SUID, capabilities, services, environment variables, kernel paths, and a checklist.",
+    "windows-privilege-escalation": "Enumeration, token privileges, groups, ACLs, services, UAC, living off the land, and a checklist.",
+    "web-applications": "Information gathering, fuzzing, web attacks, and web technologies.",
+    "protocols-and-services": "DNS, FTP, IMAP, IPMI, MSSQL, MySQL, NFS, Oracle TNS, POP3, RDP, SMB, SMTP, and SNMP.",
+    "utilities-scripts-and-payloads": "Shells and payloads, Metasploit, file transfers, pivoting, and password attacks.",
+    "bug-bounty-hunting": "Bug bounty tools and external resources.",
+    "cloud-red-team": "AWS, Azure, and GCP red teaming notes.",
+}
+
 SECTION_TAGS = {
     "active-directory": ["active-directory"],
     "linux-privilege-escalation": ["linux", "privilege-escalation"],
@@ -420,11 +432,16 @@ def front_matter(
     *,
     toc: bool = True,
     task: bool = False,
+    description: str = "",
     extra: dict[str, str] | None = None,
 ) -> str:
     lines = [
         "+++",
         f"title = {toml_string(title)}",
+    ]
+    if description:
+        lines.append(f"description = {toml_string(description)}")
+    lines += [
         f"date = {DATE}",
         "type = 'notes'",
         f"weight = {weight}",
@@ -870,6 +887,7 @@ def main() -> int:
             weight,
             tags_for(readme_rel),
             toc=False,
+            description=SECTION_DESCRIPTIONS.get(rel_dir.as_posix(), ""),
         )
         destination = CONTENT_ROOT / rel_dir / "_index.md"
         destination.parent.mkdir(parents=True, exist_ok=True)

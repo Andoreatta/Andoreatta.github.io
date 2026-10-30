@@ -1,5 +1,6 @@
 +++
 title = 'Cloud Red Team'
+description = 'AWS, Azure, and GCP red teaming notes.'
 date = 2026-10-30
 type = 'notes'
 weight = 90

@@ -1,5 +1,6 @@
 +++
 title = 'Web Applications'
+description = 'Information gathering, fuzzing, web attacks, and web technologies.'
 date = 2026-10-30
 type = 'notes'
 weight = 50

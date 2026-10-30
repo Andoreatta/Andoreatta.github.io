@@ -1,5 +1,6 @@
 +++
 title = 'Protocols and Services'
+description = 'DNS, FTP, IMAP, IPMI, MSSQL, MySQL, NFS, Oracle TNS, POP3, RDP, SMB, SMTP, and SNMP.'
 date = 2026-10-30
 type = 'notes'
 weight = 60

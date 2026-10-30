@@ -1,5 +1,6 @@
 +++
 title = 'Windows Privilege Escalation'
+description = 'Enumeration, token privileges, groups, ACLs, services, UAC, living off the land, and a checklist.'
 date = 2026-10-30
 type = 'notes'
 weight = 40

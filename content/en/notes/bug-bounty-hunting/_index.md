@@ -1,5 +1,6 @@
 +++
 title = 'Bug Bounty Hunting'
+description = 'Bug bounty tools and external resources.'
 date = 2026-10-30
 type = 'notes'
 weight = 80
