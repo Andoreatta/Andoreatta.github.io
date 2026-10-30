@@ -9,8 +9,6 @@ fechando este mundo, abrindo o próximo.
 <a class="profile-more" href="/pt-br/about/">[ mais sobre mim → ]</a>
 {{< /lain-hero >}}
 
-{{< running-lain >}}
-
 <section class="notes-guide" aria-labelledby="notes-guide-title">
     <h2 class="notes-guide__title" id="notes-guide-title">Como usar as notas</h2>
     <p class="notes-guide__lede">As notas são um manual de campo, não um curso. Escolha o ponto de entrada que combina com o que você está fazendo.</p>

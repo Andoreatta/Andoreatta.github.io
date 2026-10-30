@@ -124,7 +124,7 @@ native mono stack.
 The portrait has a single CSS-only horizontal flip every 0.15 seconds, with no
 other motion. The animation is disabled under `prefers-reduced-motion`.
 
-The homepage and notes footer use a 2560×146 running-Lain sprite strip. The
+The notes pages use a 2560×146 running-Lain sprite strip as a footer. The
 6.4 KB, 3-color GIF is animated through CSS `background-position` with the same
 smooth 0.3-second linear loop, sliding left-to-right in the direction she faces. The moving dot background is CSS-only
 and drifts left-to-right over 240 seconds.
