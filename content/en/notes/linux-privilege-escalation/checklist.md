@@ -31,7 +31,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 0 — Orient (60 seconds)
+## Phase 0 — Orient (60 seconds)
 
 - [ ] `id; groups; whoami; hostname; uname -a; cat /etc/os-release`
 - [ ] `sudo -V | head -1` — record version against the sudo CVE table
@@ -46,7 +46,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 1 — Quick Wins (30 seconds each, high payoff)
+## Phase 1 — Quick Wins (30 seconds each, high payoff)
 
 - [ ] `sudo -l` shows `(ALL : ALL) ALL` → `sudo su -` **DONE**
 - [ ] `sudo -l` shows any binary → check [GTFOBins](https://gtfobins.github.io/) → escalate via sudo
@@ -60,7 +60,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 2 — Credentials (often the fastest root)
+## Phase 2 — Credentials (often the fastest root)
 
 **Files and histories**
 
@@ -88,7 +88,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 3 — Privileged Execution Paths
+## Phase 3 — Privileged Execution Paths
 
 **SUID / SGID / capabilities**
 
@@ -114,7 +114,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 4 — Scheduled & Background Execution
+## Phase 4 — Scheduled & Background Execution
 
 - [ ] `cat /etc/crontab; ls -la /etc/cron.* /var/spool/cron/crontabs/ 2>/dev/null` — writable scripts?
 - [ ] `cat /etc/anacrontab 2>/dev/null` — anacron runs the same `cron.daily` scripts; a writable script there is a root path
@@ -127,7 +127,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 5 — Filesystem Primitives
+## Phase 5 — Filesystem Primitives
 
 - [ ] `find / -path /proc -prune -o -type d -perm -o+w 2>/dev/null` — world-writable directories
 - [ ] `find / -path /proc -prune -o -type f -perm -o+w 2>/dev/null` — world-writable files
@@ -138,7 +138,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 6 — Session, Process, and File-Descriptor Attacks
+## Phase 6 — Session, Process, and File-Descriptor Attacks
 
 **Sudo token reuse**
 
@@ -166,7 +166,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 7 — Network, Pivot, and Runtime Sockets
+## Phase 7 — Network, Pivot, and Runtime Sockets
 
 - [ ] `ss -tulpn` — localhost-only services → `ssh -R` / `socat` tunnel
 - [ ] `cat /etc/resolv.conf` — internal DNS → AD pivot
@@ -180,7 +180,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 8 — Container Escape (only if inside a container)
+## Phase 8 — Container Escape (only if inside a container)
 
 - [ ] `capsh --print` — `CAP_SYS_ADMIN`, `CAP_SYS_PTRACE`, `CAP_SYS_MODULE`, `CAP_DAC_READ_SEARCH`?
 - [ ] `find / -maxdepth 4 \( -name docker.sock -o -name containerd.sock -o -name crio.sock \) 2>/dev/null` — reachable socket?
@@ -192,7 +192,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 9 — Kubernetes / Node (only if the shell is in a pod or on a node)
+## Phase 9 — Kubernetes / Node (only if the shell is in a pod or on a node)
 
 - [ ] `ls /var/run/secrets/kubernetes.io/serviceaccount/` — current ServiceAccount token; note its RBAC
 - [ ] `cat /var/run/secrets/kubernetes.io/serviceaccount/token | cut -d. -f2 | base64 -d 2>/dev/null` — decode token claims
@@ -204,7 +204,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 10 — Supply Chain and Package Managers (if in `wheel` / `sudo`)
+## Phase 10 — Supply Chain and Package Managers (if in `wheel` / `sudo`)
 
 - [ ] `groups | grep -qE 'wheel|sudo' && echo "wheel/sudo: package postinstall can reach root paths"`
 - [ ] `npm config get ignore-scripts 2>/dev/null` — `false` means a malicious package's `postinstall` runs in your context
@@ -214,7 +214,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Phase 11 — Kernel Exploit (last resort)
+## Phase 11 — Kernel Exploit (last resort)
 
 - [ ] `uname -r` → `searchsploit linux kernel <ver>` / `linux-exploit-suggester` / `lse.sh -l 2`
 - [ ] `uname -m` — architecture; compile for it
@@ -226,7 +226,7 @@ tags = ['linux', 'privilege-escalation', 'checklist']
 
 ---
 
-### Post-Root — What "Root" Looks Like in 2026
+## Post-Root — What "Root" Looks Like in 2026
 
 Do not assume root is "a new SUID binary on disk." Modern post-exploitation and tooling is increasingly memory-resident.
 
@@ -238,7 +238,7 @@ Do not assume root is "a new SUID binary on disk." Modern post-exploitation and 
 
 ---
 
-### Stop Conditions
+## Stop Conditions
 
 - [ ] Root obtained → **stop enumerating, record the path, screenshot / copy flags**
 - [ ] Two full passes with no lead → re-read `sudo -l`, `/etc/systemd/system`, `/etc/cron.*`, **process environments**, and **`/proc/*/fd`** — these are the most-missed

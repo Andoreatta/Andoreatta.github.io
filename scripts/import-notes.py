@@ -343,6 +343,22 @@ def strip_leading_h2(body: str) -> str:
     return body
 
 
+def promote_headings(body: str) -> str:
+    """Move checklist phase headings up one level after removing the old H2."""
+    lines = body.splitlines()
+    in_fence = False
+    out: list[str] = []
+    for line in lines:
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+        elif not in_fence:
+            match = re.match(r"^(#{3,6})(\s+.*)$", line)
+            if match:
+                line = match.group(1)[1:] + match.group(2)
+        out.append(line)
+    return "\n".join(out)
+
+
 def extract_h1(body: str) -> tuple[str | None, str]:
     """Remove the first level-one heading outside fenced code blocks."""
     lines = body.splitlines()
@@ -446,7 +462,12 @@ def convert_shortcodes(text: str) -> str:
     return text
 
 
-def copy_image(src: str, rel: Path, source: Path, warnings: list[str]) -> str | None:
+def copy_image(
+    src: str,
+    rel: Path,
+    source: Path,
+    warnings: list[str],
+) -> tuple[str, int | None, int | None] | None:
     if not src or src.startswith(("http://", "https://", "data:")):
         return None
     image_path = Path(src)
@@ -455,10 +476,29 @@ def copy_image(src: str, rel: Path, source: Path, warnings: list[str]) -> str | 
     if not image_path.exists():
         warnings.append(f"missing image in {rel}: {src}")
         return None
+
     STATIC_IMAGES.mkdir(parents=True, exist_ok=True)
-    destination = STATIC_IMAGES / image_path.name
-    shutil.copy2(image_path, destination)
-    return f"/images/notes/{destination.name}"
+    try:
+        from PIL import Image
+
+        destination = STATIC_IMAGES / (image_path.stem + ".webp")
+        with Image.open(image_path) as image:
+            width, height = image.size
+            mode = "RGBA" if "A" in image.getbands() else "RGB"
+            if image.mode != mode:
+                image = image.convert(mode)
+            image.save(destination, "WEBP", quality=82, method=6)
+    except Exception as error:  # pragma: no cover - fallback for odd images
+        warnings.append(f"could not convert {src} to WebP ({error}); copied original")
+        destination = STATIC_IMAGES / image_path.name
+        shutil.copy2(image_path, destination)
+        return f"/images/notes/{destination.name}", None, None
+
+    old_destination = STATIC_IMAGES / image_path.name
+    if old_destination != destination and old_destination.exists():
+        old_destination.unlink()
+
+    return f"/images/notes/{destination.name}", width, height
 
 
 def convert_figures(text: str, rel: Path, source: Path, warnings: list[str]) -> str:
@@ -470,14 +510,18 @@ def convert_figures(text: str, rel: Path, source: Path, warnings: list[str]) -> 
 
     def repl(match: re.Match[str]) -> str:
         src, caption = match.group(1), match.group(2)
-        image_url = copy_image(src, rel, source, warnings)
-        if not image_url:
+        image = copy_image(src, rel, source, warnings)
+        if not image:
             return match.group(0)
+        image_url, width, height = image
         caption = html.unescape(re.sub(r"<[^>]+>", "", caption)).strip()
         alt = html.escape(caption, quote=True)
+        dimensions = ""
+        if width and height:
+            dimensions = f' width="{width}" height="{height}"'
         return (
             f'<figure class="notes-figure">\n'
-            f'  <img src="{image_url}" alt="{alt}" loading="lazy">\n'
+            f'  <img src="{image_url}" alt="{alt}"{dimensions} loading="lazy">\n'
             f'  <figcaption>{html.escape(caption)}</figcaption>\n'
             f"</figure>"
         )
@@ -636,6 +680,7 @@ def main() -> int:
         task = rel.name.lower() == "checklist.md"
         if task:
             body = strip_leading_h2(body)
+            body = promote_headings(body)
 
         body = rewrite_links(body, rel, file_map, warnings).strip("\n") + "\n"
         weight = PAGE_WEIGHTS.get(rel.as_posix(), 500)

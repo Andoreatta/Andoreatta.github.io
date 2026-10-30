@@ -23,7 +23,7 @@ To display the metadata of a PDF file, there are multiple options:
 3. Use `pdfinfo example.pdf`
 
 <figure class="notes-figure">
-  <img src="/images/notes/pdf-metadata.png" alt="Reading a PDF file&#x27;s metadata from Google Chrome" loading="lazy">
+  <img src="/images/notes/pdf-metadata.webp" alt="Reading a PDF file&#x27;s metadata from Google Chrome" width="1047" height="600" loading="lazy">
   <figcaption>Reading a PDF file&#x27;s metadata from Google Chrome</figcaption>
 </figure>
 

@@ -49,7 +49,7 @@ You can also use `gobuster`, `ffuf` and `BurpSuiteIntuder` to scan for files and
 A typical SAP logon screen ([http://SAP:50000/irj/portal](http://sap:50000/irj/portal)) looks like the following:
 
 <figure class="notes-figure">
-  <img src="/images/notes/sapnetweaver.png" alt="SAP Login Page" loading="lazy">
+  <img src="/images/notes/sapnetweaver.webp" alt="SAP Login Page" width="1542" height="808" loading="lazy">
   <figcaption>SAP Login Page</figcaption>
 </figure>
 
