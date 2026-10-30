@@ -10,11 +10,10 @@ tags = ['oscp', 'methodology', 'htb', 'machine-index']
 > One row per box for the whole OSCP-like list — **76 machines**: 39 Linux, 18 Windows, 16 AD and 3 non-AD. Use it to pick a box by technique, to revise a path in 30 seconds, and to tick off what you have actually rooted. Detail lives in [Linux](/notes/oscp-labs/linux/), [Windows](/notes/oscp-labs/windows/) and [Active Directory](/notes/oscp-labs/ad/); this page only routes you there.
 
 {{< hint info >}}
-Names and platforms follow [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/).
-Paths, tools, CVEs and study tracks are annotations from hands-on practice, and
-this page is a snapshot that is not updated when the sheet changes. Use it when
-you are stuck mid-box; for a no-spoiler run, work from the neutral technique
-notes and come back after the root flag.
+Box names and platforms: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/)
+(HTB column only). Paths and study tracks are my annotations — see [Source](#source)
+for scope and caveats. For a no-spoiler run, work from the neutral technique notes
+and come back after the root flag.
 {{< /hint >}}
 
 ## How to use this page
@@ -93,24 +92,24 @@ notes and come back after the root flag.
 
 ## Active Directory
 
-| Machine | Foothold | Privesc / path | Key tool or CVE | Done |
-| --- | --- | --- | --- | --- |
-| [Active](/notes/oscp-labs/ad/) | anonymous Replication share | GPP → Kerberoast Administrator | gpp-decrypt · GetUserSPNs | [ ] |
-| [Forest](/notes/oscp-labs/ad/) | null RPC → AS-REP roast | WriteDacl domain → DCSync | GetNPUsers · secretsdump | [ ] |
-| [Sauna](/notes/oscp-labs/ad/) | kerbrute → AS-REP fsmith | AutoLogon → GetChanges | kerbrute · secretsdump | [ ] |
-| [Flight](/notes/oscp-labs/ad/) | UNC include → NetNTLMv2 | machine TGT → DCSync | ntlm_theft · Rubeus tgtdeleg | [ ] |
-| [Return](/notes/oscp-labs/ad/) | printer panel LDAP bind | Server Operators binPath swap | Responder · Server Operators | [ ] |
-| [Blackfield](/notes/oscp-labs/ad/) | profiles share → AS-REP | ForceChangePassword → SeBackup | rpcclient setuserinfo2 · diskshadow | [ ] |
-| [Cicada](/notes/oscp-labs/ad/) | guest SMB → HR note | spray → reg save SAM | netexec --rid-brute · reg save | [ ] |
-| [TheFrizz](/notes/oscp-labs/ad/) | Gibbon LMS file write | GPO abuse → SYSTEM | **CVE-2023-45878** · SharpGPOAbuse · hashcat 1420 | [ ] |
-| [Administrator](/notes/oscp-labs/ad/) | assumed breach → BloodHound | GenericAll chain → DCSync | BloodHound · targetedKerberoast | [ ] |
-| [Monteverde](/notes/oscp-labs/ad/) | querydispinfo → user spray | ADSync LocalDB → DA | ADSync · mcrypt.dll | [ ] |
-| [Escape](/notes/oscp-labs/ad/) | SMB PDF creds → MSSQL | coerce → ESC1 | Certipy ESC1 · xp_dirtree | [ ] |
-| [EscapeTwo](/notes/oscp-labs/ad/) | assumed breach → xlsx | WriteOwner → ESC4 → ESC1 | Certipy ESC4 · bloodyAD | [ ] |
-| [Certified](/notes/oscp-labs/ad/) | assumed breach → WriteOwner | shadow creds → ESC9 | Certipy ESC9 · owneredit | [ ] |
-| [Puppy](/notes/oscp-labs/ad/) | assumed breach → HR group | KeePassXC → DPAPI | KeePassXC · dpapi.py | [ ] |
-| [Timelapse](/notes/oscp-labs/ad/) | null SMB zip → pfx | cert WinRM → LAPS | pfx2john · LAPS | [ ] |
-| [Signed](/notes/oscp-labs/ad/) | assumed breach SQL login | silver ticket → OPENROWSET | ticketer.py · OPENROWSET | [ ] |
+| Machine | Diff | Foothold | Privesc / path | Key tool or CVE | Done |
+| --- | --- | --- | --- | --- | --- |
+| [Active](/notes/oscp-labs/ad/) | Easy | anonymous Replication share | GPP → Kerberoast Administrator | gpp-decrypt · GetUserSPNs | [ ] |
+| [Forest](/notes/oscp-labs/ad/) | Easy | null RPC → AS-REP roast | WriteDacl domain → DCSync | GetNPUsers · secretsdump | [ ] |
+| [Sauna](/notes/oscp-labs/ad/) | Easy | kerbrute → AS-REP fsmith | AutoLogon → GetChanges | kerbrute · secretsdump | [ ] |
+| [Flight](/notes/oscp-labs/ad/) | Hard | UNC include → NetNTLMv2 | machine TGT → DCSync | ntlm_theft · Rubeus tgtdeleg | [ ] |
+| [Return](/notes/oscp-labs/ad/) | Easy | printer panel LDAP bind | Server Operators binPath swap | Responder · Server Operators | [ ] |
+| [Blackfield](/notes/oscp-labs/ad/) | Hard | profiles share → AS-REP | ForceChangePassword → SeBackup | rpcclient setuserinfo2 · diskshadow | [ ] |
+| [Cicada](/notes/oscp-labs/ad/) | Easy | guest SMB → HR note | spray → reg save SAM | netexec --rid-brute · reg save | [ ] |
+| [TheFrizz](/notes/oscp-labs/ad/) | Medium | Gibbon LMS file write | GPO abuse → SYSTEM | **CVE-2023-45878** · SharpGPOAbuse · hashcat 1420 | [ ] |
+| [Administrator](/notes/oscp-labs/ad/) | Medium | assumed breach → BloodHound | GenericAll chain → DCSync | BloodHound · targetedKerberoast | [ ] |
+| [Monteverde](/notes/oscp-labs/ad/) | Medium | querydispinfo → user spray | ADSync LocalDB → DA | ADSync · mcrypt.dll | [ ] |
+| [Escape](/notes/oscp-labs/ad/) | Medium | SMB PDF creds → MSSQL | coerce → ESC1 | Certipy ESC1 · xp_dirtree | [ ] |
+| [EscapeTwo](/notes/oscp-labs/ad/) | Medium | assumed breach → xlsx | WriteOwner → ESC4 → ESC1 | Certipy ESC4 · bloodyAD | [ ] |
+| [Certified](/notes/oscp-labs/ad/) | Medium | assumed breach → WriteOwner | shadow creds → ESC9 | Certipy ESC9 · owneredit | [ ] |
+| [Puppy](/notes/oscp-labs/ad/) | Medium | assumed breach → HR group | KeePassXC → DPAPI | KeePassXC · dpapi.py | [ ] |
+| [Timelapse](/notes/oscp-labs/ad/) | Easy | null SMB zip → pfx | cert WinRM → LAPS | pfx2john · LAPS | [ ] |
+| [Signed](/notes/oscp-labs/ad/) | Medium | assumed breach SQL login | silver ticket → OPENROWSET | ticketer.py · OPENROWSET | [ ] |
 
 ## Also on the list (not AD)
 
@@ -153,3 +152,5 @@ Counted by tagging every row above against the page it came from. A box appears 
 Box list: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
 Hack The Box column only. The selection is Lainkusanagi's; the one-line paths,
 tool/CVE calls and study tracks are mine. Not synced with the sheet.
+
+

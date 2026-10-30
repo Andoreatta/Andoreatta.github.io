@@ -11,10 +11,7 @@ tags = ['oscp', 'methodology', 'htb', 'linux', 'writeups']
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
-Box selection: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
-HTB column only; the paths, edge cases and commands are mine, snapshotted at the
-time of writing. This page contains spoilers — for the technique without the box,
-use the neutral [Linux privilege escalation](/notes/linux-privilege-escalation/) notes.
+Box list: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/) (HTB only) · spoiler-free: [Linux privilege escalation](/notes/linux-privilege-escalation/)
 
 ## How to use this page
 
@@ -951,12 +948,10 @@ Use this as a pre-exploitation and post-exploitation checklist. Each item names 
 
 **Pitfalls that cost the most time**
 
-- [ ] Pipes and redirects inside Java/Groovy/Node contexts become literal filenames; stage a script and `bash` it (Editor, Cozyhosting, Silentium).
-- [ ] URL-encoding: "encode all characters" in Burp, keep `%20` where a space is needed, encode `+` as `%2b` (Editor, Precious, Silentium, Busqueda).
-- [ ] A response that looks like an error may mean success: clone_from traceback, "No available actions", "Something went wrong", `mv: cannot stat` (Editorial, Silentium, Monitored).
+Covered once in [Pitfalls & time wasters](/notes/oscp-labs/patterns/#pitfalls--time-wasters): pipes and redirects inside Java/Groovy/Node contexts (Editor, Cozyhosting, Silentium), URL-encoding drift (Editor, Precious, Silentium, Busqueda), error-looking responses that mean success (Editorial, Silentium, Monitored) and out-of-band confirmation of execution (Silentium, Monitored, Busqueda, Editorial). Box-specific leftovers:
+
 - [ ] Client-side validation is not validation, but server-side signatures are: edit through the UI (Cctv).
 - [ ] `hidepid=invisible` makes `ps` look clean — services still exist (BoardLight, Cctv).
 - [ ] Target clock skew breaks timestamp brute force (Help); `fs.protected_symlinks` blocks symlinks in sticky dirs (Linkvortex).
 - [ ] Shared-lab artifacts get overwritten — append and re-check (Nibbles).
 - [ ] `python -m http.server` cannot receive a POST; use `nc -lnvp` (Sunday).
-- [ ] Verify execution out-of-band (listener, `tcpdump`, file timestamp) before abandoning a payload (Silentium, Monitored, Busqueda, Editorial).

@@ -9,44 +9,9 @@ tags = ['oscp', 'methodology', 'patterns']
 
 > A problem-first index of the recurring techniques that decide the boxes on the OSCP-like lab list. Each pattern is deliberately small: **when** to reach for it, the **prerequisite check** that must pass, the commands worth memorising, and the machines where it was the difference between stuck and rooted. It sits between three neighbours: the [command checklist](/notes/oscp-labs/commands/) you run at the start of every box, the [Linux](/notes/oscp-labs/linux/), [Windows](/notes/oscp-labs/windows/) and [AD](/notes/oscp-labs/ad/) machine pages that walk one box end-to-end, and the "Cross-machine patterns" summary at the end of each machine page. This page is the layer that transfers: a technique is worth learning when you can name two machines it appears on and the condition that makes it fire. Nothing here is a walkthrough, and every command still needs its placeholders replaced.
 
-## Pattern index
-
-| Pattern                                                    | Phase       | Machines (examples)                          | Note page                                                                                |
-| ---------------------------------------------------------- | ----------- | -------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Full-port and UDP reachability                             | Recon       | Solidstate, Sunday, Chatterbox, UnderPass    | [Info gathering](/notes/web-applications/information-gathering/)                                               |
-| Vhost discovery when the IP root is a decoy                | Recon       | Keeper, Editor, BoardLight, Love             | [Fuzzing](/notes/web-applications/fuzzing/)                                                |
-| Exposed repositories, backups and source archives          | Recon       | Pilgrimage, UpDown, Linkvortex, Dog          | [Info gathering](/notes/web-applications/information-gathering/)                                               |
-| Version fingerprint to CVE                                 | Recon       | Pilgrimage, Broker, Arctic, Devvortex        | [Info gathering](/notes/web-applications/information-gathering/)                                               |
-| Default, guessable and reused credentials                  | Credentials | Nibbles, Solidstate, Sunday, UnderPass       | [Password attacks](/notes/utilities-scripts-and-payloads/password-attacks/)                |
-| Credentials mined from non-web services                    | Credentials | Pandora, Solidstate, Enigma, Netmon          | [SNMP](/notes/protocols-and-services/snmp/)                                                |
-| Hash identification and cracking modes                     | Credentials | Sunday, Codify, Builder, Active              | [Password attacks](/notes/utilities-scripts-and-payloads/password-attacks/)                |
-| Spraying across authentication backends                    | Credentials | EscapeTwo, Signed, Heist, UnderPass          | [Password attacks](/notes/utilities-scripts-and-payloads/password-attacks/)                |
-| Land code in an executable location                        | Web         | Popcorn, Magic, Bounty, Tabby                | [File uploads](/notes/web-applications/web-attacks/file-uploads/)                          |
-| LFI and RFI to code execution                              | Web         | Poison, Nineveh, Sniper, UpDown              | [LFI](/notes/web-applications/web-attacks/local-file-inclusion-lfi/)                       |
-| SQL injection: bypass, dump, write                         | Web         | Jarvis, Magic, Giddy, Cctv                   | [SQL injection](/notes/web-applications/web-attacks/sql-injection/)                        |
-| Command injection in web parameters                        | Web         | Cozyhosting, Precious, OpenAdmin, Mentor     | [OS command injection](/notes/web-applications/web-attacks/os-command-injection/)          |
-| Application-layer code sinks                               | Web         | Busqueda, Gobox, Editor, Codify              | [Web attacks](/notes/web-applications/web-attacks/)                                 |
-| SSRF and XXE: server-side request primitives               | Web         | Editorial, Love, Return, Markup              | [SSRF](/notes/web-applications/web-attacks/ssrf/)                                          |
-| sudo: GTFOBins and script logic                            | Linux       | Sunday, Cozyhosting, OpenAdmin, Swagshop     | [Jobs and services](/notes/linux-privilege-escalation/programs-jobs-and-services/)         |
-| Root-run jobs you can write or influence                   | Linux       | Nibbles, Solidstate, Bashed, Networked       | [Jobs and services](/notes/linux-privilege-escalation/programs-jobs-and-services/)         |
-| SUID, capabilities and PATH hijacking                      | Linux       | Magic, Pandora, Irked, Cctv                  | [Capabilities](/notes/linux-privilege-escalation/capabilities-abuse/)                      |
-| Privileged groups and container escape                     | Linux       | Tabby, Busqueda, Silentium, Mentor           | [Privileged groups](/notes/linux-privilege-escalation/privileged-groups/)                  |
-| Kernel, PAM and SUID CVE fallbacks                         | Linux       | Popcorn, Help, BoardLight                    | [Miscellaneous](/notes/linux-privilege-escalation/miscellaneous-techniques/)               |
-| SeImpersonate and the potato family                        | Windows     | Bounty, Mailing, Querier, Signed             | [Excessive rights](/notes/windows-privilege-escalation/excessive-user-rights-abuse/)       |
-| A privileged process runs an artifact you control          | Windows     | Markup, Giddy, Love, Chatterbox              | [File system ACLs](/notes/windows-privilege-escalation/file-system-acls/)                  |
-| Legacy kernel and third-party service exploits             | Windows     | Arctic, Buff, Bounty                         | [Attack vectors](/notes/windows-privilege-escalation/enumerating-attack-vectors/)          |
-| Unauthenticated user enumeration                           | AD          | Forest, Sauna, Cicada, Monteverde            | [Initial access](/notes/active-directory/initial-access/)                                  |
-| Kerberos roasting                                          | AD          | Forest, Sauna, Active, Administrator         | [Internal enumeration](/notes/active-directory/internal-enumeration-and-lateral-movement/) |
-| ACL and GPO abuse to DCSync                                | AD          | Forest, Blackfield, Certified, TheFrizz      | [ACL abuse](/notes/active-directory/internal-enumeration-and-lateral-movement/)            |
-| ADCS ESC chains                                            | AD          | Escape, EscapeTwo, Certified                 | [ADCS attacks](/notes/active-directory/adcs-attacks/)                                      |
-| Backup and Server Operators                                | AD          | Return, Blackfield, Cicada                   | [Built-in groups](/notes/windows-privilege-escalation/built-in-groups-abuse/)              |
-| Coerced authentication to Net-NTLMv2                       | AD          | Querier, Giddy, Escape, Return               | [NTLM relay](/notes/active-directory/ntlm-relay/)                                          |
-| MSSQL as an AD pivot                                       | AD          | Escape, EscapeTwo, Querier, Signed           | [MSSQL](/notes/protocols-and-services/mssql/)                                              |
-| Localhost-only services and tunnels                        | Pivot       | Poison, Editor, Enigma, Buff                 | [Pivoting](/notes/utilities-scripts-and-payloads/pivoting-tunneling-port-forwarding/)      |
-| Payload staging and delivery                               | Pivot       | Buff, Sniper, Giddy, Flight                  | [File transfers](/notes/utilities-scripts-and-payloads/file-transfers/)                    |
-| Loot: hidden data, dumps and stored credentials            | Pivot       | Jeeves, Access, TheFrizz, Timelapse          | [Living off the land](/notes/windows-privilege-escalation/living-off-the-land/)            |
-| Recognise the decoy, the fake version and the revert timer | Pitfalls    | Tartarsauce, Bashed, Forest, Broker          | [Attack vectors](/notes/linux-privilege-escalation/enumerating-attack-vectors/)            |
-| Verify execution and re-encode                             | Pitfalls    | Silentium, Editorial, Monitored, Cozyhosting | [Shells and payloads](/notes/utilities-scripts-and-payloads/shells-and-payloads/)          |
+34 patterns, grouped by phase. The on-page list covers each one; the
+[Pattern-to-machine matrix](#pattern-to-machine-matrix) at the end flips the view
+to boxes.
 
 ## Recon & enumeration
 
@@ -781,11 +746,8 @@ Grouped by the phase where the box turns, not one row per machine. Each group na
 
 Written while working the HTB portion of
 [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
-then generalised: each row names the boxes it fired on, and every command still
-needs its placeholders replaced. The [machine index](/notes/oscp-labs/machine-index/)
-routes you to a box; this page routes you to a technique, which is what carries
-into a practice CTF or an exam set you have not seen.
-
-The library is hand-written and **not regenerated when the list changes**, so a
-box can appear on the sheet before it appears here. Proving Grounds coverage will
-be added if I get access to the platform or plan an OSCP attempt.
+then generalised: each pattern names the boxes it fired on, which is what carries
+into a practice CTF or an exam set you have not seen. The library is hand-written
+and **not regenerated when the list changes**, so a box can appear on the sheet
+before it appears here. Proving Grounds coverage will be added if I get access to
+the platform or plan an OSCP attempt.

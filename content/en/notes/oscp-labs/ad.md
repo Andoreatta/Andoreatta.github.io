@@ -11,10 +11,7 @@ tags = ['oscp', 'methodology', 'htb', 'active-directory', 'writeups']
 
 Companion pages: [Command Checklist](/notes/oscp-labs/commands/) · [Pattern Library](/notes/oscp-labs/patterns/) · [Methodology](/notes/oscp-labs/methodology/) · [Machine Index](/notes/oscp-labs/machine-index/).
 
-Box selection: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/),
-HTB column only; the paths, edge cases and commands are mine, snapshotted at the
-time of writing. This page contains spoilers — for the technique without the box,
-use the neutral [Active Directory](/notes/active-directory/) notes.
+Box list: [Lainkusanagi's OSCP-like list](https://docs.google.com/spreadsheets/d/18weuz_Eeynr6sXFQ87Cd5F0slOj9Z6rt/) (HTB only) · spoiler-free: [Active Directory](/notes/active-directory/)
 
 ## How to use this page
 
@@ -22,27 +19,6 @@ use the neutral [Active Directory](/notes/active-directory/) notes.
 * **BloodHound before exploitation.** Collect with `bloodhound-python -c all --zip` (or `bloodhound-ce-python`) and read the *Abuse Info* of each edge; rights on the **domain node** show up as GetChanges/GetChangesAll, not as an edge called "DCSync" (Sauna).
 * **Every found secret is a reuse test.** Fan out `nxc smb/ldap/winrm/mssql/ftp` with `--continue-on-success`; a service that fails is not the service that matters (Return: WinRM but no SMB admin; Administrator: FTP but no WinRM for `benjamin`). Try the *actual* account name when a config spells it differently (Sauna).
 * **ADCS, delegation and time.** None of Active/Forest/Sauna/Flight/Return/Blackfield/Cicada/TheFrizz/Administrator/Monteverde exposes a CA — do not burn exam minutes on Certipy there. The ESC paths live in Escape (ESC1), EscapeTwo (ESC4→ESC1) and Certified (ESC9). Clock skew is the single most common time sink: `sudo ntpdate <dc fqdn>`, expect the VPN to drop, reconnect — but note that AS-REP roasting tolerates hours of skew (Sauna).
-
-## At-a-glance
-
-| Box | Start | Entry technique | Key escalation | Difficulty |
-| --- | --- | --- | --- | --- |
-| Active | Unauthenticated | GPP cpassword in DFS-R share | Kerberoast Administrator | Easy |
-| Forest | Unauthenticated | Null RPC → AS-REP | WriteDacl → DCSync | Easy |
-| Sauna | Unauthenticated | Kerbrute → AS-REP | AutoLogon → GetChanges/GetChangesAll | Easy |
-| Flight | Unauthenticated | PHP LFI → UNC → NetNTLMv2 | Machine TGT (tgtdeleg) → DCSync | Hard |
-| Return | Unauthenticated | Printer panel → LDAP cleartext | Server Operators `sc config` | Easy |
-| Blackfield | Unauthenticated | Profiles share → AS-REP | ForceChangePassword → LSASS → SeBackup | Hard |
-| Cicada | Unauthenticated | Guest SMB → HR share → RID brute | LDAP description → Backup Operators | Easy |
-| TheFrizz | Unauthenticated | Gibbon LMS CVE-2023-45878 | Kerberos SSH → GPO abuse | Medium |
-| Administrator | Assumed breach | BloodHound ACL chain | GenericAll → FTP psafe3 → targeted Kerberoast | Medium |
-| Monteverde | Unauthenticated | RPC querydispinfo → spray | ADSync LocalDB + mcrypt | Medium |
-| Escape | Unauthenticated | SMB PDF → MSSQL | Coerce → ESC1 | Medium |
-| EscapeTwo | Assumed breach | xlsx → MSSQL `sa` | WriteOwner → shadow creds → ESC4→ESC1 | Medium |
-| Certified | Assumed breach | WriteOwner Management group | Shadow creds ×2 → ESC9 | Medium |
-| Puppy | Assumed breach | HR group → GenericWrite Developers | KeePassXC → GenericAll → DPAPI | Medium |
-| Timelapse | Unauthenticated | winrm_backup.zip → pfx | Certificate WinRM → LAPS | Easy |
-| Signed | Assumed breach | SQL login `scott` | Silver ticket → OPENROWSET | Medium |
 
 ## Active
 
@@ -549,7 +525,8 @@ Read this as a checklist, not prose. Each line names the boxes where that decisi
 - [ ] HTB boxes revert: Forest's `restore` task resets the password, groups and DCSync ACEs every 60 s; TheFrizz has a cleanup script on a couple-minute timer plus a 90-minute GPO refresh.
 - [ ] Do the grant and the dump in one chain, and re-check membership/ACEs immediately before the final step.
 - [ ] Other expiring state: the crafted DNS record in Signed (~15 min GC) and Bucket's `alerts` table (~1 min wipe).
-- [ ] If a change keeps vanishing, look for a scheduled task or loop before blaming your tooling.
+
+The general shape of a revert loop and how to spot one is in [Recognise the decoy, the fake version and the revert timer](/notes/oscp-labs/patterns/#recognise-the-decoy-the-fake-version-and-the-revert-timer).
 
 **Tooling that paid off**
 
