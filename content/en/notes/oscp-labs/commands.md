@@ -5,6 +5,7 @@ type = 'notes'
 weight = 20
 toc = true
 tags = ['oscp', 'methodology', 'commands']
+phVars = true
 +++
 
 > Copy-paste command sheet for a general pentest or an OSCP-style exam: one block per phase, checkboxes for the steps, exact commands for the tool versions shipped on current distributions. It is the companion to the [methodology](/notes/oscp-labs/methodology/) — the methodology explains *why* and *when*, this page is what you actually type. Every command is a **template**: read it, substitute the variables, and check the precondition before running it.

@@ -36,6 +36,10 @@
                 {{- end }}
             </header>
 
+            {{- if .Params.phVars }}
+                {{ partial "notes/ph-vars.html" . }}
+            {{- end }}
+
             {{- with .TableOfContents }}
                 <details class="notes-toc" id="notes-toc" open>
                     <summary>On this page</summary>

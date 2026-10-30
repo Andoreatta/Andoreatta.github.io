@@ -1993,3 +1993,94 @@ html,
 body {
     overflow-x: clip;
 }
+
+/* --------------------------------------------------------------------------
+   Placeholder bar (commands page)
+   -------------------------------------------------------------------------- */
+
+.ph-vars {
+    margin: 1.5rem 0 2rem;
+    padding: 1rem 1.1rem 0.9rem;
+    border: 1pt solid var(--g18s);
+}
+
+.ph-vars__title {
+    margin: 0 0 0.35rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+}
+
+.ph-vars__note {
+    margin: 0 0 0.85rem;
+    color: var(--notes-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.ph-vars__note code {
+    font-size: 0.78rem;
+}
+
+.ph-vars__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: 0.6rem 0.9rem;
+}
+
+.ph-vars__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.22rem;
+    color: var(--notes-muted);
+    font-family: var(--tt);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.ph-vars__field input {
+    width: 100%;
+    padding: 0.34rem 0.5rem;
+    border: 1pt solid var(--g18);
+    background: transparent;
+    color: inherit;
+    font-family: var(--tt);
+    font-size: 0.88rem;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.ph-vars__field input::placeholder {
+    color: var(--notes-muted);
+    opacity: 0.55;
+    text-transform: none;
+}
+
+.ph-vars__field input:focus-visible {
+    outline: 2px solid var(--ac);
+    outline-offset: 1px;
+}
+
+.ph-vars__clear {
+    margin-top: 0.8rem;
+    border: 1pt solid var(--g18);
+    padding: 0.12rem 0.45rem;
+    background: transparent;
+    color: var(--notes-muted);
+    font-family: var(--tt);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.ph-vars__clear:hover,
+.ph-vars__clear:focus-visible {
+    color: var(--ac);
+    border-color: var(--ac);
+}
+
+.ph {
+    color: var(--ac);
+    border-bottom: 1px dotted currentColor;
+}

@@ -1,0 +1,38 @@
+{{- /* Placeholder bar: fills <IP>, <ATTACKER>, … inside the code blocks of this page.
+       Values live in sessionStorage for this tab only; the password is never stored. */ -}}
+<section class="ph-vars" data-pagefind-ignore aria-labelledby="ph-vars-title">
+    <h2 class="ph-vars__title" id="ph-vars-title">Fill the placeholders</h2>
+    <p class="ph-vars__note">
+        Values replace <code>&lt;IP&gt;</code>, <code>&lt;ATTACKER&gt;</code>, <code>&lt;LPORT&gt;</code>,
+        <code>&lt;DOMAIN&gt;</code>, <code>&lt;USER&gt;</code> and <code>&lt;PASS&gt;</code> in every
+        block on this page. They stay in this tab: no requests, no disk, and the password is
+        never stored — reload keeps the rest, closing the tab clears everything.
+    </p>
+    <div class="ph-vars__grid">
+        <label class="ph-vars__field">
+            <span>Target IP</span>
+            <input type="text" data-ph="IP" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="10.10.10.10">
+        </label>
+        <label class="ph-vars__field">
+            <span>Attacker IP</span>
+            <input type="text" data-ph="ATTACKER" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="10.10.14.5">
+        </label>
+        <label class="ph-vars__field">
+            <span>Port</span>
+            <input type="text" data-ph="LPORT" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="443">
+        </label>
+        <label class="ph-vars__field">
+            <span>Domain</span>
+            <input type="text" data-ph="DOMAIN" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sequel.htb">
+        </label>
+        <label class="ph-vars__field">
+            <span>User</span>
+            <input type="text" data-ph="USER" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="svc_tgs">
+        </label>
+        <label class="ph-vars__field">
+            <span>Password</span>
+            <input type="password" data-ph="PASS" autocomplete="new-password" spellcheck="false" placeholder="not stored">
+        </label>
+    </div>
+    <button type="button" class="ph-vars__clear" data-ph-clear>clear</button>
+</section>
