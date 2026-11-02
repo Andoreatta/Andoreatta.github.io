@@ -1,5 +1,6 @@
 +++
 title = 'SMTP'
+description = 'The Simple Mail Transfer Protocol (SMTP) sends email; IMAP or POP3 retrieve it.'
 date = 2026-10-30
 type = 'notes'
 weight = 500

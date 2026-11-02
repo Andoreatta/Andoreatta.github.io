@@ -148,6 +148,22 @@ The repository is a GitHub user site, so Pages must use:
 
 - **Settings → Pages → Build and deployment → Source:** GitHub Actions
 
+## Security headers
+
+GitHub Pages serves static files and cannot set HTTP response headers. The site
+therefore ships a `<meta http-equiv="Content-Security-Policy">` tag plus a
+`Referrer-Policy` meta tag as a fallback. These cover most browser behaviour,
+but some protections only work as real response headers:
+
+- `Strict-Transport-Security` (HSTS) is ignored in meta tags.
+- `X-Content-Type-Options: nosniff` is ignored in meta tags.
+- `frame-ancestors` is ignored in meta tags, so clickjacking protection is not
+  enforced by the CSP fallback.
+
+If those are required, put a proxy/CDN that can rewrite response headers
+(Cloudflare, Fastly, Netlify, or a self-hosted reverse proxy) in front of
+GitHub Pages.
+
 ## Custom domain
 
 The code already points at `https://serial.experiments.network/`:
@@ -176,10 +192,31 @@ Remaining external steps:
 
 ## Updating the theme
 
+Do **not** use `git submodule update --remote --merge`. Theme templates are
+executed at build time, so `--remote --merge` silently pulls unreviewed
+upstream code into the published site.
+
+Review-first workflow instead:
+
 ```sh
-git submodule update --remote --merge themes/hugo-brewm
+# 1. Check out the new tag/commit inside the submodule
+cd themes/hugo-brewm
+git fetch --tags origin
+git checkout vX.Y.Z          # or a specific commit SHA
+cd ../..
+
+# 2. Review the template diff before accepting it
+git diff --submodule=log themes/hugo-brewm
+git -C themes/hugo-brewm log --oneline --no-merges OLD..NEW
+git -C themes/hugo-brewm diff OLD..NEW -- layouts
+
+# 3. Build locally and check the site still renders
+hugo --gc --minify
+./node_modules/.bin/pagefind --site ./public
+
+# 4. Commit the updated submodule pointer
 git add themes/hugo-brewm
-git commit -m "Update hugo-brewm theme"
+git commit -m "Update hugo-brewm theme to vX.Y.Z"
 ```
 
 `layouts/partials/head/meta.html` is a **site override** of the theme's file. The

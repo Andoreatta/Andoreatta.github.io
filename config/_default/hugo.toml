@@ -7,8 +7,10 @@ title = 'srl.exp.net'
 theme = 'hugo-brewm'
 ## Enable Git information for pages, (e.g. lastMod date information)
 enableGitInfo = true
-## Convert all URLs to absolute URLs
-canonifyURLs = true
+## Keep URLs relative; templates use absURL/relLangURL where an absolute URL is
+## required. Absolute canonification also rewrote links in local previews and
+## made relative links on /pt-br/ resolve against the English root.
+canonifyURLs = false
 ## Default language for content
 defaultContentLanguage = 'en'
 ## Keep the default language at the site root; Portuguese lives under /pt-br/
@@ -56,17 +58,21 @@ enableRobotsTXT = true
                     inline = [['\(', '\)']]
 
 [outputs]
-    home = ['html', 'rss', 'json']
+    ## 'json' was only consumed by the optional network-graph aside, which this
+    ## site never enables. Dropping it removes a public data dump from every build.
+    home = ['html', 'rss']
     ## Tag pages are discovery aids, not feeds. Keeping RSS on every tag term
     ## generated ~16 MB of full-content XML from the imported notes.
     taxonomy = ['html']
     term = ['html']
 
-[sitemap]
-    changeFreq = 'monthly'
+## No global [sitemap] changefreq: it is ignored by search engines and was
+## claiming every URL changed monthly. lastmod comes from git info per page.
 
 [services.rss]
-    limit = -1
+    ## Feeds are limited by params.RSS.limit (see [params.RSS]); this only
+    ## controls Hugo's built-in template, which the theme overrides.
+    limit = 20
 
 ## Taxonomy configuration
 [taxonomies]
@@ -143,6 +149,9 @@ enableRobotsTXT = true
 
     [params.typeface]
         webSafe = true
+        ## Ship the 12 KB icon-minimal.css instead of icon.css, which inlines a
+        ## 29 KB base64 font for two glyphs (linkedin/github in the footer).
+        minimalUI = true
         ## The site uses self-hosted Atkinson Hyperlegible and the native mono
         ## stack, so the theme's remote typeface stylesheets are not loaded.
         ## These values are kept only for theme compatibility.

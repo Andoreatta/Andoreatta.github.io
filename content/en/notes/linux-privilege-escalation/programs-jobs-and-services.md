@@ -1,5 +1,6 @@
 +++
 title = 'Programs, Jobs and Services'
+description = 'Scheduled and supervised execution is the most consistent privilege-escalation surface on Linux.'
 date = 2026-10-30
 type = 'notes'
 weight = 50

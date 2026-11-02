@@ -1,5 +1,6 @@
 +++
 title = 'AWS Cloud Red Teaming — Operator Notes'
+description = 'If the target is a container (ECS Fargate or EKS with pod identity), the EC2 IMDS is not available. Use the ECS Task Metadata Endpoint:'
 date = 2026-10-30
 type = 'notes'
 weight = 10

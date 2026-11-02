@@ -1,5 +1,6 @@
 +++
 title = 'Pivoting, Tunneling, Port Forwarding'
+description = 'If the pivot runs SSH, or you have SSH credentials to it, you already have a tunneling toolkit installed.'
 date = 2026-10-30
 type = 'notes'
 weight = 40

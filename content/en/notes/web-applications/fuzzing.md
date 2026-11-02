@@ -1,5 +1,6 @@
 +++
 title = 'Fuzzing (ffuf-first)'
+description = 'Fuzzing is systematic content discovery — proving what an application exposes rather than guessing from its sitemap.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

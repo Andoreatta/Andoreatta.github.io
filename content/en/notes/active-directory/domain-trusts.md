@@ -1,5 +1,6 @@
 +++
 title = 'Domain Trusts'
+description = 'The single most important idea in 2026 is that the forest, not the domain, is the security boundary .'
 date = 2026-10-30
 type = 'notes'
 weight = 70

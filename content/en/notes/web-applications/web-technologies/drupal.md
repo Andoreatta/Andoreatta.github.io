@@ -1,5 +1,6 @@
 +++
 title = 'Drupal'
+description = '2. Add the following RCE payload: 3. Note: toggle text format → php code in the options below 4.'
 date = 2026-10-30
 type = 'notes'
 weight = 100

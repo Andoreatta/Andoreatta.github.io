@@ -1,5 +1,6 @@
 +++
 title = 'Pentesting Methodology'
+description = 'The loop only runs inside authorization. Scope, rules of engagement and a named emergency contact come before the first packet…'
 date = 2026-10-30
 type = 'notes'
 weight = 10

@@ -1,5 +1,6 @@
 +++
 title = 'NFS'
+description = 'Network File System (NFS) is a distributed file system protocol developed by Sun Microsystems in 1984.'
 date = 2026-10-30
 type = 'notes'
 weight = 500

@@ -1,5 +1,6 @@
 +++
 title = 'RDP'
+description = 'Remote Desktop Protocol (RDP) provides a graphical interface to connect to another computer over a network connection.'
 date = 2026-10-30
 type = 'notes'
 weight = 500

@@ -1,5 +1,6 @@
 +++
 title = 'Jenkins'
+description = 'Jenkins attack surface: unauthenticated script console, credential and secret exposure, build-job abuse, and post-exploitation on the CI host.'
 date = 2026-10-30
 type = 'notes'
 weight = 120

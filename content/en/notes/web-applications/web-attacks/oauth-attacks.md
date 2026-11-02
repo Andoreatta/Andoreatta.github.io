@@ -1,5 +1,6 @@
 +++
 title = 'OAuth Attacks'
+description = 'OAuth is a standard designed to enable secure authorization between services and applications.'
 date = 2026-10-30
 type = 'notes'
 weight = 80

@@ -1,5 +1,6 @@
 +++
 title = 'Web Cache Poisoning & Web Cache Deception'
+description = 'Web caches sit between the client and the origin server to reduce latency and load.'
 date = 2026-10-30
 type = 'notes'
 weight = 120

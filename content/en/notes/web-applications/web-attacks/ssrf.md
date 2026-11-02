@@ -1,16 +1,12 @@
 +++
 title = 'SSRF'
+description = 'Server-side request forgery: cloud metadata (IMDSv1/v2), DNS rebinding, redirect bypasses, protocol smuggling and out-of-band confirmation.'
 date = 2026-10-30
 type = 'notes'
 weight = 70
 toc = true
 tags = ['web', 'web-attacks', 'ssrf']
 +++
-
-Here is the revised and expanded **SSRF** reference. Your original tools, parameter list, and Gopher POST example are preserved; the additions cover the areas that decide whether an SSRF is a reportable finding or a full cloud compromise: **cloud metadata exploitation (IMDSv1/v2), DNS rebinding, redirect-based bypasses, protocol smuggling, modern localhost bypasses, and OOB confirmation for blind SSRF**.
-
----
-
 
 Server-Side Request Forgery (SSRF) occurs when an attacker can coerce the server into making requests to an arbitrary URL. In cloud environments, a single SSRF often pivots to **full account compromise** via the instance metadata service (IMDS) — which is why it is consistently one of the highest-impact bug classes.
 

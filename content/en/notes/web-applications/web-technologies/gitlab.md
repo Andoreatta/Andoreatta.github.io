@@ -1,5 +1,6 @@
 +++
 title = 'GitLab'
+description = 'GitLab is an open-source end-to-end DevOps platform with built-in version control, issue tracking, code review, CI/CD, and more.'
 date = 2026-10-30
 type = 'notes'
 weight = 110

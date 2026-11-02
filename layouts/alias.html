@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{ or site.Language.Locale site.Language.Lang }}">
+  <head>
+    <title>{{ .Permalink }}</title>
+    <link rel="canonical" href="{{ .Permalink }}">
+    {{- /* Hugo's built-in alias template marks these noindex; the theme's copy
+           dropped it, leaving every generated alias crawlable. */}}
+    <meta name="robots" content="noindex">
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="0; url={{ .Permalink }}">
+    {{- $instance := or site.Params.fediverse.instance site.Params.fediverse.host }}
+    {{- $username := or site.Params.fediverse.username site.Params.fediverse.user }}
+    {{- if and $instance $username }}
+        <link rel="me" href="{{ print "https://" $instance "/@" $username }}">
+    {{ end }}
+  </head>
+</html>

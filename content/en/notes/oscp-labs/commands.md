@@ -1,5 +1,6 @@
 +++
 title = 'Pentesting Command Checklist'
+description = '2. Replace every other as well (, , , ) and any quoted value that is obviously not yours.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

@@ -1,16 +1,12 @@
 +++
 title = 'SQL Injection (SQLi)'
+description = 'SQL injection from detection to exploitation: payloads, filter evasion, SQLMap tampers, ORM and NoSQL variants, and out-of-band techniques.'
 date = 2026-10-30
 type = 'notes'
 weight = 60
 toc = true
 tags = ['web', 'web-attacks', 'sql-injection']
 +++
-
-Here is the revised and expanded **SQL Injection (SQLi)** reference. Your original payloads, filter-evasion tables, SQLMap commands, and field notes are preserved. The major additions are the **2025–2026 WAF-evasion research** (AST mutation, adversarial generation), **NoSQL injection** (MongoDB operator injection, Redis, Cassandra), **ORM-level injection** (Hibernate CVE-2026-0603, Sequelize), **modern SQLMap tamper collections**, **out-of-band and error-based refinements**, and **current critical CVEs**.
-
----
-
 
 SQL injection allows an attacker to interfere with the queries an application makes to its database. It can expose data belonging to other users, modify or delete data, escalate to server compromise, or cause denial of service.
 

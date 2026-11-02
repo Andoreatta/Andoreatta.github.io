@@ -1,5 +1,6 @@
 +++
 title = 'File System ACLs & Service Permissions'
+description = 'Writable service binaries, modifiable service DACLs and weak file-system ACLs on Windows: how each grants SYSTEM and how to check for it.'
 date = 2026-10-30
 type = 'notes'
 weight = 40

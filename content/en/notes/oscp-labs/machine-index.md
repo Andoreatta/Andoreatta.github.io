@@ -1,5 +1,6 @@
 +++
 title = 'OSCP Machine Index'
+description = "Box names and platforms: Lainkusanagi's OSCP-like list (HTB column only)."
 date = 2026-10-30
 type = 'notes'
 weight = 40

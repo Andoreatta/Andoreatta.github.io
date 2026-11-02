@@ -1,5 +1,6 @@
 +++
 title = 'MSSQL'
+description = "Microsoft SQL Server (MSSQL) is Microsoft's SQL-based relational database management system."
 date = 2026-10-30
 type = 'notes'
 weight = 500

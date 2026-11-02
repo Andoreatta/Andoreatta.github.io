@@ -1,5 +1,6 @@
 +++
 title = 'Privileged Groups'
+description = 'Group membership is often the shortest path to root — shorter than any kernel exploit and far less risky.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

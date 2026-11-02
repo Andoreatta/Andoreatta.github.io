@@ -1,5 +1,6 @@
 +++
 title = 'POP3'
+description = 'Post Office Protocol version 3 (POP3) is a mail retrieval protocol: a client connects to the mail server, authenticates…'
 date = 2026-10-30
 type = 'notes'
 weight = 500

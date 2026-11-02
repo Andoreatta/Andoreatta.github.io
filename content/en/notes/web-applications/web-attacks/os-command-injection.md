@@ -1,5 +1,6 @@
 +++
 title = 'OS Command Injection'
+description = 'OS command injection occurs when user-controlled input is misinterpreted as part of a system command.'
 date = 2026-10-30
 type = 'notes'
 weight = 110

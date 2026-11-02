@@ -1528,6 +1528,14 @@ aside.note .note__body p {
     text-transform: uppercase;
 }
 
+.notes-attribution {
+    margin: 0.75rem 0 0;
+    color: var(--notes-muted);
+    font-family: var(--tt);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
 .notes-related {
     margin-top: 1.5rem;
     border-top: 1pt solid var(--g18s);

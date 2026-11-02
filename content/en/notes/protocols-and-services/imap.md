@@ -1,5 +1,6 @@
 +++
 title = 'IMAP'
+description = 'The Internet Message Access Protocol (IMAP) works on TCP port 143 (unencrypted) and 993 (implicit TLS).'
 date = 2026-10-30
 type = 'notes'
 weight = 500

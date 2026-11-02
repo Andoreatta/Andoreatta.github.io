@@ -1,5 +1,6 @@
 +++
 title = 'Capabilities Abuse'
+description = 'Capabilities are stored as extended attributes (security.capability) and are not visible in ls -l — unlike SUID, they must be enumerated with getcap.'
 date = 2026-10-30
 type = 'notes'
 weight = 40

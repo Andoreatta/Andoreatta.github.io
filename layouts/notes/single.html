@@ -10,10 +10,14 @@
     "description" $description
     "datePublished" (.Date.Format "2006-01-02")
     "dateModified" (.Lastmod.Format "2006-01-02")
-    "author" (dict "@type" "Person" "name" $author)
-    "publisher" (dict "@type" "Person" "name" $author)
+    "author" (dict "@type" "Person" "name" $author "url" (absURL "/about/"))
+    "publisher" (dict
+        "@type" "Organization"
+        "name" site.Title
+        "logo" (dict "@type" "ImageObject" "url" (absURL "/images/social-card.png")))
     "mainEntityOfPage" .Permalink
     "url" .Permalink
+    "inLanguage" site.Language.Lang
     "image" (or site.Params.socialCard.images site.Params.images)
 -}}
 {{- with .Params.tags -}}
@@ -85,6 +89,9 @@
                     {{- end }}
                     <span class="notes-updated">updated {{ .Lastmod | time.Format ":date_long" }}</span>
                 </div>
+                <p class="notes-attribution">Adapted from
+                    <a href="https://notes.sfoffo.com/">sfoffo's Pentesting Notes</a>;
+                    expanded and reworked here. Corrections welcome.</p>
                 {{ partial "notes/related.html" . }}
                 {{ partial "notes/prevnext.html" . }}
             </footer>

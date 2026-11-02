@@ -1,5 +1,6 @@
 +++
 title = 'Linux Privilege Escalation Enumeration'
+description = 'A consolidated reference for enumerating attack vectors on Linux targets, from first shell to root.'
 date = 2026-10-30
 type = 'notes'
 weight = 10

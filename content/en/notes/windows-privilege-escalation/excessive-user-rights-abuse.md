@@ -1,5 +1,6 @@
 +++
 title = 'Excessive User Rights Abuse'
+description = 'Windows token privileges are the most direct path to SYSTEM on a compromised host.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

@@ -1,16 +1,12 @@
 +++
 title = 'Cross-Site Scripting (XSS)'
+description = 'Reflected, stored and DOM-based XSS: sinks, sanitizer bypasses, CSP misconfiguration, encoding and delivery, with 2025–2026 payloads and tooling.'
 date = 2026-10-30
 type = 'notes'
 weight = 10
 toc = true
 tags = ['web', 'web-attacks', 'xss']
 +++
-
-Here is the revised and expanded **Cross-Site Scripting (XSS)** reference. The original payloads, encoding tables, and delivery techniques are preserved. The major additions address the 2025–2026 reality: **DOM-based XSS has overtaken reflected XSS** as the primary high-value target, **Trusted Types adoption is slow and bypassable**, **sanitizer bypasses (DOMPurify prototype pollution, Shadow DOM)** are now a first-class attack class, and **AI agents are a new injection surface**.
-
----
-
 
 XSS remains the most consistently exploitable web vulnerability class because the attack surface keeps expanding: frameworks add new sinks, sanitizers add new bypasses, and browsers ship new APIs before their security model is fully understood. **Reflected XSS is largely caught by scanners now**; the current high-value targets are **DOM-based XSS** (unsafe `innerHTML`, `document.write`, framework-specific sinks), **sanitizer bypasses** (prototype pollution, Shadow DOM), and **CSP misconfigurations**.
 
@@ -106,7 +102,7 @@ Modern filters block `alert` and `onerror` first. These alternatives still execu
 
 ### 3.3 Alternative encodings
 
-The full HTML/numeric/JS/URL/CSS encoding table from your original notes remains valid. The key 2025 addition is **Unicode normalization**:
+The full HTML/numeric/JS/URL/CSS encoding table in this reference remains valid. The key 2025 addition is **Unicode normalization**:
 
 > Unicode normalization standardizes different binary representations of the same character. If the backend or frontend normalizes input after filtering, you may be able to bypass a WAF by sending a **normalization-equivalent** character that the filter does not recognize.
 

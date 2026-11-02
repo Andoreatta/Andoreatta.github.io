@@ -7,11 +7,6 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -23,24 +18,81 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     env:
       HUGO_VERSION: 0.169.0
-      PAGEFIND_VERSION: 1.5.2
     steps:
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+          set -euo pipefail
+          HUGO_DEB="hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          EXPECTED_HASH="a20f7da84e0981bebbecc032cc87f0dda2049a844727720aab14e61ce416e5e9"
+          BASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
+          cd "${{ runner.temp }}"
+          wget -O "${HUGO_DEB}" "${BASE_URL}/${HUGO_DEB}"
+          wget -O "hugo_${HUGO_VERSION}_checksums.txt" "${BASE_URL}/hugo_${HUGO_VERSION}_checksums.txt"
+          # Verify against the hash pinned in this workflow (fails if upstream changed).
+          echo "${EXPECTED_HASH}  ${HUGO_DEB}" | sha256sum -c -
+          # Cross-check against the release's own checksums file.
+          grep " ${HUGO_DEB}\$" "hugo_${HUGO_VERSION}_checksums.txt" | sha256sum -c -
+          sudo dpkg -i "${HUGO_DEB}"
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           submodules: recursive
           fetch-depth: 0
+          persist-credentials: false
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v6.0.0
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+        run: npm ci --ignore-scripts
+      # markup.goldmark.renderer.unsafe = true is needed for <details>/<figure>,
+      # so this gate rejects anything that could inject active HTML.
+      - name: Check content for unsafe HTML
+        run: |
+          python3 - <<'PY'
+          import glob, re, sys
+
+          ALLOWED = {"hint", "lain-hero", "running-lain", "ph-vars"}
+          BAD = re.compile(r"<\s*(?:script|iframe|object|embed|base)\b|(?<![A-Za-z])on[a-z]+\s*=|javascript\s*:", re.I)
+          SHORTCODE = re.compile(r"{{[<%]\s*/?\s*([A-Za-z0-9_-]+)")
+          OPEN = re.compile(r"\s*(`{3,}|~{3,})")
+
+          def scrub(text):
+              out, fence = [], None
+              for line in text.splitlines():
+                  m = OPEN.match(line)
+                  if fence:
+                      if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence) and line.strip() == m.group(1):
+                          fence = None
+                      out.append("")
+                  elif m:
+                      fence = m.group(1)
+                      out.append("")
+                  else:
+                      out.append(re.sub(r"`[^`]*`", "", line))
+              return out
+
+          bad = 0
+          files = sorted(glob.glob("content/**/*.md", recursive=True))
+          for path in files:
+              with open(path, encoding="utf-8") as fh:
+                  for n, line in enumerate(scrub(fh.read()), 1):
+                      for m in BAD.finditer(line):
+                          print(f"{path}:{n}: {m.group(0).strip()}")
+                          bad += 1
+                      for m in SHORTCODE.finditer(line):
+                          if m.group(1).lower() not in ALLOWED:
+                              print(f"{path}:{n}: {m.group(0).strip()}")
+                              bad += 1
+          if bad:
+              print(f"FAIL: {bad} unsafe construct(s) in content")
+              sys.exit(1)
+          print(f"OK: scanned {len(files)} markdown files, no unsafe HTML or unknown shortcodes")
+          PY
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
@@ -51,13 +103,13 @@ jobs:
             --minify
       - name: Index Pagefind
         run: |
-          npx pagefind@${{ env.PAGEFIND_VERSION }} --site "./public"
+          ./node_modules/.bin/pagefind --site "./public"
           rm -f ./public/pagefind/pagefind-component-ui.* ./public/pagefind/pagefind-modular-ui.*
       - name: Validate sitemaps
         run: |
           python3 -c "import glob, xml.etree.ElementTree as ET; files = ['public/sitemap.xml'] + glob.glob('public/*/sitemap.xml'); [ET.parse(f) for f in files]; print(f'validated {len(files)} sitemaps')"
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5.0.0
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: ./public
 
@@ -66,8 +118,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: build
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5.0.0
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

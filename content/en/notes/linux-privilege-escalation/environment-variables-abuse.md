@@ -1,5 +1,6 @@
 +++
 title = 'Environment Variables Abuse'
+description = 'Environment variables are the configuration plane that every process inherits.'
 date = 2026-10-30
 type = 'notes'
 weight = 30

@@ -1,5 +1,6 @@
 +++
 title = 'Kerberos Delegation'
+description = 'Delegation lets a service act on behalf of a user to reach another service.'
 date = 2026-10-30
 type = 'notes'
 weight = 40

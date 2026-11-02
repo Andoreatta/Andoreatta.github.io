@@ -1,0 +1,21 @@
+{{- /*
+  robots.txt for srl.exp.net.
+
+  The theme's template only emitted AI-crawler groups when AllowAIRobots was
+  false, and emitted a single trailing "Disallow: /" that applied to the last
+  group only. This version makes the flag mean what it says: true leaves the
+  wildcard permissive (an explicit allow group is redundant), false disallows
+  each named crawler individually.
+*/ -}}
+{{- $aiBots := slice "GPTBot" "OAI-SearchBot" "ChatGPT-User" "ClaudeBot" "Claude-Web" "PerplexityBot" "Google-Extended" "CCBot" "Bytespider" "Amazonbot" "Applebot-Extended" "Meta-ExternalAgent" -}}
+{{- if site.Params.AllowAIRobots }}
+User-agent: *
+Disallow:
+{{- else }}
+{{- range $aiBots }}
+User-agent: {{ . }}
+Disallow: /
+{{ end }}
+{{- end }}
+
+Sitemap: {{ "sitemap.xml" | absURL }}

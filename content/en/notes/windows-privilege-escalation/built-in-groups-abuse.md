@@ -1,5 +1,6 @@
 +++
 title = 'Built-in Groups Abuse'
+description = 'Windows ships with privileged built-in groups whose membership grants powerful rights short of full administrator…'
 date = 2026-10-30
 type = 'notes'
 weight = 30

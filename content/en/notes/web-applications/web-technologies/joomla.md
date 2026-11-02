@@ -1,5 +1,6 @@
 +++
 title = 'Joomla'
+description = 'Joomla enumeration and exploitation: version and component discovery, administrator access, template and extension abuse, and known CVEs.'
 date = 2026-10-30
 type = 'notes'
 weight = 90

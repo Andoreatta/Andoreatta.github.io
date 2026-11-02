@@ -1,5 +1,6 @@
 +++
 title = 'Enumerating Attack Vectors (Windows)'
+description = 'Windows privilege escalation is usually a configuration flaw, not a missing patch.'
 date = 2026-10-30
 type = 'notes'
 weight = 10

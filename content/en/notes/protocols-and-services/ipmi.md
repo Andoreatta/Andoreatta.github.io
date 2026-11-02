@@ -1,5 +1,6 @@
 +++
 title = 'IPMI'
+description = 'IPMI enumeration and abuse: BMC discovery on UDP 623, default credentials, password hashes from IPMI 2.0 RAKP, and what a compromised BMC gives you.'
 date = 2026-10-30
 type = 'notes'
 weight = 500

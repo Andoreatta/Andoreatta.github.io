@@ -5,7 +5,9 @@
     direction = 'ltr'
     label = 'English'
     [en.pagination]
-        disableAliases = false
+        ## /page/1/ aliases are duplicates of the list URL; they are not needed
+        ## for navigation and were 127 crawlable soft redirects.
+        disableAliases = true
         pagerSize = 8
         path = 'page'
 
@@ -16,7 +18,7 @@
     direction = 'ltr'
     label = 'Português (Brasil)'
     [pt-br.pagination]
-        disableAliases = false
+        disableAliases = true
         pagerSize = 8
         path = 'page'
     [pt-br.params]

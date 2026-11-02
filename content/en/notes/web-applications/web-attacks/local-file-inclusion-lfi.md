@@ -1,5 +1,6 @@
 +++
 title = 'Local File Inclusion (LFI)'
+description = 'Local File Inclusion occurs when an application includes a file whose path is influenced by user input, without proper validation.'
 date = 2026-10-30
 type = 'notes'
 weight = 130

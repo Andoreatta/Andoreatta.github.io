@@ -1,5 +1,6 @@
 +++
 title = 'Information Gathering'
+description = 'Reconnaissance in 2025–2026 is a pipeline, not a collection of individual commands.'
 date = 2026-10-30
 type = 'notes'
 weight = 10

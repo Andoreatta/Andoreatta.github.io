@@ -1,5 +1,6 @@
 +++
 title = 'Oracle TNS'
+description = 'Oracle TNS enumeration: listener discovery on 1521, SID and service-name brute forcing, odat modules, and credential attacks against the database.'
 date = 2026-10-30
 type = 'notes'
 weight = 500

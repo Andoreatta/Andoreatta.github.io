@@ -1,5 +1,6 @@
 +++
 title = 'ADCS Attacks'
+description = 'Active Directory Certificate Services (ADCS) issues certificates that can be used for Kerberos PKINIT authentication.'
 date = 2026-10-30
 type = 'notes'
 weight = 50

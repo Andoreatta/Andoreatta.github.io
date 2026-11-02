@@ -1,5 +1,6 @@
 +++
 title = 'SNMP'
+description = 'Simple Network Management Protocol (SNMP) is used to monitor and manage devices on a network…'
 date = 2026-10-30
 type = 'notes'
 weight = 500

@@ -1,5 +1,6 @@
 +++
 title = 'PDF Generators'
+description = 'Many web applications provide a PDF generation functionality which may contain dynamic user input.'
 date = 2026-10-30
 type = 'notes'
 weight = 40

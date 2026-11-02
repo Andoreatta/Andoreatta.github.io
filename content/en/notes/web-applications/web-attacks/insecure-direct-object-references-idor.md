@@ -1,5 +1,6 @@
 +++
 title = 'Insecure Direct Object References (IDOR)'
+description = 'IDOR (CWE-639) occurs when an application exposes an internal object reference — a database key, filename, UUID, or account identifier…'
 date = 2026-10-30
 type = 'notes'
 weight = 100

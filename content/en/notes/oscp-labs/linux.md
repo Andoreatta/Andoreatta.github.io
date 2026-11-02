@@ -1,5 +1,6 @@
 +++
 title = 'HTB Linux Machines — OSCP Edge Cases'
+description = 'Companion pages: Command Checklist · Pattern Library · Methodology · Machine Index.'
 date = 2026-10-30
 type = 'notes'
 weight = 50

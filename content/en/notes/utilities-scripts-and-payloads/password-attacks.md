@@ -1,5 +1,6 @@
 +++
 title = 'Password Attacks'
+description = 'Password attacks fail for three reasons: attacking the wrong hash type, locking out accounts by spraying carelessly…'
 date = 2026-10-30
 type = 'notes'
 weight = 50

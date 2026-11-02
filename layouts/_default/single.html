@@ -30,6 +30,12 @@
     {{- if .Params.Hljs -}}
         {{ partialCached "head/js/hljs.html" . }}
     {{- end }}
+    {{- /* qrcode.js is only needed where the colophon renders a QR code.
+           extras.js guards on typeof QRCode, so other pages are unaffected. */}}
+    {{- if and (in (slice "post" "articles") .Params.type) (or .Params.colophon site.Params.posts.colophon) }}
+        {{- $qr := resources.Get "js/qrcode.js" | minify | fingerprint "sha256" }}
+        <script src="{{ $qr.RelPermalink }}" integrity="{{ $qr.Data.Integrity }}" crossorigin="anonymous" defer></script>
+    {{- end }}
 {{- end }}
 
 {{- define "main" }}

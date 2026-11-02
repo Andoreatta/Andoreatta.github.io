@@ -1,5 +1,6 @@
 +++
 title = 'Pentesting Pattern Library'
+description = '34 patterns, grouped by phase. The on-page list covers each one; the Pattern-to-machine matrix at the end flips the view to boxes.'
 date = 2026-10-30
 type = 'notes'
 weight = 30

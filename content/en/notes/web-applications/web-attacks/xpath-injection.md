@@ -1,5 +1,6 @@
 +++
 title = 'XPath Injection'
+description = 'XML Path Language (XPath) is a query language for selecting nodes from XML documents, used by applications that store or retrieve data in XML…'
 date = 2026-10-30
 type = 'notes'
 weight = 160

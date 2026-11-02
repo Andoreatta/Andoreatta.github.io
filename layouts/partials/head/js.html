@@ -1,0 +1,202 @@
+{{- /* Site override of the theme partial: fingerprints the resource so the filename and the SRI hash change together; qrcode.js is loaded only on pages with a colophon. */ -}}
+{{- $js_files := slice
+    (resources.Get "js/default.js")
+    (resources.Get "js/accessibility.js")
+    (resources.Get "js/bionread.js")
+}}
+
+{{- if not (or site.Params.BearMode site.Params.ZenMode ) }}
+    {{- $js_files = $js_files | append (resources.Get "js/extras.js") }}
+    {{- /* qrcode.js is 14 KB and only used by the colophon, which exists on
+           post pages. layouts/_default/single.html loads it there. */}}
+{{- end }}
+
+{{- $hugo_brewm := resources.Concat "hugo-brewm.js" $js_files }}
+{{- with $hugo_brewm }}
+    {{- with resources.ExecuteAsTemplate "hugo-brewm.js" $ . | minify }}
+        {{- if eq hugo.Environment "development" }}
+            <script src="{{ .RelPermalink }}" defer></script>
+        {{- else }}
+            {{- $js := . | fingerprint "sha256" }}
+            <script src="{{ $js.RelPermalink }}"
+                integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"
+                defer></script>
+        {{- end }}
+    {{- end }}
+{{- end }}
+
+{{- /*----------------------- end of js.html -----------------------*/}}
+
+{{- define "partials/head/js/hljs.html" -}}
+    {{ "<!-- hljs.html -->" | safeHTML }}
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script>
+        hljs.highlightAll();
+        hljs.initLineNumbersOnLoad();
+    </script>
+{{- end }}
+
+{{- define "partials/head/js/katex.html" -}}
+    {{ "<!-- katex.html -->" | safeHTML }}
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.18.1/dist/katex.min.js"
+        integrity="sha384-ycJ6GAwiS15LoUPipwJOrWTvkUHl/YqELValBwI5I4awP1EeEQJYarj+w85ntcz7" crossorigin="anonymous"
+        defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.18.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"
+        defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.getElementById('main-article'), {
+                delimiters: [
+                    {left: '$', right: '$', display: false},
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: "\begin{equation}", right: "\end{equation}", display: true},
+                    {left: "\begin{align}", right: "\end{align}", display: true},
+                ],
+                throwOnError : false
+            });
+        });
+    </script>
+{{- end }}
+
+{{- define "partials/head/js/mathjax.html" -}}
+    {{ "<!-- mathjax.html -->" | safeHTML }}
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$','$$'], ['\\[', '\\]'], ['\begin{equation}','\end{equation}'], ['\begin{align}','\end{align}']],
+                equationNumbers: { autoNumber: "AMS" },
+                extensions: ["AMSmath.js", "AMSsymbols.js"],
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+{{- end }}
+
+{{- define "partials/head/js/network-graph.html" -}}
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    {{/*
+        likely less frequent code at the moment, thus write inline here
+        */}}
+    <script>
+        const ngSty = document.createElement('style');
+        ngSty.textContent = `
+            #network-graph{ overflow: hidden;}
+            .link{ stroke: var(--mid); stroke-width: 1pt;}
+            .node{ cursor: pointer; fill: none; stroke: var(--ac); stroke-width: 1pt;}
+            .node.post{ fill: var(--ac); stroke: none;}
+            .node.tags{ stroke-dasharray: 1pt;}
+            .nodes text{ opacity: 0.5; font-size: 7pt; fill: var(--fg);}
+            .node:hover{ transform: scale(1.5);}
+            .node:hover + text{ opacity: 1; font-size: 8pt;}
+            @media (min-width: 480px) {.hero > #network-graph, #network-graph + .hero__content{width:50%}}
+        `
+        document.head.appendChild(ngSty);
+        const container = document.getElementById("network-graph");
+        const width = container.getBoundingClientRect().width;
+        const height = container.getBoundingClientRect().height;
+        const svg = d3.select("#network-graph")
+            .append("svg")
+                .attr("id", "network-graph-svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("pointer-events", "all")
+                .call(d3.zoom().on("zoom", redraw));
+
+        svg.append("title")
+            .text(container.dataset.title);
+
+        svg.append("rect")
+            .attr("id", "placeholder")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("fill", "none");
+
+        const vis = svg.append("g")
+            .attr("id", "network-graph-data");
+
+        function redraw(event) {
+            vis.attr("transform",
+                "translate(" + event.transform.x + "," + event.transform.y + ")"
+                + " scale(" + event.transform.k + ")");
+        }
+
+        const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id))
+            .force("charge", d3.forceManyBody())
+            .force("center", d3.forceCenter(width / 2, height / 2));
+
+        d3.json(container.dataset.source).then(function(graph) {
+            const link = vis.append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(graph.links)
+                .enter().append("line")
+                .attr("class", "link");
+
+            const node = vis.append("g")
+                .attr("class", "nodes")
+                .selectAll("g")
+                .data(graph.nodes)
+                .enter().append("g");
+
+            const title = node.append("title")
+                .text(d => d.title);
+
+            const circles = node.append("circle")
+                .attr("class", d => "node " + d.type)
+                .attr("r", 5)
+                .on("click", (event, d) => {
+                    window.location.href = d.permalink;
+                })
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            const labels = node.append("text")
+                .text(d => d.title)
+                .attr("x", 9)
+                .attr("y", 3);
+
+            simulation
+                .nodes(graph.nodes)
+                .on("tick", ticked);
+
+            simulation.force("link")
+                .links(graph.links);
+
+            function ticked() {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+            }
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    </script>
+{{- end }}

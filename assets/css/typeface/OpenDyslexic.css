@@ -1,0 +1,73 @@
+/*
+ * Self-hosted OpenDyslexic (site override of the theme's remote version).
+ *
+ * The theme loads these faces from raw.githubusercontent.com on a floating
+ * branch: no integrity, a third-party request per opt-in, and a dependency on
+ * someone else's repo staying put. The files live in static/fonts/opendyslexic/
+ * with the upstream OFL licence. Only fetched when the reader enables the
+ * OpenDyslexic toggle.
+ */
+
+@font-face {
+    font-family: 'OpenDyslexic';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('OpenDyslexic'),
+         url(/fonts/opendyslexic/OpenDyslexic-Regular.woff2) format('woff2');
+    size-adjust: 83%;
+    ascent-override: 106%;
+    descent-override: 36%;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: local('OpenDyslexic Italic'),
+         url(/fonts/opendyslexic/OpenDyslexic-Italic.woff2) format('woff2');
+    size-adjust: 83%;
+    ascent-override: 106%;
+    descent-override: 36%;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local('OpenDyslexic Bold'),
+         url(/fonts/opendyslexic/OpenDyslexic-Bold.woff2) format('woff2');
+    size-adjust: 83%;
+    ascent-override: 106%;
+    descent-override: 36%;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: local('OpenDyslexic Bold Italic'),
+         url(/fonts/opendyslexic/OpenDyslexic-Bold-Italic.woff2) format('woff2');
+    size-adjust: 83%;
+    ascent-override: 106%;
+    descent-override: 36%;
+}
+
+@font-face {
+    font-family: 'OpenDyslexicMono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local('OpenDyslexicMono'),
+         url(/css/fonts/OpenDyslexicMono-Regular.woff2) format('woff2');
+    size-adjust: 83%;
+    ascent-override: 106%;
+    descent-override: 36%;
+}
+
+:root {
+    --od: 'OpenDyslexic';
+}

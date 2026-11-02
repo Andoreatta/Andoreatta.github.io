@@ -1,5 +1,6 @@
 +++
 title = 'GCP Cloud Red Teaming — Operator Notes'
+description = 'Mental model: IAM binds a role to a principal at a resource node (org, folder, project, or specific resource).'
 date = 2026-10-30
 type = 'notes'
 weight = 30

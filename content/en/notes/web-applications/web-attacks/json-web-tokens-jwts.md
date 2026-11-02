@@ -1,5 +1,6 @@
 +++
 title = 'JSON Web Tokens (JWTs)'
+description = 'JSON Web Token (JWT) is a format for transmitting cryptographically secure data, typically used as a stateless session token.'
 date = 2026-10-30
 type = 'notes'
 weight = 50

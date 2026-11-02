@@ -1,0 +1,11 @@
+{
+  "name": "andoreatta-github-io",
+  "private": true,
+  "description": "Build-time tooling for the Hugo site (Pagefind search index)",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2"
+  }
+}

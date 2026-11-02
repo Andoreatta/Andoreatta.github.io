@@ -7,3 +7,14 @@ node_modules
 
 __pycache__/
 *.pyc
+
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+.venv/
+venv/
+.idea/
+*.log

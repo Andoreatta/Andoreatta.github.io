@@ -1,5 +1,6 @@
 +++
 title = 'HTTP Verb Tampering'
+description = 'HTTP verb tampering exploits web servers and frameworks that treat HTTP methods inconsistently…'
 date = 2026-10-30
 type = 'notes'
 weight = 180

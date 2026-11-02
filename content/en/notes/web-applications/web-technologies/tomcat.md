@@ -1,5 +1,6 @@
 +++
 title = 'Apache Tomcat'
+description = 'Apache Tomcat is the reference implementation of Jakarta Servlet, Jakarta Pages, and Jakarta WebSocket…'
 date = 2026-10-30
 type = 'notes'
 weight = 10

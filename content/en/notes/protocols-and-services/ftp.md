@@ -1,5 +1,6 @@
 +++
 title = 'FTP'
+description = 'FTP is a clear-text protocol for file transfer that typically runs on TCP port 21 (control channel).'
 date = 2026-10-30
 type = 'notes'
 weight = 500

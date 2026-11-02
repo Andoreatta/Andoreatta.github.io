@@ -1,5 +1,6 @@
 +++
 title = 'Miscellaneous Techniques'
+description = 'Techniques in this file do not fit neatly into SUID, sudo, or cron.'
 date = 2026-10-30
 type = 'notes'
 weight = 60

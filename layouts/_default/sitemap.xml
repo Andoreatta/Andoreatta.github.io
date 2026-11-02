@@ -1,7 +1,15 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-{{- range where (where .Pages ".Params.Headless" "ne" true ) "Sitemap.Disable" "ne" true -}}
-{{- if .Permalink }}
+{{- $pages := where (where .Pages ".Params.Headless" "ne" true ) "Sitemap.Disable" "ne" true -}}
+{{- /* Thin taxonomy output stays crawlable through navigation but is not
+       advertised here: /tags/ and /categories/ indexes plus every tag term with
+       fewer than three notes were 124 of 224 English URLs. */}}
+{{- $minTermPages := 3 -}}
+{{- range $pages -}}
+{{- $include := true -}}
+{{- if eq .Kind "taxonomy" }}{{ $include = false }}{{ end -}}
+{{- if eq .Kind "term" }}{{ if lt (len .Pages) $minTermPages }}{{ $include = false }}{{ end }}{{ end -}}
+{{- if and $include .Permalink }}
   <url>
     <loc>{{ .Permalink }}</loc>
     {{ if not .Lastmod.IsZero -}}
@@ -16,9 +24,12 @@
     {{ end -}}
     {{ if .IsTranslated -}}
       {{- range .Translations -}}
-        <xhtml:link rel="alternate" hreflang="{{ or .Language.Locale .Language.LanguageCode }}" href="{{ .Permalink }}" />
+        <xhtml:link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
+      {{- end -}}
+      <xhtml:link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
+      {{- with index (where .AllTranslations "Language.Lang" "en") 0 }}
+      <xhtml:link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
       {{- end }}
-    <xhtml:link rel="alternate" hreflang="{{ or .Language.Locale .Language.LanguageCode }}" href="{{ .Permalink }}" />
     {{ end -}}
   </url>
 {{- end }}

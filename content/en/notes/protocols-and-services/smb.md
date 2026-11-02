@@ -1,5 +1,6 @@
 +++
 title = 'SMB'
+description = 'Server Message Block (SMB) is a client-server protocol that regulates access to files, directories, and other network resources.'
 date = 2026-10-30
 type = 'notes'
 weight = 500

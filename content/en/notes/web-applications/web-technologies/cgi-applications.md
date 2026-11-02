@@ -1,5 +1,6 @@
 +++
 title = 'CGI Applications'
+description = 'A Common Gateway Interface (CGI) is the mechanism that lets a web server hand a request to an external program and return its output…'
 date = 2026-10-30
 type = 'notes'
 weight = 20

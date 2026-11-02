@@ -1,5 +1,6 @@
 +++
 title = 'NTLM Relay'
+description = 'NTLM authentication is challenge-response: the server sends a challenge, the client answers with a hash of the challenge using its password hash.'
 date = 2026-10-30
 type = 'notes'
 weight = 30

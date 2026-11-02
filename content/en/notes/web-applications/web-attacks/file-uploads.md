@@ -1,5 +1,6 @@
 +++
 title = 'File Upload Vulnerabilities'
+description = 'File upload vulnerabilities arise when a web server accepts user-supplied files without adequately validating their extension, content type, magic bytes…'
 date = 2026-10-30
 type = 'notes'
 weight = 30

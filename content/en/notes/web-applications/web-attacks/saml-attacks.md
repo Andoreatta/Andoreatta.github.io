@@ -1,5 +1,6 @@
 +++
 title = 'SAML Attacks'
+description = 'Security Assertion Markup Language (SAML) is an XML-based standard for authentication and authorization between parties…'
 date = 2026-10-30
 type = 'notes'
 weight = 90

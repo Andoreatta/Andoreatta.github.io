@@ -1,5 +1,6 @@
 +++
 title = 'DNS'
+description = 'DNS translates domain names to IP addresses and is the foundation of every other enumeration path…'
 date = 2026-10-30
 type = 'notes'
 weight = 500

@@ -1,5 +1,6 @@
 +++
 title = 'WordPress'
+description = 'WordPress powers over 40% of the web, and its attack surface is three-layered: the core, the plugin/theme ecosystem, and the administrative session.'
 date = 2026-10-30
 type = 'notes'
 weight = 30

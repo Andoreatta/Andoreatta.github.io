@@ -1,5 +1,6 @@
 +++
 title = 'Living off the Land'
+description = 'LOLBins and LOLBAS are signed, Microsoft-shipped binaries already present on a default Windows install.'
 date = 2026-10-30
 type = 'notes'
 weight = 70

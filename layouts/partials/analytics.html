@@ -1,5 +1,22 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+{{- /*
+  Content Security Policy, delivered as a meta tag because GitHub Pages cannot
+  set response headers. It is a containment net, not a hash-based policy: the
+  theme ships inline scripts and inline onclick handlers, so script-src needs
+  'unsafe-inline'. What it still blocks: third-party script origins (the real
+  injection path if content or a dependency is compromised), <base> rewriting,
+  object/embed, and form posts to arbitrary hosts.
+
+  frame-ancestors, report-uri and sandbox are ignored in meta CSP; HSTS and
+  X-Content-Type-Options need a proxy/CDN in front of Pages.
+
+  Allowed origins: cdn.jsdelivr.net (KaTeX, optional MathJax/hljs) and
+  duckduckgo.com (no-JS search fallback image/form). OpenDyslexic is
+  self-hosted, so no GitHub origin is allowed.
+*/}}
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://duckduckgo.com; font-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self'; worker-src 'self' blob:; form-action 'self' https://duckduckgo.com; frame-src 'none'">
 <link rel="preload"
     href="{{ "fonts/atkinson-hyperlegible/atkinson-hyperlegible-regular.woff2" | relURL }}"
     as="font" type="font/woff2" crossorigin>

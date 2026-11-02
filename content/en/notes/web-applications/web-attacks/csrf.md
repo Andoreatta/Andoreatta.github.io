@@ -1,5 +1,6 @@
 +++
 title = 'CSRF'
+description = "Cross-Site Request Forgery (CSRF) tricks a victim's browser into sending an authenticated request to a web application."
 date = 2026-10-30
 type = 'notes'
 weight = 20

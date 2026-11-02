@@ -1,5 +1,6 @@
 +++
 title = 'Metasploit Framework'
+description = 'The Metasploit Framework is a Ruby-based penetration testing platform for writing, testing, and executing exploit code.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

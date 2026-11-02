@@ -1,5 +1,6 @@
 +++
 title = 'IBM WebSphere'
+description = 'WebSphere is a Java EE application server provided by IBM, used to deploy and manage enterprise-level Java applications.'
 date = 2026-10-30
 type = 'notes'
 weight = 70

@@ -1,5 +1,6 @@
 +++
 title = 'XML External Entities (XXE)'
+description = 'An XML External Entity Injection (XXE) vulnerability occurs when an application parses attacker-supplied XML with external entity processing enabled.'
 date = 2026-10-30
 type = 'notes'
 weight = 150

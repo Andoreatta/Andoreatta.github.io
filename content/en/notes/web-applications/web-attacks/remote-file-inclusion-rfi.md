@@ -1,5 +1,6 @@
 +++
 title = 'Remote File Inclusion (RFI)'
+description = 'Remote File Inclusion (RFI) occurs when an application loads a file from a remote URL supplied by the attacker…'
 date = 2026-10-30
 type = 'notes'
 weight = 140

@@ -1,5 +1,6 @@
 +++
 title = 'WebDav'
+description = 'WebDAV (Web Distributed Authoring and Versioning) is a protocol that extends the HTTP protocol…'
 date = 2026-10-30
 type = 'notes'
 weight = 60

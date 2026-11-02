@@ -1,5 +1,6 @@
 +++
 title = 'File Transfers'
+description = 'Moving a tool onto a target and pulling loot off it is a prerequisite for almost every other phase.'
 date = 2026-10-30
 type = 'notes'
 weight = 30

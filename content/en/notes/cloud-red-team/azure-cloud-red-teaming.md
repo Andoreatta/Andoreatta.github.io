@@ -1,5 +1,6 @@
 +++
 title = 'Azure Cloud Red Teaming — Operator Notes'
+description = 'Key mental model: Azure has two planes — the ARM/RBAC plane (subscriptions, resources, role assignments) and the Entra ID plane (users, groups, apps…'
 date = 2026-10-30
 type = 'notes'
 weight = 20

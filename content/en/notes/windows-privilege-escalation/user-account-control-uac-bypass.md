@@ -1,5 +1,6 @@
 +++
 title = 'User Account Control (UAC) Bypass'
+description = 'UAC bypasses work because Microsoft-signed binaries with the autoElevate manifest flag silently jump to the full token without a prompt…'
 date = 2026-10-30
 type = 'notes'
 weight = 60

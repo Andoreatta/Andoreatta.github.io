@@ -12,6 +12,21 @@
 {{- $siteTitle := or site.Title site.Params.title | plainify }}
 {{- $permalink := .Permalink }}
 {{- $title := cond .IsHome $siteTitle (printf "%s | %s" .Title $siteTitle) | plainify  }}
+{{- /* Term pages are paginated by the theme's list template. .Permalink always
+       points at page 1, so deep pagers canonicalised to page 1 and shared its
+       title. Ask the same paginator the list template uses (same arguments, so
+       it is not re-invoked) and use its URL and page number. */}}
+{{- $canonical := .Permalink }}
+{{- $pageNumber := 0 }}
+{{- if eq .Kind "term" }}
+    {{- with partial "paginator.html" . }}
+        {{- $canonical = .URL | absURL }}
+        {{- $pageNumber = .PageNumber }}
+    {{- end }}
+{{- end }}
+{{- if gt $pageNumber 1 }}
+    {{- $title = printf "%s — Page %d | %s" .Title $pageNumber $siteTitle | plainify }}
+{{- end }}
     {{- $desc := or .Params.Description .Params.Subtitle .Summary | default .Description }}
     {{- $siteDesc := or site.Params.description site.Params.subtitle }}
     {{- if and .IsHome $siteDesc }}
@@ -39,7 +54,6 @@
     {{- end }}
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ $title }}</title>
 <meta name="author" content="{{ $author }}">
@@ -49,11 +63,24 @@
 {{ with $keywords -}}
     <meta name="keywords" content="{{ delimit . "," }}">
 {{ end -}}
-<link rel="canonical" href="{{ .Permalink }}">
-{{ with .Translations -}}
-    {{- range . -}}
+<link rel="canonical" href="{{ $canonical }}">
+{{- /* hreflang must be reciprocal AND self-referential, with x-default marking
+       the fallback. Only translated pages get the cluster; EN-only notes stay
+       unannotated, which is correct for monolingual content. */}}
+{{- if .IsTranslated }}
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
+    {{- range .Translations }}
         <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ or .Language.Label .Language.LanguageName }}">
-    {{- end -}}
+    {{- end }}
+    {{- with index (where .AllTranslations "Language.Lang" "en") 0 }}
+        <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+    {{- end }}
+{{- end }}
+{{- /* A tag page with one or two notes is a duplicate of the note list, not a
+       destination. Keep it crawlable through links, out of the index. Matches
+       the $minTermPages filter in layouts/_default/sitemap.xml. */}}
+{{- if and (eq .Kind "term") (lt (len .Pages) 3) }}
+<meta name="robots" content="noindex, follow">
 {{- end }}
 {{ partialCached "head/meta/favicon.html" . }}
 {{ partial "fediverse/meta.html" . }}
@@ -105,9 +132,21 @@
     <meta property="og:url" content="{{ .page.Permalink }}" />
     {{- with .cover }}
         <meta property="og:image" content="{{ . }}" />
+        <meta property="og:image:alt" content="{{ $.title }}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
     {{- end }}
     <meta property="og:site_name" content="{{ .siteTitle }}" />
-    {{- if .IsPage -}}
+    {{- with site.Language.Locale | default site.Language.Lang }}
+        <meta property="og:locale" content="{{ replace . "-" "_" }}" />
+    {{- end }}
+    {{- range .page.Translations }}
+        {{- with .Language.Locale | default .Language.Lang }}
+            <meta property="og:locale:alternate" content="{{ replace . "-" "_" }}" />
+        {{- end }}
+    {{- end }}
+    {{- /* .IsPage on the dict is always false; the page lives under .page. */}}
+    {{- if .page.IsPage -}}
         <meta property="article:author" content="{{ .author }}" />
         {{- with .publishDate }}
             <meta property="article:published_time" content="{{ . }}" />
@@ -118,9 +157,9 @@
         {{- with .keywords }}
             <meta property="article:tags" content="{{ delimit . ", " }}" />
         {{- end }}
-        {{- with site.RegularPages.Related . | first 5  }}
+        {{- with site.RegularPages.Related .page | first 5  }}
             {{- range . }}
-                {{- if ne $ . }}
+                {{- if ne .Permalink $.page.Permalink }}
                 <meta property="og:see_also" content="{{ .Permalink }}">
                 {{- end }}
             {{- end }}
@@ -137,6 +176,7 @@
     <meta name="twitter:description" content="{{ .desc }}" />
     {{- with .cover }}
         <meta name="twitter:image" content="{{ . }}" />
+        <meta name="twitter:image:alt" content="{{ $.title }}" />
     {{- end }}
     {{- with $twitterSite }}
         <meta name="twitter:site" content="@{{ . }}" />

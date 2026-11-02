@@ -1,5 +1,6 @@
 +++
 title = 'Initial Access (Active Directory)'
+description = 'After gaining access to the network segment where the AD environment resides — often through pivoting from a previously compromised host…'
 date = 2026-10-30
 type = 'notes'
 weight = 10

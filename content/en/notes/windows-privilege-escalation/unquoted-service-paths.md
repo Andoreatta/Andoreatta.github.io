@@ -1,5 +1,6 @@
 +++
 title = 'Services Hijacking'
+description = 'Windows services are the highest-yield privilege escalation surface on the platform because they run as LocalSystem while referencing four separate…'
 date = 2026-10-30
 type = 'notes'
 weight = 50

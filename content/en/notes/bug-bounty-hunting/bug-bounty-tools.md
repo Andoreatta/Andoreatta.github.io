@@ -1,19 +1,12 @@
 +++
 title = 'Bug Bounty Tools'
+description = 'Bug bounty tooling: subdomain and asset discovery, content discovery, fuzzing, parameter mining, screenshots and reporting helpers.'
 date = 2026-10-30
 type = 'notes'
 weight = 10
 toc = true
 tags = ['bug-bounty', 'tools']
 +++
-
-## Before you move on
-
-Before moving on, refer to the [information gathering page](https://notes.sfoffo.com/information-gathering) to try to use leverage Google Dorks, OSINT and information gathering techniques against your target.
-
-Remember to use rate-limiting and user-headers according to the specific program's guideline.
-
-***
 
 ## Auto Tools
 

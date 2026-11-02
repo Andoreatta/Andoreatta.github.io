@@ -1,5 +1,6 @@
 +++
 title = 'NoSQL Injection'
+description = 'NoSQL injection occurs when user-controlled input is interpreted as part of a NoSQL query — as an operator, a JSON structure, or a JavaScript expression…'
 date = 2026-10-30
 type = 'notes'
 weight = 40

@@ -1,5 +1,6 @@
 +++
 title = 'LDAP Injection'
+description = 'Lightweight Directory Access Protocol (LDAP) is a protocol used to access directory servers such as Active Directory (AD) via queries to retrieve…'
 date = 2026-10-30
 type = 'notes'
 weight = 170

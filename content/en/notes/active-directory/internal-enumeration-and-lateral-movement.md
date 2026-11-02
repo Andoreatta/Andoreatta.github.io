@@ -1,5 +1,6 @@
 +++
 title = 'Internal Enumeration & Lateral Movement'
+description = 'BloodHound remains the central enumeration platform, but the collector ecosystem and the graph model have expanded significantly.'
 date = 2026-10-30
 type = 'notes'
 weight = 20

@@ -1,5 +1,6 @@
 +++
 title = 'SAP Netweaver'
+description = 'SAP system consists of a number of fully integrated modules, which covers virtually every aspect of business management.'
 date = 2026-10-30
 type = 'notes'
 weight = 80

@@ -1,5 +1,6 @@
 +++
 title = 'Microsoft IIS'
+description = 'Internet Information Services (IIS) for Windows Server is a flexible, secure and manageable Web server for hosting anything on the Web.'
 date = 2026-10-30
 type = 'notes'
 weight = 50

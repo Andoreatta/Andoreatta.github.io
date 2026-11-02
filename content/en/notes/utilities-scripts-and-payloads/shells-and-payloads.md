@@ -1,5 +1,6 @@
 +++
 title = 'Shells and Payloads'
+description = 'A shell is only useful if it is stable, interactive, and reachable.'
 date = 2026-10-30
 type = 'notes'
 weight = 10
