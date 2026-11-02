@@ -95,7 +95,7 @@
 {{- end }}
 
 {{- if or $extMeta site.Params.socialCard.opengraph }}
-    {{ template "openGraph" (dict "page" . "siteTitle" $siteTitle "author" $author "title" $title "desc" $desc "cover" $cover "keywords" $keywords "publishDate" $publishDate "lastMod" $lastMod) }}
+    {{ template "openGraph" (dict "page" . "siteTitle" $siteTitle "author" $author "title" $title "desc" $desc "cover" $cover "keywords" $keywords "publishDate" $publishDate "lastMod" $lastMod "canonical" $canonical) }}
 {{- end }}
 
 {{- if site.Params.socialCard.schema }}
@@ -129,7 +129,7 @@
     <meta property="og:title" content="{{ .title }}" />
     <meta property="og:description" content="{{ .desc }}" />
     <meta property="og:type" content="{{ if .page.IsPage }}article{{ else }}website{{ end }}" />
-    <meta property="og:url" content="{{ .page.Permalink }}" />
+    <meta property="og:url" content="{{ .canonical }}" />
     {{- with .cover }}
         <meta property="og:image" content="{{ . }}" />
         <meta property="og:image:alt" content="{{ $.title }}" />
