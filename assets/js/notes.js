@@ -159,12 +159,6 @@
         inputs[input.getAttribute('data-ph')] = input;
     });
 
-    function blocks() {
-        return Array.prototype.slice.call(
-            document.querySelectorAll('.notes-article .content pre')
-        );
-    }
-
     function findMatch(root) {
         var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
         var nodes = [];
@@ -232,7 +226,7 @@
         spans.push(span);
     }
 
-    blocks().forEach(function (block) {
+    document.querySelectorAll('.notes-article .content pre').forEach(function (block) {
         var match;
         var guard = 0;
 
@@ -306,7 +300,7 @@
         event.preventDefault();
     });
 
-    Array.prototype.forEach.call(form.querySelectorAll('[data-ph-clear]'), function (button) {
+    form.querySelectorAll('[data-ph-clear]').forEach(function (button) {
         button.addEventListener('click', function () {
             Object.keys(inputs).forEach(function (name) {
                 inputs[name].value = '';

@@ -124,8 +124,6 @@
 {{- define "openGraph" }}
     {{ "<!-- openGraph -->" | safeHTML -}}
     {{- $ISO8601 := "2006-01-02T15:04:05-07:00" }}
-    {{- $facebookAdmin := site.Params.socialCard.facebookAdmin }}
-    {{- $facebookAppID := site.Params.socialCard.facebookAppID }}
     <meta property="og:title" content="{{ .title }}" />
     <meta property="og:description" content="{{ .desc }}" />
     <meta property="og:type" content="{{ if .page.IsPage }}article{{ else }}website{{ end }}" />
