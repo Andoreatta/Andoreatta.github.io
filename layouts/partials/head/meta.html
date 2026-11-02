@@ -10,8 +10,14 @@
     {{- end }}
 {{- end }}
 {{- $siteTitle := or site.Title site.Params.title | plainify }}
+{{- $siteDesc := or site.Params.description site.Params.subtitle }}
 {{- $permalink := .Permalink }}
-{{- $title := cond .IsHome $siteTitle (printf "%s | %s" .Title $siteTitle) | plainify  }}
+{{- $title := printf "%s | %s" .Title $siteTitle }}
+{{- if .IsHome }}
+    {{- $title = $siteTitle }}
+    {{- with $siteDesc }}{{ $title = printf "%s — %s" $siteTitle . }}{{ end }}
+{{- end }}
+{{- $title = $title | plainify }}
 {{- /* Term pages are paginated by the theme's list template. .Permalink always
        points at page 1, so deep pagers canonicalised to page 1 and shared its
        title. Ask the same paginator the list template uses (same arguments, so
@@ -28,7 +34,6 @@
     {{- $title = printf "%s — Page %d | %s" .Title $pageNumber $siteTitle | plainify }}
 {{- end }}
     {{- $desc := or .Params.Description .Params.Subtitle .Summary | default .Description }}
-    {{- $siteDesc := or site.Params.description site.Params.subtitle }}
     {{- if and .IsHome $siteDesc }}
         {{- $desc = $siteDesc  }}
     {{- else if and (not .IsPage) (not $desc) }}
@@ -81,6 +86,20 @@
        the $minTermPages filter in layouts/_default/sitemap.xml. */}}
 {{- if and (eq .Kind "term") (lt (len .Pages) 3) }}
 <meta name="robots" content="noindex, follow">
+{{- end }}
+{{- /* WebSite entity for the home page. Notes and posts carry their own
+       TechArticle/BlogPosting graphs. */}}
+{{- if .IsHome }}
+{{- $site := dict
+    "@context" "https://schema.org"
+    "@type" "WebSite"
+    "name" $siteTitle
+    "url" (absURL "/")
+    "inLanguage" site.Language.Lang
+    "publisher" (dict "@type" "Person" "name" (or site.Params.author.name $siteTitle) "url" (absURL "/about/"))
+}}
+{{- with $siteDesc }}{{ $site = merge $site (dict "description" .) }}{{ end }}
+<script type="application/ld+json">{{ $site | jsonify | safeJS }}</script>
 {{- end }}
 {{ partialCached "head/meta/favicon.html" . }}
 {{ partial "fediverse/meta.html" . }}

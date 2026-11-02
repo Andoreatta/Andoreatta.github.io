@@ -17,5 +17,5 @@ tags = ['linux', 'privilege-escalation']
 **Linux Privilege Escalation:**
 
 1. [https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/](https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/)
-2. [https://book.hacktricks.xyz/linux-hardening/privilege-escalation](https://book.hacktricks.xyz/linux-hardening/privilege-escalation)
-3. [https://book.hacktricks.xyz/linux-hardening/linux-privilege-escalation-checklist](https://book.hacktricks.xyz/linux-hardening/linux-privilege-escalation-checklist)
+2. [https://hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html](https://hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html)
+3. [https://hacktricks.wiki/en/linux-hardening/linux-privilege-escalation-checklist.html](https://hacktricks.wiki/en/linux-hardening/linux-privilege-escalation-checklist.html)

@@ -15,7 +15,7 @@ A shell is only useful if it is **stable, interactive, and reachable**. A raw `n
 ## 1. Useful Resources
 
 - [RevShells.com](https://www.revshells.com/) — generator for every language
-- [HackTricks — Shells](https://book.hacktricks.xyz/generic-methodologies-and-resources/shells/linux)
+- [HackTricks — Shells](https://hacktricks.wiki/en/generic-methodologies-and-resources/shells/index.html)
 - [PentestMonkey — Reverse Shell Cheat Sheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
 - [HackTricks — Full TTYs](https://hacktricks.wiki/en/generic-hacking/reverse-shells/full-ttys.html) — the definitive TTY-upgrade reference
 - [ExploitNotes — Reverse Shell](https://exploit-notes.hdks.org/exploit/shell/reverse-shell-cheat-sheet/)

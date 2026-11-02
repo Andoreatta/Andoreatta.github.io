@@ -381,7 +381,7 @@ Any subsequent execution of a SUID binary (e.g. `sudo -l`, `passwd`, or any setu
 
 **SUID** is a special file permission for executable files which enables other users to run the file with effective permissions of the file owner. Instead of the normal `x` which represents execute permissions, you will see an `s` (to indicate **SUID**) special permission for the user.
 
-For a quick win, find SUID binaries having the `root` user as the file's owner. HackTricks has a [page](https://book.hacktricks.xyz/linux-hardening/privilege-escalation/euid-ruid-suid) explaining EUID/RUID/SUID.
+For a quick win, find SUID binaries having the `root` user as the file's owner. HackTricks has a [page](https://hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#euid-ruid-suid) explaining EUID/RUID/SUID.
 
 ### Finding SUID / SGID binaries
 

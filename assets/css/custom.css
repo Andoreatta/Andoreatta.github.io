@@ -441,6 +441,13 @@ ul.rounded.invert a:focus {
     color: var(--bg) !important;
 }
 
+/* The theme falls back to a remote flowline SVG for the categories carousel.
+   The site is intentionally image-free (and the CSP blocks that origin), so
+   resolve the background to none instead of requesting it. */
+#list-categories .srs {
+    --img: none !important;
+}
+
 /* --------------------------------------------------------------------------
    Footer / content information
    -------------------------------------------------------------------------- */

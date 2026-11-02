@@ -28,7 +28,7 @@ The impact is determined by two factors: **whether the parser resolves external 
 | [web7-xxe-inject](https://github.com/5h4d0wn1k/web7-xxe-inject) | Payload generation, blind detection, error-based and OOB exfiltration |
 | [oxml_xxe](https://github.com/BuffaloWill/oxml_xxe) | Embeds XXE payloads in Office/SVG files |
 | [docem](https://github.com/whitel1st/docem) | Injects XXE payloads into DOCX/XLSX/ODT |
-| [payloadbox XXE list](https://github.com/payloadbox/xxe-injection-payload-list) | Payload reference |
+| [PayloadsAllTheThings — XXE](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XXE%20Injection) | Payload reference |
 | **interactsh** / **Burp Collaborator** | OOB confirmation |
 | **ffuf / ZAP / Burp Scanner** | Entry-point discovery and active scanning |
 

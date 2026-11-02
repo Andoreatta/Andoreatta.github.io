@@ -12,7 +12,7 @@ Site CSS overrides for the terminal/editorial theme. `custom.css` (2,127 lines) 
 - 105–148 — wordmark: kills the SVG animation, sets `--tt`/`--fg`; long selector list forces monospace on metadata, pagination, taxonomy.
 - 150–299 — homepage hero: `.home-hero` grid, `.lain-art` braille portrait with scanlines, `lain-flip` (0.15 s steps), terminal lines, blinking `.cursor`.
 - 301–390 — homepage log/feed: flat `.feed-item` rows, hairline rules, unclipped `.par`.
-- 392–442 — tags/taxonomy: square chips, outline→accent hover.
+- 392–442 — tags/taxonomy: square chips, outline→accent hover; `#list-categories .srs { --img: none !important }` suppresses the theme's remote flowline background (site is image-free, CSP blocks the origin).
 - 444–489 — footer/contentinfo/licence, square share controls.
 - 491–510 — Pagefind variable bridge (`--pagefind-ui-*` → site palette, radius 0).
 - 512–706 — profile page: kicker/name/role, facts grid, timeline/education/certs, toolbox; `body:has(.profile-name)` tightens article top gap.

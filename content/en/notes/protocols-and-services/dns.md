@@ -14,7 +14,7 @@ DNS translates domain names to IP addresses and is the foundation of every other
 
 **Useful resources:**
 - [HackTricks — Pentesting DNS](https://book.hacktricks.xyz/network-services-pentesting/pentesting-dns)
-- [HackTricks — 53 Pentesting DNS (2026)](https://mintlify.wiki/HackTricks-wiki/hacktricks/network-services-pentesting/pentesting-dns) — includes DNSSEC auditing and recursion DDoS
+- [HackTricks — 53 Pentesting DNS (2026)](https://hacktricks.wiki/en/network-services-pentesting/pentesting-dns.html) — includes DNSSEC auditing and recursion DDoS
 
 ---
 

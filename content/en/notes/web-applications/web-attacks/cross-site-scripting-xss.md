@@ -28,7 +28,7 @@ XSS remains the most consistently exploitable web vulnerability class because th
 | [Karthikdude/Advanced-XSS](https://github.com/Karthikdude/Advanced-XSS) | **Feb 2026 update**: AI agent weaponization, polymorphic payloads, DOMPurify mXSS, CSP nonce leakage, postMessage, CSWSH, GraphQL→XSS, DOM clobbering, SSE injection |
 | [PayloadsAllTheThings — XSS](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection) | Broad payload collection |
 | [s0md3v/AwesomeXSS](https://github.com/s0md3v/AwesomeXSS) | Bypass techniques |
-| [payloadbox/xss-payload-list](https://github.com/payloadbox/xss-payload-list) | Large payload list |
+| [PayloadsAllTheThings — XSS](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection) | Large payload list |
 | [terjanq/Tiny-XSS-Payloads](https://github.com/terjanq/Tiny-XSS-Payloads) | Minimal payloads |
 
 ### Scanners and automation

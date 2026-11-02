@@ -367,7 +367,6 @@ curl "http://SERVER/index.php?language=php://filter/convert.iconv...chain.../res
 **Modern generators:**
 
 - [synacktiv/php_filter_chain_generator](https://github.com/synacktiv/php_filter_chain_generator) — the original, still maintained
-- [amalmurali47/php_filter_chain_generator](https://github.com/amalmurali47/php_filter_chain_generator) — fork with additional encodings
 - **PHPFilterChainGenerator** — alternative with a cleaner CLI
 
 ### 7.3 Variant — chain for a blind LFI

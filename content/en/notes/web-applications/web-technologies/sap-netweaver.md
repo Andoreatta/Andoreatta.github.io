@@ -40,7 +40,7 @@ You can also use `gobuster`, `ffuf` and `BurpSuiteIntuder` to scan for files and
 
 
 
-* [https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/sap.txt](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/sap.txt)
+* [https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/SAP-NetWeaver.txt](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/SAP-NetWeaver.txt)
 * [https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/URLs/urls-SAP.txt](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/URLs/urls-SAP.txt)
 * [https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/CMS/SAP.fuzz.txt](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/CMS/SAP.fuzz.txt)
 * [https://raw.githubusercontent.com/chudyPB/sap-wordlist/master/sap-ultimate.txt](https://raw.githubusercontent.com/chudyPB/sap-wordlist/master/sap-ultimate.txt)
